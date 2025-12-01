@@ -1,0 +1,26 @@
+.clockIcon {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid #4a5565;
+  background-color: white;
+  border-radius: 50%;
+}
+
+.hand {
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  transform-origin: bottom;
+  background: #4a5565;
+}
+
+.hourHand {
+  width: 1.8px;
+  height: 6px;
+}
+
+.minuteHand {
+  width: 1.8px;
+  height: 8px;
+}
