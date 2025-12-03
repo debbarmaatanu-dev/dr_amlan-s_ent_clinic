@@ -10,7 +10,7 @@
   "license": "PROPRIETARY",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AtanuDebbarma/btcstagartala"
+    "url": "https://github.com/debbarmaatanu-dev/dr_amlan-s_ent_clinic"
   },
   "scripts": {
     "dev": "vite",

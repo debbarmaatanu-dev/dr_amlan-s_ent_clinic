@@ -41,29 +41,25 @@ export const About = (): React.JSX.Element => {
               {/* Right Box - Text Content */}
               <div className="flex flex-col justify-center p-8 md:p-12 lg:p-16">
                 <h1 className="mb-3 cursor-text text-2xl font-bold text-gray-800 md:text-3xl lg:text-4xl">
-                  Dr. Major Amlan Debbarma
+                  Dr. (Major) Amlan Debbarma, MS (ENT)
                 </h1>
                 <p className="text-md mb-3 cursor-text font-semibold text-blue-600 md:text-lg">
-                  MBBS, MS ENT Ex-Army Medical Corps Endoscopic and Microscopic
-                  ENT surgeon
+                  MBBS, MS ENT, Ex-Army Medical Corps, Endoscopic and
+                  Microscopic ENT surgeon. Regn no: 00811 (TSMC)
                 </p>
                 <p className="mb-6 cursor-text text-base text-gray-600 md:text-lg">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
-                  feugiat magna non massa posuere, vitae tincidunt neque
-                  malesuada. Curabitur luctus hendrerit sapien, sit amet
-                  molestie velit aliquam at. Proin vitae ante a lorem volutpat
-                  consequat. Pellentesque habitant morbi tristique senectus et
-                  netus et malesuada fames ac turpis egestas. Integer gravida
-                  dignissim elementum. Donec non pellentesque arcu, non
-                  fermentum lectus. Vestibulum ante ipsum primis in faucibus
-                  orci luctus et ultrices posuere cubilia curae; Nulla facilisi.
-                  Mauris non pharetra ligula. Sed euismod lorem nec turpis
-                  interdum, quis ultrices tortor condimentum. Aenean nec egestas
-                  eros. Suspendisse vel elementum metus. Phasellus euismod,
-                  libero non dictum varius, nisl dolor blandit risus, at feugiat
-                  orci tellus sed risus. Morbi pretium, lacus vel cursus
-                  volutpat, velit nibh cursus arcu, ut elementum quam augue vel
-                  ex.
+                  Dr. Debbarma is a board-certified otolaryngologist
+                  specializing in sinus disorders, endoscopic nasal surgery,
+                  adenotonsillectomy, Head & neck surgeries, Endoscopic and
+                  microscopic ear surgeries, allergy treatment and sleep apnea
+                  treatment. He has a wide range of experience and served in the
+                  Army Medical Corps and performed combat duties and also
+                  treated troops to keep them fighting fit in counter terrorism
+                  operations in J&K as well as in the Siachen Glacier which is
+                  known as the highest battlefield in the world. Presently
+                  working as an ENT Surgeon at Tripura Medical College and he is
+                  dedicated to providing patient-centered, evidence-based care
+                  for both adults and children.
                 </p>
               </div>
             </div>

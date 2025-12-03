@@ -28,8 +28,11 @@ export const ServicesSection = (): React.JSX.Element => {
               Allergy Testing & Immunotherapy
             </h3>
             <p className="text-gray-800">
-              Serum-specific IgE testing and customized immunotherapy for
-              long-term relief from allergic conditions.
+              <span className="font-bold">
+                Skin prick test / Serum-specific IgE
+              </span>{' '}
+              testing and customized immunotherapy for long-term relief from
+              allergic conditions.
             </p>
           </article>
 

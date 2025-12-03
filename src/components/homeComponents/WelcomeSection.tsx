@@ -9,8 +9,8 @@ export const WelcomeSection = () => {
             Welcome to Dr (Major) Amlan's ENT Clinic
           </h2>
 
-          <p className="text-muted-foreground xs:text-base mb-4 text-sm sm:mb-5 md:mb-6">
-            Expert, patient-focused ENT care.
+          <p className="text-muted-foreground xs:text-base mb-4 text-sm text-blue-600 sm:mb-5 md:mb-6">
+            Expert, patient-focused ENT care
           </p>
 
           <p className="text-foreground xs:text-base xs:leading-relaxed mb-4 text-justify text-sm leading-relaxed sm:leading-relaxed">
@@ -20,8 +20,9 @@ export const WelcomeSection = () => {
             <br />
             <br />
             <strong>
-              Serum-specific IgE testing for allergen identification and
-              tailored immunotherapy regimens are available at the clinic.
+              Skin prick test / Serum-specific IgE testing for allergen
+              identification and tailored immunotherapy regimens are available
+              at the clinic.
             </strong>
             <br />
             <br />

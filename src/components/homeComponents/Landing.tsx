@@ -53,7 +53,7 @@ export const Landing = (): React.JSX.Element => {
                 Microscopic ENT surgeon.
               </p>
               <button
-                className="w-70 cursor-pointer rounded-full bg-blue-600 px-6 py-3 text-white shadow-md transition-transform duration-180 active:scale-95"
+                className="w-70 cursor-pointer rounded-md bg-blue-600 px-6 py-3 text-white shadow-md transition-transform duration-180 active:scale-95"
                 onClick={handleAppointmentPress}>
                 <span className="text-md text-center font-medium md:text-base">
                   Make an Appointment

@@ -11,6 +11,7 @@ import {NavBar} from './appComponents/nav/topNavbar/Navbar';
 import {Footer} from './appComponents/nav/footer/Footer';
 import {About} from './pages/About';
 import {Contact} from './pages/Contact';
+import {Appointment} from './pages/Appointment';
 import {ProtectedRoute} from './appComponents/ProtectedRoute';
 
 // Placeholder component for routes without content yet
@@ -73,10 +74,7 @@ const RoutesWrapper = ({
           <Route path={'/home'} element={<Home />} />
           <Route path={'/about'} element={<About />} />
           <Route path={'/contact'} element={<Contact />} />
-          <Route
-            path={'/appointment'}
-            element={<PlaceholderPage title="Appointment" />}
-          />
+          <Route path={'/appointment'} element={<Appointment />} />
           <Route
             path={'/admin-login'}
             element={

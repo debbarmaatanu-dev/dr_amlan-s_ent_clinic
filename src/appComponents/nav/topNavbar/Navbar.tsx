@@ -126,7 +126,7 @@ export const NavBar = () => {
             ) : isOpen ? (
               <>
                 <span className="text-md font-semibold">Open:</span>
-                <span className="font-semibold">6:00pm</span>
+                <span className="font-semibold">6:00pm- 8:30pm</span>
               </>
             ) : (
               <>
