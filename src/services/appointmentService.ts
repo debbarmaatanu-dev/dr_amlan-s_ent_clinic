@@ -6,6 +6,7 @@ export interface BookingData {
   name: string;
   gender: string;
   age: number;
+  phone: string;
   timestamp: string;
 }
 
@@ -206,6 +207,7 @@ export const bookAppointment = async (
   name: string,
   gender: string,
   age: number,
+  phone: string,
 ): Promise<{success: boolean; slotNumber?: number; error?: string}> => {
   try {
     // Sanity check: Validate date constraints before transaction
@@ -236,6 +238,22 @@ export const bookAppointment = async (
       return {
         success: false,
         error: 'Valid age (1-120) is required.',
+      };
+    }
+
+    if (!phone || phone.trim().length === 0) {
+      return {
+        success: false,
+        error: 'Phone number is required.',
+      };
+    }
+
+    // Validate phone number format (Indian: 10 digits starting with 6-9)
+    const phoneRegex = /^[6-9]\d{9}$/;
+    if (!phoneRegex.test(phone)) {
+      return {
+        success: false,
+        error: 'Valid 10-digit phone number is required.',
       };
     }
 
@@ -276,6 +294,7 @@ export const bookAppointment = async (
         name: name.trim(),
         gender,
         age,
+        phone: phone.trim(),
         timestamp: new Date().toISOString(),
       };
 

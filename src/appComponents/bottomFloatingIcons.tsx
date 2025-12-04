@@ -1,15 +1,21 @@
+import {appStore} from '@/appStore/appStore';
 import {useEffect, useState} from 'react';
 
 export const WhatsAppIcon = () => {
   const [showButton, setShowButton] = useState(false);
+  const mobileNavOpen = appStore(state => state.mobileNavOpen);
 
   // Add a slight delay before showing the button for a smoother experience
   useEffect(() => {
     const timer = setTimeout(() => {
+      if (mobileNavOpen) {
+        setShowButton(false);
+        return;
+      }
       setShowButton(true);
-    }, 1000);
+    }, 50);
     return () => clearTimeout(timer);
-  }, []);
+  }, [mobileNavOpen]);
 
   if (!showButton) return null;
 
@@ -37,6 +43,7 @@ export const WhatsAppIcon = () => {
 
 export const UpArrowIcon = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const mobileNavOpen = appStore(state => state.mobileNavOpen);
 
   // Function to handle scrolling to top
   const scrollToTop = () => {
@@ -48,20 +55,25 @@ export const UpArrowIcon = () => {
 
   // Track scroll position to show/hide button
   useEffect(() => {
+    let timeout: number;
     const toggleVisibility = () => {
-      if (window.scrollY > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
+      timeout = setTimeout(() => {
+        if (mobileNavOpen) {
+          setIsVisible(false);
+          return;
+        }
+        setIsVisible(window.scrollY > 300);
+      }, 50);
     };
 
-    // Add scroll event listener
+    toggleVisibility(); // <--- forces state update on nav open/close change
     window.addEventListener('scroll', toggleVisibility);
 
-    // Clean up event listener
-    return () => window.removeEventListener('scroll', toggleVisibility);
-  }, []);
+    return () => {
+      window.removeEventListener('scroll', toggleVisibility);
+      clearTimeout(timeout);
+    };
+  }, [mobileNavOpen]);
 
   // Don't render the button if it shouldn't be visible
   if (!isVisible) return null;

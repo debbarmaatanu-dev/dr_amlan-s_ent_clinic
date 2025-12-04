@@ -7,12 +7,14 @@ import {
   validateDateConstraints,
 } from '@/services/appointmentService';
 import {AlertModal} from '@/components/AlertModal';
+import {appStore} from '@/appStore/appStore';
 
 export const Appointment = (): React.JSX.Element => {
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [gender, setGender] = useState<string>('');
   const [age, setAge] = useState<string>('');
+  const [phone, setPhone] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [availableOnlineSlots, setAvailableOnlineSlots] = useState<number>(10);
   const [message, setMessage] = useState<{
@@ -20,6 +22,7 @@ export const Appointment = (): React.JSX.Element => {
     text: string;
   } | null>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const setMobileNavOpen = appStore(state => state.setMobileNavOpen);
   const [modalContent, setModalContent] = useState<{
     title: string;
     message: string;
@@ -74,18 +77,40 @@ export const Appointment = (): React.JSX.Element => {
     }
   }, [selectedDate, fetchAvailableSlots]);
 
+  useEffect(() => {
+    if (showModal) {
+      setMobileNavOpen(true);
+    } else {
+      setMobileNavOpen(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showModal]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Validation
-    if (!selectedDate || !name.trim() || !gender || !age) {
-      setMessage({type: 'error', text: 'Please fill in all fields'});
+    if (!selectedDate || !name.trim() || !gender || !age || !phone.trim()) {
+      setMessage({
+        type: 'error',
+        text: 'Please fill in all required fields',
+      });
       return;
     }
 
     const ageNum = parseInt(age);
     if (isNaN(ageNum) || ageNum < 1 || ageNum > 120) {
       setMessage({type: 'error', text: 'Please enter a valid age'});
+      return;
+    }
+
+    // Validate phone number (Indian format: 10 digits)
+    const phoneRegex = /^[6-9]\d{9}$/;
+    if (!phoneRegex.test(phone)) {
+      setMessage({
+        type: 'error',
+        text: 'Please enter a valid 10-digit phone number',
+      });
       return;
     }
 
@@ -146,18 +171,35 @@ export const Appointment = (): React.JSX.Element => {
       }
 
       // Step 2: Attempt booking with transaction (final atomic check)
-      const result = await bookAppointment(selectedDate, name, gender, ageNum);
+      const result = await bookAppointment(
+        selectedDate,
+        name,
+        gender,
+        ageNum,
+        phone,
+      );
 
       if (result.success && result.slotNumber) {
+        // Format date for display
+        const bookingDate = new Date(
+          selectedDate + 'T00:00:00',
+        ).toLocaleDateString('en-IN', {
+          weekday: 'long',
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+        });
+
         setMessage({
           type: 'success',
-          text: `Appointment booked successfully! Your slot number is ${result.slotNumber}. Please arrive at 6:00 PM - 8:30 PM.`,
+          text: `Appointment booked successfully! Your slot number is ${result.slotNumber} for ${bookingDate}. Please arrive at 6:00 PM - 8:30 PM.`,
         });
 
         // Reset form
         setName('');
         setGender('');
         setAge('');
+        setPhone('');
         const currentDate = selectedDate;
         setSelectedDate('');
 
@@ -306,16 +348,25 @@ export const Appointment = (): React.JSX.Element => {
                     className="mb-2 block text-sm font-medium text-gray-700">
                     Select Date <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="date"
-                    id="appointment-date"
-                    value={selectedDate}
-                    onChange={e => setSelectedDate(e.target.value)}
-                    min={today}
-                    max={maxDateString}
-                    required
-                    className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500"
-                  />
+                  <div
+                    onClick={() => {
+                      const input = document.getElementById(
+                        'appointment-date',
+                      ) as HTMLInputElement;
+                      input?.showPicker?.();
+                    }}
+                    className="cursor-pointer">
+                    <input
+                      type="date"
+                      id="appointment-date"
+                      value={selectedDate}
+                      onChange={e => setSelectedDate(e.target.value)}
+                      min={today}
+                      max={maxDateString}
+                      required
+                      className="w-full cursor-pointer rounded-lg border border-gray-300 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
                   <p className="mt-1 text-xs text-gray-500">
                     Bookings available up to 10 days in advance. Closed on
                     Sundays.
@@ -417,6 +468,28 @@ export const Appointment = (): React.JSX.Element => {
                     required
                     className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500"
                   />
+                </div>
+
+                {/* Phone Number Input */}
+                <div>
+                  <label
+                    htmlFor="patient-phone"
+                    className="mb-2 block text-sm font-medium text-gray-700">
+                    Phone Number <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    id="patient-phone"
+                    value={phone}
+                    onChange={e => setPhone(e.target.value)}
+                    placeholder="Enter 10-digit phone number"
+                    maxLength={10}
+                    required
+                    className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                  />
+                  <p className="mt-1 text-xs text-gray-500">
+                    Required for booking confirmation
+                  </p>
                 </div>
 
                 {/* Message Display */}

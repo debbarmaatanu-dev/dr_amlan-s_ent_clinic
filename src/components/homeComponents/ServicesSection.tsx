@@ -1,3 +1,5 @@
+import {ENTSVG} from '@/assets/ENT_SVG';
+
 export const ServicesSection = (): React.JSX.Element => {
   return (
     <section
@@ -7,9 +9,12 @@ export const ServicesSection = (): React.JSX.Element => {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {/* ENT Consultation */}
           <article className="rounded-xl bg-cyan-400 p-8 shadow-lg">
-            <i
-              className="fa-solid fa-stethoscope mb-4 text-5xl text-white"
-              aria-hidden="true"></i>
+            <div
+              className="mb-3 h-16 w-16 overflow-hidden rounded-full bg-white"
+              aria-label="ENT medical icon"
+              role="img">
+              <ENTSVG />
+            </div>
             <h3 className="mb-3 text-2xl font-bold text-white">
               ENT Consultation
             </h3>

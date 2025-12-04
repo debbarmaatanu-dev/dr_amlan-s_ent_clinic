@@ -11,6 +11,7 @@ import styles from './clock.module.css';
 export const NavBar = () => {
   const navigation = useNavigate();
   const user = appStore(state => state.user);
+  const setMobileNavOpen = appStore(state => state.setMobileNavOpen);
 
   const allowedAdminEmails: string[] = [
     import.meta.env.VITE_FIREBASE_ADMIN_EMAIL1,
@@ -21,6 +22,15 @@ export const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [showLogoutModal, setShowLogoutModal] = useState<boolean>(false);
   const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    if (menuOpen) {
+      setMobileNavOpen(true);
+    } else {
+      setMobileNavOpen(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [menuOpen]);
 
   const handleHomeClick = () => {
     if (
