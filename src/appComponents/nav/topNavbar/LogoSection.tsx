@@ -1,9 +1,8 @@
-import logo from '@/assets/dr-AmlanLogo.png';
-
 type LogoSectionProps = {
   handleHomeClick: () => void;
 };
-
+const logo =
+  'https://res.cloudinary.com/mobeet/image/upload/v1764923732/dr-AmlanLogo_cmk1xz.png';
 export const LogoSection = ({handleHomeClick}: LogoSectionProps) => {
   return (
     <button

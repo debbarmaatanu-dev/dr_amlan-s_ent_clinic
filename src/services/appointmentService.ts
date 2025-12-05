@@ -1,5 +1,5 @@
 import {db} from './firebase';
-import {doc, getDoc, runTransaction} from 'firebase/firestore';
+import {doc, getDoc} from 'firebase/firestore';
 
 export interface BookingData {
   slotNumber: number;
@@ -8,6 +8,18 @@ export interface BookingData {
   age: number;
   phone: string;
   timestamp: string;
+}
+
+export interface PaymentBookingData {
+  slotNumber: number;
+  date: string;
+  name: string;
+  gender: string;
+  age: number;
+  phone: string;
+  amount: number;
+  paymentId: string;
+  orderId: string;
 }
 
 interface DayBookings {
@@ -199,147 +211,112 @@ export const validateBookingAvailability = async (
 };
 
 /**
- * Book an appointment for a specific date using Firestore Transaction
- * This prevents race conditions when multiple users book simultaneously
+ * Initiate payment via backend and open Razorpay checkout
  */
-export const bookAppointment = async (
-  dateString: string,
+export const initiatePayment = async (
+  date: string,
   name: string,
   gender: string,
   age: number,
   phone: string,
-): Promise<{success: boolean; slotNumber?: number; error?: string}> => {
+): Promise<{
+  success: boolean;
+  error?: string;
+  bookingData?: PaymentBookingData;
+}> => {
   try {
-    // Sanity check: Validate date constraints before transaction
-    const dateValidation = validateDateConstraints(dateString);
-    if (!dateValidation.isValid) {
-      return {
-        success: false,
-        error: dateValidation.error,
-      };
+    // Step 1: Create payment order on backend
+    const response = await fetch(
+      `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/create-order`,
+      {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({date, name, gender, age, phone, amount: 400}),
+      },
+    );
+
+    const data = await response.json();
+
+    if (!data.success) {
+      return {success: false, error: data.error};
     }
 
-    // Sanity check: Validate input data
-    if (!name || name.trim().length === 0) {
-      return {
-        success: false,
-        error: 'Patient name is required.',
+    // Step 2: Open Razorpay checkout modal
+    return new Promise(resolve => {
+      const options = {
+        key: data.razorpayKeyId,
+        amount: data.amount,
+        currency: data.currency,
+        order_id: data.orderId,
+        name: "Dr. (Major) Amlan's ENT Clinic",
+        description: 'Appointment Booking Fee',
+        prefill: {
+          name: name,
+          contact: phone,
+        },
+        theme: {
+          color: '#3B82F6',
+        },
+        handler: async function (response: {
+          razorpay_order_id: string;
+          razorpay_payment_id: string;
+          razorpay_signature: string;
+        }) {
+          // Step 3: Payment successful - verify on backend
+          try {
+            const verifyResponse = await fetch(
+              `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/verify`,
+              {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                }),
+              },
+            );
+
+            const verifyData = await verifyResponse.json();
+
+            if (verifyData.success) {
+              resolve({
+                success: true,
+                bookingData: {
+                  slotNumber: verifyData.slotNumber,
+                  date: verifyData.date,
+                  name: verifyData.name,
+                  gender: gender,
+                  age: age,
+                  phone: phone,
+                  amount: 400,
+                  paymentId: response.razorpay_payment_id,
+                  orderId: response.razorpay_order_id,
+                },
+              });
+            } else {
+              resolve({success: false, error: verifyData.error});
+            }
+          } catch {
+            resolve({success: false, error: 'Payment verification failed'});
+          }
+        },
+        modal: {
+          ondismiss: function () {
+            resolve({success: false, error: 'Payment cancelled by user'});
+          },
+        },
       };
-    }
 
-    if (!gender || !['male', 'female', 'others'].includes(gender)) {
-      return {
-        success: false,
-        error: 'Valid gender selection is required.',
-      };
-    }
-
-    if (!age || age < 1 || age > 120) {
-      return {
-        success: false,
-        error: 'Valid age (1-120) is required.',
-      };
-    }
-
-    if (!phone || phone.trim().length === 0) {
-      return {
-        success: false,
-        error: 'Phone number is required.',
-      };
-    }
-
-    // Validate phone number format (Indian: 10 digits starting with 6-9)
-    const phoneRegex = /^[6-9]\d{9}$/;
-    if (!phoneRegex.test(phone)) {
-      return {
-        success: false,
-        error: 'Valid 10-digit phone number is required.',
-      };
-    }
-
-    const docId = formatDateToDocId(dateString);
-    const docRef = doc(db, 'appointment_bookings', docId);
-
-    // Use transaction to ensure atomic read-modify-write
-    const result = await runTransaction(db, async transaction => {
-      const docSnap = await transaction.get(docRef);
-
-      let bookings: BookingData[] = [];
-      let nextSlotNumber = 1;
-
-      if (docSnap.exists()) {
-        const data = docSnap.data() as DayBookings;
-        bookings = data.bookings || [];
-
-        // Check if slots are still available (critical section)
-        if (bookings.length >= 10) {
-          throw new Error('NO_SLOTS_AVAILABLE');
+      const razorpay = new (
+        window as unknown as {
+          Razorpay: new (options: unknown) => {open: () => void};
         }
-
-        // Sanity check: Ensure bookings array is valid
-        if (!Array.isArray(bookings)) {
-          throw new Error('INVALID_DATA_STRUCTURE');
-        }
-
-        // Find next slot number
-        const maxSlot = bookings.reduce(
-          (max, b) => Math.max(max, b.slotNumber),
-          0,
-        );
-        nextSlotNumber = maxSlot + 1;
-      }
-
-      const newBooking: BookingData = {
-        slotNumber: nextSlotNumber,
-        name: name.trim(),
-        gender,
-        age,
-        phone: phone.trim(),
-        timestamp: new Date().toISOString(),
-      };
-
-      bookings.push(newBooking);
-
-      // Atomic write - this will fail if document was modified by another transaction
-      transaction.set(docRef, {bookings});
-
-      return {success: true, slotNumber: nextSlotNumber};
+      ).Razorpay(options);
+      razorpay.open();
     });
-
-    // Clear cache for this date after successful booking
-    if (result.success) {
-      clearSlotCache(dateString);
-      console.log(
-        `[Cache CLEAR] Cleared cache for ${dateString} after booking`,
-      );
-    }
-
-    return result;
-  } catch (error: unknown) {
-    console.error('Error booking appointment:', error);
-
-    // Handle specific error cases
-    if (error instanceof Error) {
-      if (error.message === 'NO_SLOTS_AVAILABLE') {
-        return {
-          success: false,
-          error:
-            'No online slots available. Another user may have just booked the last slot.',
-        };
-      }
-
-      if (error.message === 'INVALID_DATA_STRUCTURE') {
-        return {
-          success: false,
-          error:
-            'Data integrity issue detected. Please contact support or try again.',
-        };
-      }
-    }
-
-    return {
-      success: false,
-      error: 'Failed to book appointment. Please try again.',
-    };
+  } catch (error) {
+    console.error('Payment initiation error:', error);
+    return {success: false, error: 'Failed to initiate payment'};
   }
 };

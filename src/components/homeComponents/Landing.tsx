@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {ClipLoader} from 'react-spinners';
-import landingImage from '../../assets/2.png';
+
+const landingImage =
+  'https://res.cloudinary.com/mobeet/image/upload/v1764923599/IMG_20251203_101518842_HDR_PORTRAIT_2_1_hyhvhd.jpg';
 
 export const Landing = (): React.JSX.Element => {
   const navigation = useNavigate();
@@ -32,7 +34,7 @@ export const Landing = (): React.JSX.Element => {
                 )}
                 <img
                   src={landingImage}
-                  alt="Doctor Place Holder Image"
+                  alt="Dr (Major) Amlan Debbarma"
                   className="h-full w-full object-cover"
                   onLoad={() => setLoading(false)}
                   style={{display: loading ? 'none' : 'block'}}

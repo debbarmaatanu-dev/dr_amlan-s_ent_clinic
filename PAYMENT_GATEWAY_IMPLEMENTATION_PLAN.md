@@ -1,10 +1,18 @@
-# PhonePe Payment Gateway Implementation Plan
+# Razorpay Payment Gateway Implementation Plan
 
 ## Project Overview
 **Clinic:** Dr. (Major) Amlan's ENT Clinic  
-**Payment Gateway:** PhonePe Payment Gateway  
+**Payment Gateway:** Razorpay Payment Gateway  
 **Consultation Fee:** ₹400 (Fixed)  
 **Architecture:** React Frontend + Express Backend (Render.com) + Firebase Firestore  
+
+## ✅ Current Status
+**Phase 1: Backend Implementation - COMPLETED**
+- Razorpay SDK installed
+- Payment services created
+- Booking services created
+- API routes implemented
+- Security measures in place  
 
 ---
 
@@ -13,34 +21,35 @@
 ### Functional Requirements
 
 #### 1. Payment Flow
-- User fills appointment booking form (date, name, gender, age, phone, email)
+- User fills appointment booking form (date, name, gender, age, phone)
 - User clicks "Book & Pay ₹400" button
 - Frontend sends booking data to Express backend
-- Backend validates data and creates PhonePe payment order
-- Backend returns payment URL/details to frontend
-- Frontend redirects user to PhonePe payment page
-- User completes payment on PhonePe
-- PhonePe redirects back to frontend with payment status
-- Backend receives webhook from PhonePe for payment confirmation
+- Backend validates data and creates Razorpay payment order
+- Backend returns order details to frontend
+- Frontend opens Razorpay checkout modal
+- User completes payment in modal
+- Razorpay returns payment details to frontend
+- Frontend sends payment details to backend for verification
 - Backend verifies payment signature
 - Backend creates Firestore booking document (using Admin SDK)
 - Frontend shows success/failure message
 
-#### 2. Security Requirements
-- All payment API calls must go through Express backend
-- PhonePe merchant keys must be stored in backend environment variables
-- Payment amount (₹400) must be validated on backend (prevent manipulation)
-- Payment signature must be verified on backend
-- Rate limiting on payment endpoints (max 5 attempts/hour/IP)
-- CORS protection (only allow frontend domain)
-- Helmet security headers
-- Request payload size limits
+#### 2. Security Requirements ✅ IMPLEMENTED
+- ✅ All payment API calls go through Express backend
+- ✅ Razorpay keys stored in backend environment variables
+- ✅ Payment amount (₹400) validated on backend (prevent manipulation)
+- ✅ Payment signature verified on backend using HMAC SHA256
+- ✅ Rate limiting on payment endpoints (existing middleware)
+- ✅ CORS protection (only allow frontend domain)
+- ✅ Helmet security headers
+- ✅ Request payload size limits
 
-#### 3. Data Requirements
-- Store booking data in Firestore only after successful payment
-- Store payment transaction ID with booking
-- Store payment status (pending/success/failed)
-- Maintain pending bookings collection for incomplete payments
+#### 3. Data Requirements ✅ IMPLEMENTED
+- ✅ Store booking data in Firestore only after successful payment
+- ✅ Store payment transaction ID (paymentId, orderId) with booking
+- ✅ Store payment status ('paid')
+- ✅ Maintain pending_bookings collection for incomplete payments
+- ✅ Use Firestore transactions to prevent race conditions
 
 #### 4. User Experience Requirements
 - Clear payment status indicators (loading, success, failure)
@@ -79,88 +88,92 @@ Database (Firebase Firestore)
   └── Spark Plan (Free tier)
 ```
 
-### New Architecture (With PhonePe)
+### New Architecture (With Razorpay) ✅ IMPLEMENTED
 ```
 Frontend (React)
     ↓
     | 1. User submits booking form
     ↓
-Express Backend (Render.com)
+Express Backend (Render.com) ✅
     ↓
-    | 2. Validate booking data
-    | 3. Check slot availability
-    | 4. Create PhonePe payment order
-    | 5. Store pending booking
-    ↓
-PhonePe Payment Gateway
-    ↓
-    | 6. User completes payment
-    | 7. PhonePe sends webhook
-    ↓
-Express Backend
-    ↓
-    | 8. Verify payment signature
-    | 9. Create Firestore booking (Admin SDK)
-    | 10. Send confirmation SMS/Email
+    | 2. Validate booking data ✅
+    | 3. Create Razorpay payment order ✅
+    | 4. Store pending booking ✅
+    | 5. Return order details to frontend ✅
     ↓
 Frontend
     ↓
-    | 11. Display success message
+    | 6. Open Razorpay checkout modal
+    | 7. User completes payment
+    | 8. Get payment response
+    ↓
+Express Backend ✅
+    ↓
+    | 9. Verify payment signature ✅
+    | 10. Create Firestore booking (Admin SDK) ✅
+    | 11. Return booking confirmation ✅
+    ↓
+Frontend
+    ↓
+    | 12. Display success message
 ```
 
 
 ---
 
-## PhonePe Integration Details
+## Razorpay Integration Details ✅ IMPLEMENTED
 
-### PhonePe Payment Gateway Overview
-- **Provider:** PhonePe (Indian payment gateway)
+### Razorpay Payment Gateway Overview
+- **Provider:** Razorpay (Indian payment gateway)
 - **Supported Methods:** UPI, Cards, Net Banking, Wallets
 - **Transaction Fee:** ~2% (varies by payment method)
-- **Settlement:** T+1 days
-- **Documentation:** https://developer.phonepe.com/
+- **Settlement:** T+2 days
+- **Documentation:** https://razorpay.com/docs/
 
-### PhonePe API Endpoints
-1. **Payment Initiation:** `/pg/v1/pay`
-2. **Payment Status Check:** `/pg/v1/status/{merchantId}/{transactionId}`
-3. **Webhook:** Configured in PhonePe dashboard
+### Razorpay API (Backend Only)
+- **Create Order:** Razorpay SDK `razorpay.orders.create()`
+- **Verify Signature:** HMAC SHA256 verification
+- **Keys:** Test keys configured (rzp_test_*)
 
-### PhonePe Authentication
-- **Merchant ID:** Provided by PhonePe
-- **Salt Key:** Secret key for signature generation
-- **Salt Index:** Version of salt key
-- **API Endpoint:** Production/UAT based on environment
-
-### PhonePe Payment Flow
+### Razorpay Payment Flow ✅ IMPLEMENTED
 ```
-1. Backend creates payment request
-   - merchantTransactionId (unique)
-   - amount (in paise: 40000 for ₹400)
-   - merchantUserId (phone number)
-   - redirectUrl (frontend callback URL)
-   - callbackUrl (backend webhook URL)
+1. Backend creates Razorpay order ✅
+   - amount: 40000 (₹400 in paise)
+   - currency: INR
+   - receipt: booking_timestamp
+   - notes: {date, name, gender, age, phone}
 
-2. Generate X-VERIFY header
-   - Base64(payload) + "/pg/v1/pay" + saltKey
-   - SHA256 hash + "###" + saltIndex
+2. Backend stores pending booking ✅
+   - Collection: pending_bookings
+   - Document ID: order_id
+   - Status: 'pending'
 
-3. POST to PhonePe API
-   - Returns payment URL
+3. Backend returns order details ✅
+   - orderId
+   - amount
+   - currency
+   - razorpayKeyId (public key)
 
-4. Redirect user to payment URL
+4. Frontend opens Razorpay checkout
+   - Razorpay.js library
+   - Modal with payment options
+   - User completes payment
 
-5. User completes payment
+5. Frontend receives payment response
+   - razorpay_order_id
+   - razorpay_payment_id
+   - razorpay_signature
 
-6. PhonePe sends webhook to backend
-   - Contains payment status
-   - Contains signature for verification
+6. Frontend sends to backend for verification
 
-7. Backend verifies signature
-   - Decode response
-   - Generate expected signature
-   - Compare signatures
+7. Backend verifies signature ✅
+   - HMAC SHA256(order_id|payment_id, secret_key)
+   - Compare with received signature
 
-8. Create booking if payment successful
+8. Backend creates booking if valid ✅
+   - Firestore transaction
+   - Update pending booking
+   - Create appointment booking
 ```
 
 
@@ -168,91 +181,86 @@ Frontend
 
 ## Action Plan
 
-### Phase 1: Backend Setup (Express on Render.com)
+### Phase 1: Backend Setup (Express on Render.com) ✅ COMPLETED
 
-#### Step 1.1: Install Dependencies
+#### Step 1.1: Install Dependencies ✅
 ```bash
 cd dr_amlan-s_ent_clinic_backend
-npm install axios crypto
+npm install razorpay
 ```
 
-#### Step 1.2: Environment Variables
-Add to Render.com environment variables:
+#### Step 1.2: Environment Variables ✅
+Already configured in `.env`:
 ```env
-# PhonePe Configuration
-PHONEPE_MERCHANT_ID=your_merchant_id
-PHONEPE_SALT_KEY=your_salt_key
-PHONEPE_SALT_INDEX=1
-PHONEPE_API_ENDPOINT=https://api.phonepe.com/apis/hermes
-PHONEPE_REDIRECT_URL=https://your-clinic.pages.dev/payment-callback
-PHONEPE_CALLBACK_URL=https://your-backend.onrender.com/api/phonepe-webhook
+# Razorpay Configuration ✅
+RAZORPAY_KEY_ID=rzp_test_Rnbaur9cW1kSf9
+RAZORPAY_KEY_SECRET=XN7qYTZmuqaDPKJGSjFU17BM
 
-# Frontend URL (for CORS)
-FRONTEND_URL=https://your-clinic.pages.dev
+# Frontend URLs (for CORS) ✅
+FRONTEND_LOCAL=http://localhost:5173
+FRONTEND_VERCEL=https://dr-amlan-s-ent-clinic.pages.dev/
+FRONTEND_DNS=https://www.btcstagartala.org
+FRONTEND_ROOT=https://btcstagartala.org
 
-# Firebase Admin SDK (already configured)
-FIREBASE_SERVICE_ACCOUNT_KEY=...
+# Firebase Admin SDK ✅
+FIREBASE_PROJECT_ID=...
+FIREBASE_CLIENT_EMAIL=...
+FIREBASE_PRIVATE_KEY=...
 ```
 
-#### Step 1.3: Create PhonePe Service
-File: `backend/src/services/phonepeService.ts`
-- Function: `createPaymentOrder()`
-- Function: `verifyPaymentSignature()`
-- Function: `checkPaymentStatus()`
+#### Step 1.3: Create Razorpay Service ✅
+File: `backend/src/services/razorpayService.ts`
+- ✅ Function: `createPaymentOrder()` - Creates Razorpay order
+- ✅ Function: `verifyPaymentSignature()` - Verifies HMAC SHA256 signature
 
-#### Step 1.4: Create Payment Routes
+#### Step 1.4: Create Payment Routes ✅
 File: `backend/src/routes/paymentRoutes.ts`
-- POST `/api/create-payment-order` - Create PhonePe payment
-- POST `/api/phonepe-webhook` - Receive payment status
-- GET `/api/payment-status/:transactionId` - Check payment status
+- ✅ POST `/api/payment/create-order` - Create Razorpay order
+- ✅ POST `/api/payment/verify` - Verify payment and confirm booking
 
-#### Step 1.5: Update Booking Service
+#### Step 1.5: Create Booking Service ✅
 File: `backend/src/services/bookingService.ts`
-- Function: `createPendingBooking()` - Store temporary booking
-- Function: `confirmBooking()` - Create actual booking after payment
-- Function: `cancelBooking()` - Handle failed payments
+- ✅ Function: `createPendingBooking()` - Store temporary booking
+- ✅ Function: `confirmBooking()` - Create actual booking after payment (with transaction)
+- ✅ Function: `cancelBooking()` - Handle failed payments
 
-#### Step 1.6: Add Rate Limiting
+#### Step 1.6: Rate Limiting ✅
+Already configured via existing middleware:
 ```javascript
-const paymentLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 5, // 5 payment attempts per hour
-  message: 'Too many payment attempts'
-});
+// Applied to all /api/payment/* routes
+app.use('/api/payment', rateLimiter, paymentRoutes);
 ```
 
 
-### Phase 2: Frontend Updates (React)
+### Phase 2: Frontend Updates (React) 🔄 IN PROGRESS
 
 #### Step 2.1: Update Appointment Service
 File: `frontend/src/services/appointmentService.ts`
-- Remove direct Firestore writes
-- Add function: `initiatePayment()` - Call backend to create payment
-- Add function: `verifyPayment()` - Verify payment status
+- [ ] Remove direct Firestore writes (currently using client SDK)
+- [ ] Add function: `initiatePayment()` - Call backend `/api/payment/create-order`
+- [ ] Add function: `verifyPayment()` - Call backend `/api/payment/verify`
 
-#### Step 2.2: Update Appointment Page
+#### Step 2.2: Add Razorpay Script
+File: `frontend/index.html`
+- [ ] Add Razorpay checkout script: `<script src="https://checkout.razorpay.com/v1/checkout.js"></script>`
+
+#### Step 2.3: Update Appointment Page
 File: `frontend/src/pages/Appointment.tsx`
-- Change button text: "Book Appointment" → "Book & Pay ₹400"
-- Add payment loading state
-- Handle payment redirect
-- Handle payment callback
+- [ ] Change button text: "Book Appointment" → "Book & Pay ₹400"
+- [ ] Add payment loading state
+- [ ] Open Razorpay checkout modal
+- [ ] Handle payment success/failure
+- [ ] Call backend to verify payment
 
-#### Step 2.3: Create Payment Callback Page
-File: `frontend/src/pages/PaymentCallback.tsx`
-- Parse URL parameters (transactionId, status)
-- Call backend to verify payment
-- Show success/failure message
-- Redirect to home after 5 seconds
+#### Step 2.4: Add Environment Variable
+File: `frontend/.env.local`
+- [ ] Add: `VITE_BACKEND_URL=https://your-backend.onrender.com`
 
-#### Step 2.4: Update Routing
-File: `frontend/src/Routing.tsx`
-- Add route: `/payment-callback`
-
-#### Step 2.5: Add Payment Status Component
+#### Step 2.5: Optional: Payment Status Component
 File: `frontend/src/components/PaymentStatus.tsx`
-- Loading state during payment
-- Success state with booking details
-- Failure state with retry option
+- [ ] Loading state during payment
+- [ ] Success state with booking details
+- [ ] Failure state with retry option
 
 ### Phase 3: Firestore Structure Updates
 
@@ -274,7 +282,7 @@ Fields:
   - expiresAt: timestamp (30 minutes)
 ```
 
-#### Step 3.2: Update Appointment Bookings Collection
+#### Step 3.2: Update Appointment Bookings Collection ✅ IMPLEMENTED
 ```
 Collection: appointment_bookings
 Document ID: {dd-mm-yyyy}
@@ -285,12 +293,11 @@ Fields:
     - gender: string
     - age: number
     - phone: string
-    - email?: string
-    - paymentId: string (NEW)
-    - transactionId: string (NEW)
-    - amount: number (NEW)
-    - paymentStatus: 'paid' (NEW)
-    - timestamp: string
+    - paymentId: string ✅ (razorpay_payment_id)
+    - orderId: string ✅ (razorpay_order_id)
+    - amount: number ✅ (400)
+    - paymentStatus: 'paid' ✅
+    - timestamp: serverTimestamp ✅
 ```
 
 
@@ -358,28 +365,27 @@ Fields:
 
 ## Implementation Checklist
 
-### Backend (Express on Render.com)
-- [ ] Install axios and crypto packages
-- [ ] Add PhonePe environment variables
-- [ ] Create PhonePe service (payment order, signature verification)
-- [ ] Create payment routes (create order, webhook, status check)
-- [ ] Add rate limiting middleware
-- [ ] Update booking service (pending bookings, confirm booking)
-- [ ] Add webhook signature verification
-- [ ] Add payment status check endpoint
-- [ ] Test with PhonePe sandbox
+### Backend (Express on Render.com) ✅ COMPLETED
+- [x] Install Razorpay package
+- [x] Add Razorpay environment variables
+- [x] Create Razorpay service (payment order, signature verification)
+- [x] Create payment routes (create order, verify payment)
+- [x] Rate limiting middleware (already exists)
+- [x] Create booking service (pending bookings, confirm booking, cancel)
+- [x] Add payment signature verification (HMAC SHA256)
+- [x] TypeScript compilation successful
+- [ ] Test with Razorpay test keys
 - [ ] Deploy to Render.com
 
-### Frontend (React on Cloudflare Pages)
+### Frontend (React on Cloudflare Pages) 🔄 PENDING
+- [ ] Add Razorpay checkout script to index.html
+- [ ] Add VITE_BACKEND_URL environment variable
 - [ ] Remove direct Firestore writes from appointment service
-- [ ] Add initiatePayment() function
+- [ ] Add initiatePayment() function (call backend, open Razorpay modal)
 - [ ] Update Appointment page UI (button text, loading states)
-- [ ] Create PaymentCallback page
-- [ ] Add payment status component
-- [ ] Update routing for payment callback
-- [ ] Handle payment redirect
-- [ ] Handle payment success/failure
-- [ ] Test payment flow
+- [ ] Handle Razorpay payment success/failure
+- [ ] Display booking confirmation
+- [ ] Test payment flow with test keys
 - [ ] Deploy to Cloudflare Pages
 
 ### Firestore
@@ -388,13 +394,13 @@ Fields:
 - [ ] Add Firestore security rules for pending bookings
 - [ ] Setup automatic cleanup for expired pending bookings
 
-### PhonePe Setup
-- [ ] Register merchant account
+### Razorpay Setup
+- [x] Register merchant account
+- [x] Get test credentials (rzp_test_*)
+- [ ] Test in test environment
 - [ ] Complete KYC verification
-- [ ] Get sandbox credentials
-- [ ] Test in sandbox environment
-- [ ] Get production credentials
-- [ ] Configure webhook URL
+- [ ] Get production credentials (rzp_live_*)
+- [ ] Switch to production keys
 - [ ] Test in production
 
 ### Testing
@@ -419,92 +425,108 @@ Fields:
 
 ---
 
-## Code Examples
+## Code Examples ✅ IMPLEMENTED
 
-### Backend: Create Payment Order
-```javascript
-// backend/src/services/phonepeService.ts
-import axios from 'axios';
-import crypto from 'crypto';
+### Backend: Create Payment Order ✅
+```typescript
+// backend/src/services/razorpayService.ts
+import Razorpay from 'razorpay';
 
-export const createPaymentOrder = async (bookingData) => {
-  const merchantTransactionId = `TXN_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  
-  const payload = {
-    merchantId: process.env.PHONEPE_MERCHANT_ID,
-    merchantTransactionId: merchantTransactionId,
-    merchantUserId: bookingData.phone,
-    amount: 40000, // ₹400 in paise
-    redirectUrl: `${process.env.PHONEPE_REDIRECT_URL}?transactionId=${merchantTransactionId}`,
-    redirectMode: 'REDIRECT',
-    callbackUrl: process.env.PHONEPE_CALLBACK_URL,
-    mobileNumber: bookingData.phone,
-    paymentInstrument: {
-      type: 'PAY_PAGE'
-    }
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID!,
+  key_secret: process.env.RAZORPAY_KEY_SECRET!,
+});
+
+export const createPaymentOrder = async (amount: number, bookingData) => {
+  const options = {
+    amount: amount * 100, // Convert to paise (₹400 = 40000 paise)
+    currency: 'INR',
+    receipt: `booking_${Date.now()}`,
+    notes: {
+      date: bookingData.date,
+      name: bookingData.name,
+      gender: bookingData.gender,
+      age: bookingData.age.toString(),
+      phone: bookingData.phone,
+    },
   };
-  
-  // Generate signature
-  const base64Payload = Buffer.from(JSON.stringify(payload)).toString('base64');
-  const string = base64Payload + '/pg/v1/pay' + process.env.PHONEPE_SALT_KEY;
-  const sha256 = crypto.createHash('sha256').update(string).digest('hex');
-  const xVerify = sha256 + '###' + process.env.PHONEPE_SALT_INDEX;
-  
-  // Call PhonePe API
-  const response = await axios.post(
-    `${process.env.PHONEPE_API_ENDPOINT}/pg/v1/pay`,
-    { request: base64Payload },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-VERIFY': xVerify
-      }
-    }
-  );
-  
-  return {
-    transactionId: merchantTransactionId,
-    paymentUrl: response.data.data.instrumentResponse.redirectInfo.url
-  };
+
+  const order = await razorpay.orders.create(options);
+  return {success: true, order};
 };
 ```
 
-### Backend: Verify Payment Webhook
-```javascript
+### Backend: Verify Payment Signature ✅
+```typescript
+// backend/src/services/razorpayService.ts
+import crypto from 'crypto';
+
+export const verifyPaymentSignature = (
+  orderId: string,
+  paymentId: string,
+  signature: string,
+): boolean => {
+  const body = orderId + '|' + paymentId;
+  const expectedSignature = crypto
+    .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET!)
+    .update(body.toString())
+    .digest('hex');
+
+  return expectedSignature === signature;
+};
+```
+
+### Backend: Payment Routes ✅
+```typescript
 // backend/src/routes/paymentRoutes.ts
-app.post('/api/phonepe-webhook', async (req, res) => {
-  try {
-    const { response } = req.body;
-    const xVerify = req.headers['x-verify'];
-    
-    // Verify signature
-    const decodedResponse = Buffer.from(response, 'base64').toString('utf-8');
-    const expectedSignature = crypto
-      .createHash('sha256')
-      .update(response + process.env.PHONEPE_SALT_KEY)
-      .digest('hex') + '###' + process.env.PHONEPE_SALT_INDEX;
-    
-    if (xVerify !== expectedSignature) {
-      return res.status(400).json({ error: 'Invalid signature' });
-    }
-    
-    const paymentData = JSON.parse(decodedResponse);
-    
-    if (paymentData.code === 'PAYMENT_SUCCESS') {
-      // Create booking in Firestore
-      await confirmBooking(paymentData.data.merchantTransactionId);
-    }
-    
-    res.status(200).json({ success: true });
-  } catch (error) {
-    console.error('Webhook error:', error);
-    res.status(500).json({ error: 'Webhook processing failed' });
+router.post('/create-order', async (req, res) => {
+  const {date, name, gender, age, phone, amount} = req.body;
+  
+  // Validate amount
+  if (amount !== 400) {
+    return res.status(400).json({error: 'Invalid amount'});
   }
+  
+  // Create Razorpay order
+  const orderResult = await createPaymentOrder(amount, {date, name, gender, age, phone});
+  
+  // Create pending booking
+  await createPendingBooking(orderResult.order.id, {date, name, gender, age, phone, amount});
+  
+  return res.json({
+    success: true,
+    orderId: orderResult.order.id,
+    amount: orderResult.order.amount,
+    currency: orderResult.order.currency,
+    razorpayKeyId: process.env.RAZORPAY_KEY_ID,
+  });
+});
+
+router.post('/verify', async (req, res) => {
+  const {razorpay_order_id, razorpay_payment_id, razorpay_signature} = req.body;
+  
+  // Verify signature
+  const isValid = verifyPaymentSignature(razorpay_order_id, razorpay_payment_id, razorpay_signature);
+  
+  if (!isValid) {
+    await cancelBooking(razorpay_order_id);
+    return res.status(400).json({error: 'Invalid payment signature'});
+  }
+  
+  // Confirm booking
+  const bookingResult = await confirmBooking(razorpay_order_id, razorpay_payment_id);
+  
+  return res.json({
+    success: true,
+    slotNumber: bookingResult.slotNumber,
+    date: bookingResult.date,
+    name: bookingResult.name,
+  });
 });
 ```
 
 
-### Frontend: Initiate Payment
+### Frontend: Initiate Payment (TO BE IMPLEMENTED)
 ```typescript
 // frontend/src/services/appointmentService.ts
 export const initiatePayment = async (
@@ -513,100 +535,76 @@ export const initiatePayment = async (
   gender: string,
   age: number,
   phone: string,
-  email?: string
 ) => {
   try {
+    // Step 1: Create order on backend
     const response = await fetch(
-      `${import.meta.env.VITE_BACKEND_URL}/api/create-payment-order`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/payment/create-order`,
       {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          date,
-          name,
-          gender,
-          age,
-          phone,
-          email,
-          amount: 400,
-        }),
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({date, name, gender, age, phone, amount: 400}),
       }
     );
     
     const data = await response.json();
     
-    if (data.success) {
-      // Redirect to PhonePe payment page
-      window.location.href = data.paymentUrl;
-    } else {
-      return { success: false, error: data.error };
+    if (!data.success) {
+      return {success: false, error: data.error};
     }
+    
+    // Step 2: Open Razorpay checkout
+    const options = {
+      key: data.razorpayKeyId,
+      amount: data.amount,
+      currency: data.currency,
+      order_id: data.orderId,
+      name: "Dr. (Major) Amlan's ENT Clinic",
+      description: 'Appointment Booking Fee',
+      prefill: {name, contact: phone},
+      theme: {color: '#3B82F6'},
+      handler: async function (response: any) {
+        // Step 3: Verify payment on backend
+        const verifyResponse = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/api/payment/verify`,
+          {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            }),
+          }
+        );
+        
+        const verifyData = await verifyResponse.json();
+        
+        if (verifyData.success) {
+          // Show success message
+          return {success: true, booking: verifyData};
+        } else {
+          return {success: false, error: verifyData.error};
+        }
+      },
+    };
+    
+    const razorpay = new (window as any).Razorpay(options);
+    razorpay.open();
+    
   } catch (error) {
-    return { success: false, error: 'Failed to initiate payment' };
+    return {success: false, error: 'Failed to initiate payment'};
   }
 };
 ```
 
-### Frontend: Payment Callback Page
-```typescript
-// frontend/src/pages/PaymentCallback.tsx
-import { useEffect, useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
-
-export const PaymentCallback = () => {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const [status, setStatus] = useState<'loading' | 'success' | 'failed'>('loading');
-  const [bookingDetails, setBookingDetails] = useState<any>(null);
-  
-  useEffect(() => {
-    const transactionId = searchParams.get('transactionId');
-    
-    if (transactionId) {
-      verifyPayment(transactionId);
-    }
-  }, [searchParams]);
-  
-  const verifyPayment = async (transactionId: string) => {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/payment-status/${transactionId}`
-      );
-      
-      const data = await response.json();
-      
-      if (data.success && data.paymentStatus === 'SUCCESS') {
-        setStatus('success');
-        setBookingDetails(data.booking);
-        
-        // Redirect to home after 5 seconds
-        setTimeout(() => navigate('/'), 5000);
-      } else {
-        setStatus('failed');
-      }
-    } catch (error) {
-      setStatus('failed');
-    }
-  };
-  
-  if (status === 'loading') {
-    return <div>Verifying payment...</div>;
-  }
-  
-  if (status === 'success') {
-    return (
-      <div>
-        <h1>Payment Successful!</h1>
-        <p>Slot Number: {bookingDetails.slotNumber}</p>
-        <p>Date: {bookingDetails.date}</p>
-      </div>
-    );
-  }
-  
-  return <div>Payment Failed. Please try again.</div>;
-};
+### Frontend: Add Razorpay Script (TO BE IMPLEMENTED)
+```html
+<!-- frontend/index.html -->
+<head>
+  <!-- Add before closing </head> tag -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
 ```
 
 
@@ -687,24 +685,25 @@ Never commit:
 
 ## Cost Analysis
 
-### PhonePe Transaction Fees
-- UPI: ~0% (free for customers, merchant pays)
+### Razorpay Transaction Fees
+- UPI: 0% (free for first ₹50,000, then 2%)
 - Debit Card: ~1%
 - Credit Card: ~2%
 - Net Banking: ~1.5%
+- Wallets: ~2%
 
 ### Estimated Monthly Costs (1000 bookings)
 - Bookings: 1000 × ₹400 = ₹4,00,000
-- PhonePe fees (avg 1.5%): ₹6,000
-- SMS notifications: ₹150
+- Razorpay fees (avg 2%): ₹8,000
+- SMS notifications (optional): ₹150
 - Render.com hosting: Free (Starter plan)
 - Firebase Firestore: Free (Spark plan)
-- **Total Cost: ~₹6,150/month**
+- **Total Cost: ~₹8,150/month**
 
 ### Revenue
 - Gross: ₹4,00,000
-- Net (after fees): ₹3,93,850
-- Profit margin: 98.5%
+- Net (after fees): ₹3,91,850
+- Profit margin: 98%
 
 ---
 
@@ -795,15 +794,24 @@ Never commit:
 
 ## Conclusion
 
-This implementation plan provides a secure, scalable, and cost-effective payment gateway integration using PhonePe. The architecture leverages the existing Express backend for security and Firebase Firestore for data storage, ensuring a smooth payment experience for patients booking appointments at Dr. Amlan's ENT Clinic.
+This implementation plan provides a secure, scalable, and cost-effective payment gateway integration using Razorpay. The architecture leverages the existing Express backend for security and Firebase Firestore for data storage, ensuring a smooth payment experience for patients booking appointments at Dr. Amlan's ENT Clinic.
+
+**Current Status:**
+- ✅ Phase 1: Backend Implementation - COMPLETED
+- 🔄 Phase 2: Frontend Integration - PENDING
+- ⏳ Phase 3: Testing - PENDING
+- ⏳ Phase 4: Deployment - PENDING
 
 **Next Steps:**
-1. Review and approve this plan
-2. Setup PhonePe merchant account
-3. Begin backend development
-4. Test in sandbox environment
-5. Deploy to production
+1. ✅ Backend implementation (DONE)
+2. 🔄 Frontend integration (IN PROGRESS)
+   - Add Razorpay script
+   - Update appointment service
+   - Integrate Razorpay checkout
+3. Test with Razorpay test keys
+4. Deploy to production
+5. Switch to production keys
 
-**Estimated Time to Completion:** 4 weeks  
-**Estimated Cost:** ₹6,150/month (for 1000 bookings)  
-**Expected Go-Live Date:** [To be determined]
+**Estimated Time to Completion:** 1-2 weeks (backend done)  
+**Estimated Cost:** ₹8,150/month (for 1000 bookings)  
+**Backend API:** Ready for frontend integration

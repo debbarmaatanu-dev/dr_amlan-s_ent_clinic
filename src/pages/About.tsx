@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {ClipLoader} from 'react-spinners';
-import landingImage from '@/assets/2.png';
+
+const landingImage =
+  'https://res.cloudinary.com/mobeet/image/upload/v1764923599/IMG_20251203_101518842_HDR_PORTRAIT_2_1_hyhvhd.jpg';
 
 export const About = (): React.JSX.Element => {
   const [loading, setLoading] = useState(true);

@@ -1,5 +1,7 @@
 import {useNavigate} from 'react-router-dom';
-import logo from '@/assets/dr-AmlanLogo.png';
+
+const logo =
+  'https://res.cloudinary.com/mobeet/image/upload/v1764923732/dr-AmlanLogo_cmk1xz.png';
 
 export function Footer() {
   const nanvigation = useNavigate();

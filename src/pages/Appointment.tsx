@@ -2,11 +2,13 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {ClipLoader} from 'react-spinners';
 import {
   checkAvailableSlots,
-  bookAppointment,
   validateBookingAvailability,
   validateDateConstraints,
+  initiatePayment,
+  type PaymentBookingData,
 } from '@/services/appointmentService';
 import {AlertModal} from '@/components/AlertModal';
+import {SuccessModal} from '@/components/SuccessModal';
 import {appStore} from '@/appStore/appStore';
 
 export const Appointment = (): React.JSX.Element => {
@@ -28,6 +30,10 @@ export const Appointment = (): React.JSX.Element => {
     message: string;
     type: 'error' | 'success' | 'warning';
   }>({title: '', message: '', type: 'error'});
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+  const [bookingData, setBookingData] = useState<PaymentBookingData | null>(
+    null,
+  );
 
   // Get today's date in YYYY-MM-DD format for min date
   const today = new Date().toISOString().split('T')[0];
@@ -170,8 +176,8 @@ export const Appointment = (): React.JSX.Element => {
         return;
       }
 
-      // Step 2: Attempt booking with transaction (final atomic check)
-      const result = await bookAppointment(
+      // Step 2: Initiate payment and booking
+      const result = await initiatePayment(
         selectedDate,
         name,
         gender,
@@ -179,21 +185,10 @@ export const Appointment = (): React.JSX.Element => {
         phone,
       );
 
-      if (result.success && result.slotNumber) {
-        // Format date for display
-        const bookingDate = new Date(
-          selectedDate + 'T00:00:00',
-        ).toLocaleDateString('en-IN', {
-          weekday: 'long',
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric',
-        });
-
-        setMessage({
-          type: 'success',
-          text: `Appointment booked successfully! Your slot number is ${result.slotNumber} for ${bookingDate}. Please arrive at 6:00 PM - 8:30 PM.`,
-        });
+      if (result.success && result.bookingData) {
+        // Show success modal with receipt
+        setBookingData(result.bookingData);
+        setShowSuccessModal(true);
 
         // Reset form
         setName('');
@@ -516,22 +511,22 @@ export const Appointment = (): React.JSX.Element => {
                   {loading ? (
                     <span className="flex items-center justify-center">
                       <ClipLoader size={20} color="#ffffff" loading={loading} />
-                      <span className="ml-2">Booking...</span>
+                      <span className="ml-2">Processing...</span>
                     </span>
                   ) : availableOnlineSlots <= 0 ? (
                     'No Online Slots Available'
                   ) : (
-                    'Book Appointment'
+                    'Book & Pay ₹400'
                   )}
                 </button>
               </form>
 
               {/* Payment Note */}
-              <div className="mt-6 rounded-lg border border-yellow-200 bg-yellow-50 p-4">
+              <div className="mt-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
                 <p className="text-sm text-gray-700">
-                  <i className="fa-solid fa-money-bill-wave mr-2 text-yellow-600"></i>
-                  <strong>Note:</strong> For offline bookings, payment of ₹400
-                  will be collected at the clinic during your visit.
+                  <i className="fa-solid fa-credit-card mr-2 text-blue-600"></i>
+                  <strong>Online Payment:</strong> Secure payment of ₹400 via
+                  Razorpay (UPI, Card, NetBanking, Wallet)
                 </p>
               </div>
             </div>
@@ -547,6 +542,18 @@ export const Appointment = (): React.JSX.Element => {
         message={modalContent.message}
         type={modalContent.type}
       />
+
+      {/* Success Modal with Receipt */}
+      {showSuccessModal && bookingData && (
+        <SuccessModal
+          isOpen={showSuccessModal}
+          onClose={() => {
+            setShowSuccessModal(false);
+            setBookingData(null);
+          }}
+          bookingData={bookingData}
+        />
+      )}
     </div>
   );
 };
