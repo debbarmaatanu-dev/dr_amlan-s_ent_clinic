@@ -1,7 +1,7 @@
 import {useNavigate} from 'react-router-dom';
 
 const logo =
-  'https://res.cloudinary.com/mobeet/image/upload/v1764923732/dr-AmlanLogo_cmk1xz.png';
+  'https://res.cloudinary.com/mobeet/image/upload/v1765202950/DrAmlanLogo_2_rzgp2v.png';
 
 export function Footer() {
   const nanvigation = useNavigate();
@@ -32,8 +32,8 @@ export function Footer() {
             <div className="flex items-center space-x-4">
               <img
                 src={logo}
-                alt="Dr-Amlan-s-ENT-Clinic-Logo"
-                className="h-16 w-16 rounded-full"
+                alt="Dr-Amlan-s-ENT-Clinic-Logo-footer"
+                className="h-18 w-18 object-cover"
               />
               <div>
                 <h2 className="text-xl font-bold text-blue-600">
@@ -145,6 +145,13 @@ export function Footer() {
           <div className="flex flex-col items-center justify-center gap-2 text-center sm:items-start sm:justify-start sm:text-start">
             <p>© 2025 Dr. (Major) Amlan's ENT Clinic </p>
             <p>All Rights Reserved.</p>
+            <button
+              role="link"
+              aria-label="Link to Privacy Policy"
+              onClick={() => handleNav('/privacy-policy')}
+              className="font-md cursor-pointer text-blue-600 underline">
+              Our Privacy Policy
+            </button>
           </div>
           <div className="mt-4 flex flex-col items-center justify-center gap-2 text-center md:mt-0">
             <div className="flex flex-row">

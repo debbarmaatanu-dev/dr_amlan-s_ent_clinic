@@ -53,9 +53,9 @@ export const About = (): React.JSX.Element => {
                   Dr. Debbarma is a board-certified otolaryngologist
                   specializing in sinus disorders, endoscopic nasal surgery,
                   adenotonsillectomy, Head & neck surgeries, Endoscopic and
-                  microscopic ear surgeries, allergy treatment and sleep apnea
-                  treatment. He has a wide range of experience and served in the
-                  Army Medical Corps and performed combat duties and also
+                  microscopic ear surgeries,vertigo,allergy treatment and sleep
+                  apnea treatment. He has a wide range of experience and served
+                  in the Army Medical Corps and performed combat duties and also
                   treated troops to keep them fighting fit in counter terrorism
                   operations in J&K as well as in the Siachen Glacier which is
                   known as the highest battlefield in the world. Presently

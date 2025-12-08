@@ -127,7 +127,7 @@ export const checkAvailableSlots = async (
 };
 
 /**
- * Validate date constraints (not in past, not Sunday, within 10 days)
+ * Validate date constraints (not in past, not Sunday, within 10 days, not after 8 PM for today)
  */
 export const validateDateConstraints = (
   dateString: string,
@@ -162,6 +162,22 @@ export const validateDateConstraints = (
     return {
       isValid: false,
       error: 'Clinic is closed on Sundays. Please select another date.',
+    };
+  }
+
+  // Check if booking for today after 7 PM
+  const now = new Date();
+  const currentHour = now.getHours();
+  const isToday =
+    selectedDate.getDate() === now.getDate() &&
+    selectedDate.getMonth() === now.getMonth() &&
+    selectedDate.getFullYear() === now.getFullYear();
+
+  if (isToday && currentHour >= 19) {
+    return {
+      isValid: false,
+      error:
+        'Bookings for today are closed after 7 PM. Please select a future date.',
     };
   }
 

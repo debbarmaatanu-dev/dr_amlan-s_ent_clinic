@@ -155,7 +155,7 @@ export const NavBar = () => {
         aria-label="Main navigation">
         {/* Navigation Container */}
         <div className="xxxs:px-6 mx-auto w-full max-w-7xl px-6 py-1 lg:px-0">
-          <div className="xxxs:h-20 flex h-16 items-center justify-between">
+          <div className="xxxs:h-20 flex h-18 items-center justify-between">
             <LogoSection handleHomeClick={handleHomeClick} />
 
             {/* Mobile Menu Button */}

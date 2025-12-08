@@ -26,6 +26,10 @@ export const WelcomeSection = () => {
             </strong>
             <br />
             <br />
+            First follow up after initial consultation is free within 2 weeks
+            (offline only). For follow up visit kindly call us.
+            <br />
+            <br />
             Located on the 1st Floor, Capital Pathlab, Bijoykumar Chowmuhani,
             Agartala, West Tripura.
             <br />

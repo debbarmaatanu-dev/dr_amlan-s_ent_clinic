@@ -1,0 +1,250 @@
+import React from 'react';
+
+const logo =
+  'https://res.cloudinary.com/mobeet/image/upload/v1765202950/DrAmlanLogo_2_rzgp2v.png';
+
+export const PrivacyPolicy = (): React.JSX.Element => {
+  return (
+    <div className="flex min-h-screen flex-col">
+      <main
+        className="flex grow items-center justify-center px-4 py-6 md:py-12 lg:px-8"
+        role="main">
+        <section className="w-full max-w-5xl">
+          <header className="flex flex-col items-center justify-center py-5">
+            <div className="mb-6 flex shrink-0 items-center justify-center rounded-full bg-white p-3 shadow-lg">
+              <img
+                src={logo}
+                alt="Dr Amlan's ENT Clinic Logo"
+                className="h-32 w-32 rounded-full object-cover"
+              />
+            </div>
+            <h1 className="relative mb-6 inline-block text-4xl font-bold tracking-wide">
+              Privacy & Policies
+              <span className="absolute right-0 -bottom-1 h-1 w-1/2 rounded bg-yellow-400"></span>
+            </h1>
+          </header>
+
+          <article className="overflow-hidden rounded-2xl bg-white shadow-xl">
+            <div className="space-y-8 p-8 md:p-12">
+              {/* Terms & Conditions */}
+              <section>
+                <h2 className="mb-4 text-2xl font-bold text-gray-800">
+                  Terms & Conditions
+                </h2>
+                <div className="space-y-4 text-gray-600">
+                  <p>
+                    This document is an electronic record in terms of
+                    Information Technology Act, 2000 and rules there under as
+                    applicable and the amended provisions pertaining to
+                    electronic records in various statutes as amended by the
+                    Information Technology Act, 2000.
+                  </p>
+                  <p>
+                    The Platform is owned by Dr. (Major) Amlan Debbarma, with
+                    its registered office at 1st Floor, Capital Pathlab,
+                    Bijoykumar Chowmuhani, Agartala, West Tripura - 799001.
+                  </p>
+                  <p>
+                    By accessing, browsing or otherwise using the Platform, you
+                    indicate your agreement to all the terms and conditions
+                    under these Terms of Use. Please read the Terms of Use
+                    carefully before proceeding.
+                  </p>
+
+                  <h3 className="mt-6 text-xl font-semibold text-gray-800">
+                    Key Terms
+                  </h3>
+                  <ul className="list-disc space-y-2 pl-6">
+                    <li>
+                      You agree to provide true, accurate and complete
+                      information during and after registration.
+                    </li>
+                    <li>
+                      Your use of our services is solely at your own risk and
+                      discretion.
+                    </li>
+                    <li>
+                      You agree to pay the charges associated with availing the
+                      services.
+                    </li>
+                    <li>
+                      You agree not to use the Platform for any unlawful or
+                      illegal purpose.
+                    </li>
+                    <li>
+                      All disputes shall be subject to the exclusive
+                      jurisdiction of the courts in Agartala and Tripura.
+                    </li>
+                  </ul>
+                </div>
+              </section>
+
+              {/* Privacy Policy */}
+              <section className="border-t pt-8">
+                <h2 className="mb-4 text-2xl font-bold text-gray-800">
+                  Privacy Policy
+                </h2>
+                <div className="space-y-4 text-gray-600">
+                  <p>
+                    This Privacy Policy describes how Dr. (Major) Amlan Debbarma
+                    collects, uses, shares, protects or otherwise processes your
+                    information/personal data through our website.
+                  </p>
+
+                  <h3 className="mt-6 text-xl font-semibold text-gray-800">
+                    Information Collection
+                  </h3>
+                  <p>
+                    We collect your personal data when you use our Platform or
+                    services. This includes:
+                  </p>
+                  <ul className="list-disc space-y-2 pl-6">
+                    <li>
+                      Personal information: Name, date of birth, address,
+                      telephone/mobile number, email ID
+                    </li>
+                    <li>
+                      Payment information: Bank account, credit/debit card
+                      details
+                    </li>
+                    <li>
+                      Transaction information related to appointments and
+                      services
+                    </li>
+                  </ul>
+
+                  <h3 className="mt-6 text-xl font-semibold text-gray-800">
+                    Information Usage
+                  </h3>
+                  <p>We use your personal data to:</p>
+                  <ul className="list-disc space-y-2 pl-6">
+                    <li>Provide the services you request</li>
+                    <li>Process appointments and payments</li>
+                    <li>Enhance customer experience</li>
+                    <li>Resolve disputes and troubleshoot problems</li>
+                    <li>
+                      Inform you about offers, products, services, and updates
+                    </li>
+                    <li>
+                      Detect and protect against fraud and criminal activity
+                    </li>
+                  </ul>
+
+                  <h3 className="mt-6 text-xl font-semibold text-gray-800">
+                    Data Security
+                  </h3>
+                  <p>
+                    We adopt reasonable security practices and procedures to
+                    protect your personal data from unauthorized access,
+                    disclosure, loss or misuse. However, transmission of
+                    information over the internet cannot always be guaranteed as
+                    completely secure.
+                  </p>
+
+                  <h3 className="mt-6 text-xl font-semibold text-gray-800">
+                    Your Rights
+                  </h3>
+                  <p>
+                    You may access, rectify, and update your personal data
+                    directly through the functionalities provided on the
+                    Platform. You have the option to withdraw your consent by
+                    contacting us.
+                  </p>
+                </div>
+              </section>
+
+              {/* Refund and Cancellation Policy */}
+              <section className="border-t pt-8">
+                <h2 className="mb-4 text-2xl font-bold text-gray-800">
+                  Refund and Cancellation Policy
+                </h2>
+                <div className="space-y-4 text-gray-600">
+                  <div className="rounded-lg bg-red-50 p-4">
+                    <p className="font-semibold text-red-800">
+                      Important Notice:
+                    </p>
+                    <p className="mt-2 text-red-700">
+                      Dr. (Major) Amlan's ENT Clinic operates on a strict NO
+                      REFUND and NO CANCELLATION policy for all appointments and
+                      services.
+                    </p>
+                  </div>
+
+                  <h3 className="mt-6 text-xl font-semibold text-gray-800">
+                    Policy Details
+                  </h3>
+                  <ul className="list-disc space-y-2 pl-6">
+                    <li>
+                      <strong>No Cancellations:</strong> Once an appointment is
+                      booked and payment is made, it cannot be cancelled under
+                      any circumstances.
+                    </li>
+                    <li>
+                      <strong>No Refunds:</strong> All payments made for
+                      appointments and services are final and non-refundable.
+                    </li>
+                    <li>
+                      <strong>Rescheduling:</strong> In case you cannot attend
+                      your scheduled appointment, please contact the clinic at
+                      least 24 hours in advance. We may accommodate rescheduling
+                      based on availability, but no refund will be provided.
+                    </li>
+                    <li>
+                      <strong>Missed Appointments:</strong> If you miss your
+                      appointment without prior notice, no refund or
+                      rescheduling will be offered.
+                    </li>
+                  </ul>
+
+                  <div className="mt-6 rounded-lg bg-blue-50 p-4">
+                    <p className="font-semibold text-blue-800">Please Note:</p>
+                    <p className="mt-2 text-blue-700">
+                      By booking an appointment, you acknowledge and agree to
+                      this NO REFUND and NO CANCELLATION policy. Please ensure
+                      you can attend your appointment before making a booking.
+                    </p>
+                  </div>
+                </div>
+              </section>
+
+              {/* Contact Information */}
+              <section className="border-t pt-8">
+                <h2 className="mb-4 text-2xl font-bold text-gray-800">
+                  Contact Us
+                </h2>
+                <div className="space-y-2 text-gray-600">
+                  <p>
+                    <strong>Dr. (Major) Amlan's ENT Clinic</strong>
+                  </p>
+                  <p>1st Floor, Capital Pathlab</p>
+                  <p>Bijoykumar Chowmuhani, Agartala</p>
+                  <p>West Tripura - 799001</p>
+                  <p className="mt-4">
+                    <strong>Phone:</strong>{' '}
+                    <a
+                      href="tel:+918258839231"
+                      className="text-blue-600 hover:text-blue-800">
+                      +91 8258839231
+                    </a>
+                  </p>
+                  <p>
+                    <strong>Email:</strong>{' '}
+                    <a
+                      href="mailto:debbarmaamlan@gmail.com"
+                      className="text-blue-600 hover:text-blue-800">
+                      debbarmaamlan@gmail.com
+                    </a>
+                  </p>
+                  <p>
+                    <strong>Clinic Hours:</strong> Monday - Saturday (9:00 AM -
+                    6:00 PM)
+                  </p>
+                </div>
+              </section>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+  );
+};

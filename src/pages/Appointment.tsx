@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {ClipLoader} from 'react-spinners';
 import {
   checkAvailableSlots,
   validateBookingAvailability,
@@ -9,7 +8,13 @@ import {
 } from '@/services/appointmentService';
 import {AlertModal} from '@/components/AlertModal';
 import {SuccessModal} from '@/components/SuccessModal';
+import {AppointmentHeader} from '@/components/appointmentComponents/AppointmentHeader';
+import {SlotAvailability} from '@/components/appointmentComponents/SlotAvailability';
+import {AppointmentForm} from '@/components/appointmentComponents/AppointmentForm';
+import {PaymentNote} from '@/components/appointmentComponents/PaymentNote';
 import {appStore} from '@/appStore/appStore';
+import {PrivacyPolicyLink} from '@/components/appointmentComponents/PrivacyPolicyLink';
+import {ImportantNotices} from '@/components/appointmentComponents/ImportantNotices';
 
 export const Appointment = (): React.JSX.Element => {
   const [selectedDate, setSelectedDate] = useState<string>('');
@@ -245,290 +250,56 @@ export const Appointment = (): React.JSX.Element => {
       <main
         className="flex grow items-center justify-center px-4 py-6 md:py-12 lg:px-8"
         role="main">
-        <section className="w-full max-w-4xl">
-          <header className="flex flex-col items-center justify-center py-5">
-            <h1 className="relative mb-6 inline-block text-4xl font-bold tracking-wide">
-              Book Appointment
-              <span className="absolute right-0 -bottom-1 h-1 w-1/2 rounded bg-yellow-400"></span>
-            </h1>
-          </header>
+        <section className="w-full max-w-7xl">
+          <AppointmentHeader />
 
-          <article className="overflow-hidden rounded-2xl bg-white shadow-xl">
+          <article className="mx-auto w-full max-w-4xl overflow-hidden rounded-2xl bg-white shadow-xl">
             <div className="p-8 md:p-12">
-              {/* Important Notes Section */}
-              <div className="mb-8 space-y-4">
-                <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
-                  <h2 className="mb-2 text-lg font-semibold text-blue-800">
-                    <i className="fa-solid fa-info-circle mr-2"></i>
-                    Appointment Information
-                  </h2>
-                  <ul className="space-y-2 text-sm text-gray-700">
-                    <li className="flex items-start">
-                      <i className="fa-solid fa-clock mt-1 mr-2 text-blue-600"></i>
-                      <span>
-                        <strong>Clinic Hours:</strong> 6:00 PM - 8:30 PM (Closed
-                        on Sundays)
-                      </span>
-                    </li>
-                    <li className="flex items-start">
-                      <i className="fa-solid fa-indian-rupee-sign mt-1 mr-2 text-blue-600"></i>
-                      <span>
-                        <strong>Consultation Fee:</strong> ₹400 (Fixed)
-                      </span>
-                    </li>
-                    <li className="flex items-start">
-                      <i className="fa-solid fa-calendar-check mt-1 mr-2 text-blue-600"></i>
-                      <span>
-                        <strong>Online Booking Slots per Day:</strong> 10
-                      </span>
-                    </li>
-                    <li className="flex items-start">
-                      <i className="fa-solid fa-hospital mt-1 mr-2 text-blue-600"></i>
-                      <span>
-                        <strong>Walk-in Slots (at clinic):</strong> 10
-                        additional slots available
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="rounded-lg border border-green-200 bg-green-50 p-4">
-                  <h2 className="mb-2 text-lg font-semibold text-green-800">
-                    <i className="fa-solid fa-shield-halved mr-2"></i>
-                    For Armed Forces Personnel
-                  </h2>
-                  <p className="text-sm text-gray-700">
-                    Armed Forces personnel (Army, Navy, Air Force) and their
-                    dependents are welcome. A valid Service/ESM/Dependent ID
-                    must be presented.
-                    <strong className="text-green-800">
-                      {' '}
-                      Available only offline at clinic location.
-                    </strong>
-                  </p>
-                </div>
-
-                {selectedDate && (
-                  <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
-                    <h2 className="mb-2 text-lg font-semibold text-purple-800">
-                      Available Slots for{' '}
-                      {new Date(selectedDate + 'T00:00:00').toLocaleDateString(
-                        'en-IN',
-                        {
-                          day: '2-digit',
-                          month: 'long',
-                          year: 'numeric',
-                        },
-                      )}
-                    </h2>
-                    <div className="flex gap-6 text-sm">
-                      <div className="flex items-center">
-                        <i className="fa-solid fa-laptop mr-2 text-purple-600"></i>
-                        <span>
-                          <strong>Available Online Slots:</strong>{' '}
-                          {availableOnlineSlots} / 10
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Booking Form */}
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Date Selection */}
-                <div>
-                  <label
-                    htmlFor="appointment-date"
-                    className="mb-2 block text-sm font-medium text-gray-700">
-                    Select Date <span className="text-red-500">*</span>
-                  </label>
-                  <div
-                    onClick={() => {
-                      const input = document.getElementById(
-                        'appointment-date',
-                      ) as HTMLInputElement;
-                      input?.showPicker?.();
-                    }}
-                    className="cursor-pointer">
-                    <input
-                      type="date"
-                      id="appointment-date"
-                      value={selectedDate}
-                      onChange={e => setSelectedDate(e.target.value)}
-                      min={today}
-                      max={maxDateString}
-                      required
-                      className="w-full cursor-pointer rounded-lg border border-gray-300 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  <p className="mt-1 text-xs text-gray-500">
-                    Bookings available up to 10 days in advance. Closed on
-                    Sundays.
-                  </p>
-
-                  {/* Available Slots Display */}
-                  {selectedDate && (
-                    <div className="mt-3 rounded-lg border border-blue-200 bg-blue-50 p-3">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <i className="fa-solid fa-calendar-day text-blue-600"></i>
-                          <span className="text-sm font-medium text-gray-700">
-                            {new Date(
-                              selectedDate + 'T00:00:00',
-                            ).toLocaleDateString('en-IN', {
-                              weekday: 'short',
-                              day: '2-digit',
-                              month: 'short',
-                              year: 'numeric',
-                            })}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <i
-                            className={`fa-solid fa-circle-check ${
-                              availableOnlineSlots > 0
-                                ? 'text-green-600'
-                                : 'text-red-600'
-                            }`}></i>
-                          <span
-                            className={`text-sm font-semibold ${
-                              availableOnlineSlots > 0
-                                ? 'text-green-700'
-                                : 'text-red-700'
-                            }`}>
-                            {availableOnlineSlots > 0
-                              ? `${availableOnlineSlots} ${availableOnlineSlots === 1 ? 'slot' : 'slots'} available`
-                              : 'No slots available'}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Patient Name */}
-                <div>
-                  <label
-                    htmlFor="patient-name"
-                    className="mb-2 block text-sm font-medium text-gray-700">
-                    Patient Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="patient-name"
-                    value={name}
-                    onChange={e => setName(e.target.value)}
-                    placeholder="Enter patient's full name"
-                    required
-                    className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-
-                {/* Gender Selection */}
-                <div>
-                  <label
-                    htmlFor="patient-gender"
-                    className="mb-2 block text-sm font-medium text-gray-700">
-                    Gender <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    id="patient-gender"
-                    value={gender}
-                    onChange={e => setGender(e.target.value)}
-                    required
-                    className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500">
-                    <option value="">Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="others">Others</option>
-                  </select>
-                </div>
-
-                {/* Age Input */}
-                <div>
-                  <label
-                    htmlFor="patient-age"
-                    className="mb-2 block text-sm font-medium text-gray-700">
-                    Age <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    id="patient-age"
-                    value={age}
-                    onChange={e => setAge(e.target.value)}
-                    placeholder="Enter patient's age"
-                    min="1"
-                    max="120"
-                    required
-                    className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-
-                {/* Phone Number Input */}
-                <div>
-                  <label
-                    htmlFor="patient-phone"
-                    className="mb-2 block text-sm font-medium text-gray-700">
-                    Phone Number <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="tel"
-                    id="patient-phone"
-                    value={phone}
-                    onChange={e => setPhone(e.target.value)}
-                    placeholder="Enter 10-digit phone number"
-                    maxLength={10}
-                    required
-                    className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500"
-                  />
-                  <p className="mt-1 text-xs text-gray-500">
-                    Required for booking confirmation
-                  </p>
-                </div>
-
-                {/* Message Display */}
-                {message && (
-                  <div
-                    className={`rounded-lg p-4 ${
-                      message.type === 'success'
-                        ? 'border border-green-200 bg-green-50 text-green-800'
-                        : 'border border-red-200 bg-red-50 text-red-800'
-                    }`}>
-                    <p className="text-sm font-medium">{message.text}</p>
-                  </div>
-                )}
-
-                {/* Submit Button */}
-                <button
-                  type="submit"
-                  disabled={loading || availableOnlineSlots <= 0}
-                  className={`w-full cursor-pointer rounded-lg px-6 py-4 font-semibold text-white transition-all duration-200 ${
-                    loading || availableOnlineSlots <= 0
-                      ? 'cursor-not-allowed bg-gray-400'
-                      : 'bg-blue-600 hover:bg-blue-700 active:scale-95'
+              {/* Error/Success Message */}
+              {message && (
+                <div
+                  className={`mb-6 rounded-lg p-4 ${
+                    message.type === 'success'
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-red-100 text-red-800'
                   }`}>
-                  {loading ? (
-                    <span className="flex items-center justify-center">
-                      <ClipLoader size={20} color="#ffffff" loading={loading} />
-                      <span className="ml-2">Processing...</span>
-                    </span>
-                  ) : availableOnlineSlots <= 0 ? (
-                    'No Online Slots Available'
-                  ) : (
-                    'Book & Pay ₹400'
-                  )}
-                </button>
-              </form>
+                  {message.text}
+                </div>
+              )}
+
+              {/* Important Information Boxes - Above Form */}
+              <ImportantNotices />
+
+              {/* Slot Availability */}
+              <SlotAvailability
+                availableSlots={availableOnlineSlots}
+                selectedDate={selectedDate}
+              />
+
+              {/* Appointment Form */}
+              <AppointmentForm
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+                name={name}
+                setName={setName}
+                gender={gender}
+                setGender={setGender}
+                age={age}
+                setAge={setAge}
+                phone={phone}
+                setPhone={setPhone}
+                loading={loading}
+                availableSlots={availableOnlineSlots}
+                onSubmit={handleSubmit}
+                today={today}
+                maxDate={maxDateString}
+              />
 
               {/* Payment Note */}
-              <div className="mt-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
-                <p className="text-sm text-gray-700">
-                  <i className="fa-solid fa-credit-card mr-2 text-blue-600"></i>
-                  <strong>Online Payment:</strong> Secure payment of ₹400 via
-                  Razorpay (UPI, Card, NetBanking, Wallet)
-                </p>
-              </div>
+              <PaymentNote />
+
+              {/* Privacy Policy Link */}
+              <PrivacyPolicyLink />
             </div>
           </article>
         </section>

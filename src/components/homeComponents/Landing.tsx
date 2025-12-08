@@ -50,9 +50,11 @@ export const Landing = (): React.JSX.Element => {
               <p className="mb-15 cursor-text text-base text-gray-600 md:text-lg">
                 MBBS, MS ENT,
                 <br />
-                Ex-Army Medical Corps Endoscopic and
+                Ex-Army Medical Corps,
                 <br />
-                Microscopic ENT surgeon.
+                Endoscopic and Microscopic ENT surgeon
+                <br />
+                at Tripura Medical College, Agartala
               </p>
               <button
                 className="w-70 cursor-pointer rounded-md bg-blue-600 px-6 py-3 text-white shadow-md transition-transform duration-180 active:scale-95"

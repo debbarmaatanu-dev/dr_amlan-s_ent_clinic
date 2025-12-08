@@ -11,6 +11,7 @@ import {NavBar} from './appComponents/nav/topNavbar/Navbar';
 import {Footer} from './appComponents/nav/footer/Footer';
 import {About} from './pages/About';
 import {Contact} from './pages/Contact';
+import {PrivacyPolicy} from './pages/PrivacyPolicy';
 import {Appointment} from './pages/Appointment';
 import {ProtectedRoute} from './appComponents/ProtectedRoute';
 
@@ -74,6 +75,7 @@ const RoutesWrapper = ({
           <Route path={'/home'} element={<Home />} />
           <Route path={'/about'} element={<About />} />
           <Route path={'/contact'} element={<Contact />} />
+          <Route path={'/privacy-policy'} element={<PrivacyPolicy />} />
           <Route path={'/appointment'} element={<Appointment />} />
           <Route
             path={'/admin-login'}
