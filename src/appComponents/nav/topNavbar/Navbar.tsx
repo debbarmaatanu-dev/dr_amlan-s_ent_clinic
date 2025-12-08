@@ -141,7 +141,7 @@ export const NavBar = () => {
             ) : (
               <>
                 <span className="text-md font-bold">
-                  Closed Right now. Open from:
+                  Closed Right now. Opens:
                 </span>
                 <span className="font-semibold">6:00pm</span>
               </>
