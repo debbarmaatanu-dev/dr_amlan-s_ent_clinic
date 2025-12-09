@@ -11,7 +11,6 @@ export const PrivacyPolicy = (): React.JSX.Element => {
   const textColor = actualTheme === 'light' ? 'text-gray-800' : 'text-white';
   const textSecondary =
     actualTheme === 'light' ? 'text-gray-600' : 'text-gray-200';
-  const logoBg = actualTheme === 'light' ? 'bg-white' : 'bg-gray-700';
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -21,7 +20,7 @@ export const PrivacyPolicy = (): React.JSX.Element => {
         <section className="w-full max-w-5xl">
           <header className="flex flex-col items-center justify-center py-5">
             <div
-              className={`mb-6 flex shrink-0 items-center justify-center rounded-full ${logoBg} p-3 shadow-lg`}>
+              className={`mb-6 flex shrink-0 items-center justify-center rounded-full bg-white p-3 shadow-lg`}>
               <img
                 src={logo}
                 alt="Dr Amlan's ENT Clinic Logo"
