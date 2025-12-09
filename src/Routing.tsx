@@ -14,21 +14,22 @@ import {Contact} from './pages/Contact';
 import {PrivacyPolicy} from './pages/PrivacyPolicy';
 import {Appointment} from './pages/Appointment';
 import {ProtectedRoute} from './appComponents/ProtectedRoute';
+import {Login} from './pages/Login';
 
 // Placeholder component for routes without content yet
-const PlaceholderPage = ({title}: {title: string}) => {
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold text-gray-800">{title}</h1>
-        <p className="mb-8 text-lg text-gray-600">
-          This page is under construction.
-        </p>
-        <p className="text-gray-500">Content will be added soon.</p>
-      </div>
-    </div>
-  );
-};
+// const PlaceholderPage = ({title}: {title: string}) => {
+//   return (
+//     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4">
+//       <div className="text-center">
+//         <h1 className="mb-4 text-4xl font-bold text-gray-800">{title}</h1>
+//         <p className="mb-8 text-lg text-gray-600">
+//           This page is under construction.
+//         </p>
+//         <p className="text-gray-500">Content will be added soon.</p>
+//       </div>
+//     </div>
+//   );
+// };
 
 const Routing = () => {
   const [floatingIconVisible, setFloatingIconVisible] = useState<boolean>(true);
@@ -62,7 +63,6 @@ const RoutesWrapper = ({
     } else {
       setFloatingIconVisible(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentDisAllowedIcon]);
 
   return (
@@ -81,8 +81,7 @@ const RoutesWrapper = ({
             path={'/admin-login'}
             element={
               <ProtectedRoute>
-                {/* <AdminLoginForm /> */}
-                <PlaceholderPage title="Admin Login" />
+                <Login />
               </ProtectedRoute>
             }
           />

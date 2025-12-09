@@ -1,4 +1,5 @@
 import React from 'react';
+import {useTheme} from '@/hooks/useTheme';
 
 interface SlotAvailabilityProps {
   availableSlots: number;
@@ -9,6 +10,10 @@ export const SlotAvailability: React.FC<SlotAvailabilityProps> = ({
   availableSlots,
   selectedDate,
 }) => {
+  const {actualTheme} = useTheme();
+
+  const textColor = actualTheme === 'light' ? 'text-gray-700' : 'text-gray-200';
+
   if (!selectedDate) return null;
 
   return (
@@ -20,7 +25,7 @@ export const SlotAvailability: React.FC<SlotAvailabilityProps> = ({
       }`}>
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-gray-700">
+          <p className={`text-sm font-medium ${textColor}`}>
             Available Online Slots
           </p>
           <p

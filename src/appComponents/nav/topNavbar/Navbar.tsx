@@ -7,11 +7,22 @@ import {NavLinks} from './NavLinks';
 import {MobileMenu} from './MobileMenu';
 import {LogoutModal} from './LogoutModal';
 import styles from './clock.module.css';
+import {useTheme} from '@/hooks/useTheme';
+import type {ActualTheme} from '@/appStore/themeSlice';
+
+const getBGColor = (actualTheme: ActualTheme) => {
+  if (actualTheme === 'light') {
+    return 'bg-white shadow-md';
+  } else {
+    return 'bg-gray-800 shadow-sm shadow-gray-100/50';
+  }
+};
 
 export const NavBar = () => {
   const navigation = useNavigate();
   const user = appStore(state => state.user);
   const setMobileNavOpen = appStore(state => state.setMobileNavOpen);
+  const {actualTheme} = useTheme();
 
   const allowedAdminEmails: string[] = [
     import.meta.env.VITE_FIREBASE_ADMIN_EMAIL1,
@@ -29,7 +40,6 @@ export const NavBar = () => {
     } else {
       setMobileNavOpen(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [menuOpen]);
 
   const handleHomeClick = () => {
@@ -150,33 +160,40 @@ export const NavBar = () => {
         </div>
       </section>
       <nav
-        className="sticky top-0 z-50 w-full max-w-screen overflow-x-hidden bg-white shadow-md"
+        className={`sticky top-0 z-50 w-full max-w-screen overflow-x-hidden ${getBGColor(actualTheme)}`}
         role="navigation"
         aria-label="Main navigation">
         {/* Navigation Container */}
         <div className="xxxs:px-6 mx-auto w-full max-w-7xl px-6 py-1 lg:px-0">
           <div className="xxxs:h-20 flex h-18 items-center justify-between">
-            <LogoSection handleHomeClick={handleHomeClick} />
-
-            {/* Mobile Menu Button */}
-            <button
-              aria-label="Open navigation menu"
-              aria-expanded={menuOpen}
-              className="text-gray-700 transition-transform duration-180 ease-in-out focus:outline-none active:scale-95 md:hidden"
-              onClick={() => {
-                setTimeout(() => {
-                  setMenuOpen(true);
-                }, 200);
-              }}>
-              <i className="fa-solid fa-bars text-xl" aria-hidden="true"></i>
-            </button>
-
-            {/* Desktop Nav Links */}
-            <NavLinks
-              handleNavClick={handleNavClick}
-              isAdmin={isAdmin}
-              setShowLogoutModal={setShowLogoutModal}
+            <LogoSection
+              handleHomeClick={handleHomeClick}
+              actualTheme={actualTheme}
             />
+
+            {/* Desktop Theme Toggler & Mobile Menu Button */}
+            <div className="flex items-center gap-4">
+              {/* Mobile Menu Button */}
+              <button
+                aria-label="Open navigation menu"
+                aria-expanded={menuOpen}
+                className={`${actualTheme === 'dark' ? 'text-gray-200' : 'text-gray-700'} transition-transform duration-180 ease-in-out focus:outline-none active:scale-95 md:hidden`}
+                onClick={() => {
+                  setTimeout(() => {
+                    setMenuOpen(true);
+                  }, 200);
+                }}>
+                <i className="fa-solid fa-bars text-xl" aria-hidden="true"></i>
+              </button>
+
+              {/* Desktop Nav Links */}
+              <NavLinks
+                handleNavClick={handleNavClick}
+                isAdmin={isAdmin}
+                setShowLogoutModal={setShowLogoutModal}
+                actualTheme={actualTheme}
+              />
+            </div>
           </div>
         </div>
       </nav>
@@ -188,6 +205,7 @@ export const NavBar = () => {
           handleNavClick={handleNavClick}
           isAdmin={isAdmin}
           setShowLogoutModal={setShowLogoutModal}
+          actualTheme={actualTheme}
         />
       )}
 
@@ -196,6 +214,7 @@ export const NavBar = () => {
         <LogoutModal
           setShowLogoutModal={setShowLogoutModal}
           handleLogout={handleLogout}
+          actualTheme={actualTheme}
         />
       )}
     </>

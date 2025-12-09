@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
+import {useTheme} from '@/hooks/useTheme';
 
 export const ContactForm: React.FC = () => {
+  const {actualTheme} = useTheme();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -25,17 +27,26 @@ export const ContactForm: React.FC = () => {
     setFormData({name: '', email: '', phone: '', message: ''});
   };
 
+  const bgColor = actualTheme === 'light' ? 'bg-white' : 'bg-gray-800';
+  const textColor = actualTheme === 'light' ? 'text-gray-800' : 'text-white';
+  const textSecondary =
+    actualTheme === 'light' ? 'text-gray-700' : 'text-gray-300';
+  const inputBg = actualTheme === 'light' ? 'bg-white' : 'bg-gray-700';
+  const inputBorder =
+    actualTheme === 'light' ? 'border-gray-300' : 'border-gray-600';
+  const inputText = actualTheme === 'light' ? 'text-gray-900' : 'text-white';
+
   return (
-    <article className="overflow-hidden rounded-2xl bg-white shadow-xl">
+    <article className={`overflow-hidden rounded-2xl ${bgColor} shadow-xl`}>
       <div className="p-8 md:p-10">
-        <h2 className="mb-6 text-2xl font-bold text-gray-800">
+        <h2 className={`mb-6 text-2xl font-bold ${textColor}`}>
           Send us a Message
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label
               htmlFor="name"
-              className="mb-2 block text-sm font-medium text-gray-700">
+              className={`mb-2 block text-sm font-medium ${textSecondary}`}>
               Full Name
             </label>
             <input
@@ -45,7 +56,7 @@ export const ContactForm: React.FC = () => {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none"
+              className={`w-full rounded-lg border ${inputBorder} ${inputBg} ${inputText} px-4 py-3 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none`}
               placeholder="Enter your name"
             />
           </div>
@@ -53,7 +64,7 @@ export const ContactForm: React.FC = () => {
           <div>
             <label
               htmlFor="email"
-              className="mb-2 block text-sm font-medium text-gray-700">
+              className={`mb-2 block text-sm font-medium ${textSecondary}`}>
               Email Address
             </label>
             <input
@@ -63,7 +74,7 @@ export const ContactForm: React.FC = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none"
+              className={`w-full rounded-lg border ${inputBorder} ${inputBg} ${inputText} px-4 py-3 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none`}
               placeholder="Enter your email"
             />
           </div>
@@ -71,7 +82,7 @@ export const ContactForm: React.FC = () => {
           <div>
             <label
               htmlFor="phone"
-              className="mb-2 block text-sm font-medium text-gray-700">
+              className={`mb-2 block text-sm font-medium ${textSecondary}`}>
               Phone Number
             </label>
             <input
@@ -81,7 +92,7 @@ export const ContactForm: React.FC = () => {
               value={formData.phone}
               onChange={handleChange}
               required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none"
+              className={`w-full rounded-lg border ${inputBorder} ${inputBg} ${inputText} px-4 py-3 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none`}
               placeholder="Enter your phone number"
             />
           </div>
@@ -89,7 +100,7 @@ export const ContactForm: React.FC = () => {
           <div>
             <label
               htmlFor="message"
-              className="mb-2 block text-sm font-medium text-gray-700">
+              className={`mb-2 block text-sm font-medium ${textSecondary}`}>
               Message
             </label>
             <textarea
@@ -99,7 +110,7 @@ export const ContactForm: React.FC = () => {
               onChange={handleChange}
               required
               rows={5}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none"
+              className={`w-full rounded-lg border ${inputBorder} ${inputBg} ${inputText} px-4 py-3 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none`}
               placeholder="Enter your message"></textarea>
           </div>
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import {ClipLoader} from 'react-spinners';
+import {useTheme} from '@/hooks/useTheme';
 
 interface AppointmentFormProps {
   selectedDate: string;
@@ -36,13 +37,23 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
   today,
   maxDate,
 }) => {
+  const {actualTheme} = useTheme();
+
+  const textColor = actualTheme === 'light' ? 'text-gray-700' : 'text-gray-200';
+  const textTertiary =
+    actualTheme === 'light' ? 'text-gray-500' : 'text-gray-300';
+  const inputBg = actualTheme === 'light' ? 'bg-white' : 'bg-gray-700';
+  const inputBorder =
+    actualTheme === 'light' ? 'border-gray-300' : 'border-gray-600';
+  const inputText = actualTheme === 'light' ? 'text-gray-900' : 'text-white';
+
   return (
     <form onSubmit={onSubmit} className="space-y-6">
       {/* Date Selection */}
       <div>
         <label
           htmlFor="date"
-          className="mb-2 block text-sm font-semibold text-gray-700">
+          className={`mb-2 block text-sm font-semibold ${textColor}`}>
           Select Date <span className="text-red-500">*</span>
         </label>
         <input
@@ -53,9 +64,9 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
           min={today}
           max={maxDate}
           required
-          className="w-full rounded-lg border-2 border-gray-300 px-4 py-3 transition-colors focus:border-blue-500 focus:outline-none"
+          className={`w-full rounded-lg border-2 ${inputBorder} ${inputBg} ${inputText} px-4 py-3 transition-colors focus:border-blue-500 focus:outline-none`}
         />
-        <p className="mt-1 text-xs text-gray-500">
+        <p className={`mt-1 text-xs ${textTertiary}`}>
           Bookings available up to 10 days in advance
         </p>
       </div>
@@ -64,7 +75,7 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
       <div>
         <label
           htmlFor="name"
-          className="mb-2 block text-sm font-semibold text-gray-700">
+          className={`mb-2 block text-sm font-semibold ${textColor}`}>
           Patient Name <span className="text-red-500">*</span>
         </label>
         <input
@@ -74,13 +85,13 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
           onChange={e => setName(e.target.value)}
           required
           placeholder="Enter full name"
-          className="w-full rounded-lg border-2 border-gray-300 px-4 py-3 transition-colors focus:border-blue-500 focus:outline-none"
+          className={`w-full rounded-lg border-2 ${inputBorder} ${inputBg} ${inputText} px-4 py-3 transition-colors focus:border-blue-500 focus:outline-none`}
         />
       </div>
 
       {/* Gender */}
       <div>
-        <label className="mb-2 block text-sm font-semibold text-gray-700">
+        <label className={`mb-2 block text-sm font-semibold ${textColor}`}>
           Gender <span className="text-red-500">*</span>
         </label>
         <div className="flex gap-4">
@@ -95,7 +106,7 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
                 required
                 className="mr-2 h-4 w-4 cursor-pointer text-blue-600"
               />
-              <span className="text-gray-700 capitalize">{g}</span>
+              <span className={`${textColor} capitalize`}>{g}</span>
             </label>
           ))}
         </div>
@@ -105,7 +116,7 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
       <div>
         <label
           htmlFor="age"
-          className="mb-2 block text-sm font-semibold text-gray-700">
+          className={`mb-2 block text-sm font-semibold ${textColor}`}>
           Age <span className="text-red-500">*</span>
         </label>
         <input
@@ -117,7 +128,7 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
           min="1"
           max="120"
           placeholder="Enter age"
-          className="w-full rounded-lg border-2 border-gray-300 px-4 py-3 transition-colors focus:border-blue-500 focus:outline-none"
+          className={`w-full rounded-lg border-2 ${inputBorder} ${inputBg} ${inputText} px-4 py-3 transition-colors focus:border-blue-500 focus:outline-none`}
         />
       </div>
 
@@ -125,7 +136,7 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
       <div>
         <label
           htmlFor="phone"
-          className="mb-2 block text-sm font-semibold text-gray-700">
+          className={`mb-2 block text-sm font-semibold ${textColor}`}>
           Phone Number <span className="text-red-500">*</span>
         </label>
         <input
@@ -136,9 +147,9 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
           required
           pattern="[6-9][0-9]{9}"
           placeholder="10-digit mobile number"
-          className="w-full rounded-lg border-2 border-gray-300 px-4 py-3 transition-colors focus:border-blue-500 focus:outline-none"
+          className={`w-full rounded-lg border-2 ${inputBorder} ${inputBg} ${inputText} px-4 py-3 transition-colors focus:border-blue-500 focus:outline-none`}
         />
-        <p className="mt-1 text-xs text-gray-500">
+        <p className={`mt-1 text-xs ${textTertiary}`}>
           Enter 10-digit mobile number starting with 6-9
         </p>
       </div>

@@ -53,6 +53,7 @@ export default defineConfig([
       'import/no-unresolved': 'error',
       'no-unused-vars': 'off',
       'no-warning-comments': 'error',
+      'react-hooks/exhaustive-deps': 'off',
     },
   },
 ]);

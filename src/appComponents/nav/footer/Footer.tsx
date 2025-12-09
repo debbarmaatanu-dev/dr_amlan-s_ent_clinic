@@ -1,10 +1,29 @@
+import type {ActualTheme} from '@/appStore/themeSlice';
+import {useTheme} from '@/hooks/useTheme';
 import {useNavigate} from 'react-router-dom';
 
 const logo =
   'https://res.cloudinary.com/mobeet/image/upload/v1765202950/DrAmlanLogo_2_rzgp2v.png';
 
+const getBGColor = (actualTheme: ActualTheme) => {
+  if (actualTheme === 'light') {
+    return 'bg-white shadow-[0_-4px_6px_rgba(0,0,0,0.1)]';
+  } else {
+    return 'bg-gray-800 shadow-[0_-2px_4px_rgba(243,244,246,0.3)]';
+  }
+};
+
+const getTextColor = (actualTheme: ActualTheme) => {
+  if (actualTheme === 'light') {
+    return 'text-gray-600';
+  } else {
+    return 'text-white';
+  }
+};
+
 export function Footer() {
   const nanvigation = useNavigate();
+  const {actualTheme} = useTheme();
 
   const handleNav = (url: string) => {
     setTimeout(() => {
@@ -22,8 +41,7 @@ export function Footer() {
 
   return (
     <footer
-      className="mt-25 bg-white py-8 text-white"
-      style={{boxShadow: '0 -4px 6px rgba(0,0,0,0.1)'}}
+      className={`mt-25 ${getBGColor(actualTheme)} py-8`}
       role="contentinfo">
       <div className="container mx-auto mt-3 max-w-7xl px-10 xl:px-0">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
@@ -39,8 +57,10 @@ export function Footer() {
                 <h2 className="text-xl font-bold text-blue-600">
                   Dr. (Major) Amlan's ENT clinic
                 </h2>
-                <p className="text-sm text-gray-600">MBBS, MS ENT</p>
-                <p className="text-sm text-gray-600">
+                <p className={`text-sm ${getTextColor(actualTheme)}`}>
+                  MBBS, MS ENT
+                </p>
+                <p className={`text-sm ${getTextColor(actualTheme)}`}>
                   Ex-Army Medical Corps
                   <br />
                   Endoscopic and Microscopic ENT surgeon
@@ -54,21 +74,27 @@ export function Footer() {
                   <a
                     className="cursor-pointer text-blue-600 hover:text-blue-800"
                     href="tel:+918258839231">
-                    <span className="text-gray-600">PH:</span> +91 8258839231
+                    <span className={`${getTextColor(actualTheme)}`}>PH:</span>{' '}
+                    +91 8258839231
                   </a>
                   <a
                     className="cursor-pointer text-blue-600 hover:text-blue-800"
                     href="https://wa.me/916033521499">
-                    <span className="text-gray-600">WhatsApp:</span> +91
-                    6033521499
+                    <span className={` ${getTextColor(actualTheme)}`}>
+                      WhatsApp:
+                    </span>{' '}
+                    +91 6033521499
                   </a>
                 </div>
               </div>
 
-              <div className="text-gray-500">
+              <div
+                className={`${actualTheme === 'light' ? 'text-gray-500' : 'text-gray-300'}`}>
                 <p className="mb-1">
-                  <span className="text-gray-600">Address:</span> 1st floor,
-                  Capital pathlab
+                  <span className={`${getTextColor(actualTheme)}`}>
+                    Address:
+                  </span>{' '}
+                  1st floor, Capital pathlab
                 </p>
                 <p>Bijoykumar Chowmuhani,</p>
                 <p>Agartala,</p>
@@ -80,7 +106,10 @@ export function Footer() {
                 <a
                   href="mailto:debbarmaamlan@gmail.com"
                   className="text-blue-600 hover:text-blue-800">
-                  <span className="text-gray-600">Email:</span>{' '}
+                  <span
+                    className={`${actualTheme === 'light' ? 'text-gray-500' : 'text-gray-300'}`}>
+                    Email:
+                  </span>{' '}
                   debbarmaamlan@gmail.com
                 </a>
               </div>
@@ -92,14 +121,15 @@ export function Footer() {
             aria-label="Footer navigation"
             className="flex flex-col items-center justify-center text-justify">
             <div className="space-y-2">
-              <h2 className="mb-4 text-lg font-medium text-gray-600">
+              <h2
+                className={`mb-4 text-lg font-medium ${getTextColor(actualTheme)}`}>
                 Useful Links
               </h2>
               {usefulLinks.map((link, index) => (
                 <div
                   key={index}
                   onClick={() => handleNav(link.path)}
-                  className="transform-transform block cursor-pointer text-gray-500 duration-180 ease-in-out hover:text-blue-300 active:scale-95">
+                  className={`transform-transform block cursor-pointer ${actualTheme === 'light' ? 'text-gray-500' : 'text-gray-300'} duration-180 ease-in-out hover:text-blue-300 active:scale-95`}>
                   {link.label}
                 </div>
               ))}
@@ -108,7 +138,8 @@ export function Footer() {
 
           {/* Right Column - Maps */}
           <section aria-label="Location">
-            <h2 className="mb-4 text-lg font-semibold text-gray-600">
+            <h2
+              className={`mb-4 text-lg font-semibold ${getTextColor(actualTheme)}`}>
               Our Location
             </h2>
             <div className="flex h-64 w-full items-center justify-center border-gray-600 bg-gray-700">
@@ -133,7 +164,7 @@ export function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Visit our Facebook page"
-            className="text-gray-600 hover:text-blue-600">
+            className={`${getTextColor(actualTheme)} hover:text-blue-600`}>
             <i
               className="fa-brands fa-facebook h-6 w-6 text-lg"
               aria-hidden="true"></i>
@@ -141,7 +172,8 @@ export function Footer() {
         </nav>
 
         {/* Copyright Section */}
-        <div className="mt-8 flex flex-col items-center justify-between border-t border-gray-700 pt-6 text-sm text-gray-600 md:flex-row">
+        <div
+          className={`mt-8 flex flex-col items-center justify-between border-t ${getTextColor(actualTheme)} pt-6 text-sm text-gray-600 md:flex-row`}>
           <div className="flex flex-col items-center justify-center gap-2 text-center sm:items-start sm:justify-start sm:text-start">
             <p>© 2025 Dr. (Major) Amlan's ENT Clinic </p>
             <p>All Rights Reserved.</p>
@@ -150,18 +182,20 @@ export function Footer() {
               aria-label="Link to Privacy Policy"
               onClick={() => handleNav('/privacy-policy')}
               className="font-md cursor-pointer text-blue-600 underline">
-              Our Privacy Policy
+              Privacy Policy
             </button>
           </div>
           <div className="mt-4 flex flex-col items-center justify-center gap-2 text-center md:mt-0">
             <div className="flex flex-row">
-              <span className="text-sm text-gray-600">Created by:&nbsp;</span>
+              <span className={`text-sm ${getTextColor(actualTheme)}`}>
+                Created by:&nbsp;
+              </span>
               <a
                 href="https://github.com/AtanuDebbarma"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Created by - Visit GitHub profile"
-                className="text-sm text-gray-600 hover:text-blue-600">
+                className={`text-sm ${getTextColor(actualTheme)} hover:text-blue-600`}>
                 <i className="fa-brands fa-github" aria-hidden="true"></i>
                 &nbsp;
               </a>
@@ -170,11 +204,11 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Created by - Visit GitHub profile"
-                className="text-600 text-sm hover:text-blue-600">
+                className={`text-sm ${getTextColor(actualTheme)} hover:text-blue-600`}>
                 <i className="fa-brands fa-linkedin" aria-hidden="true"></i>
                 &nbsp;
               </a>
-              <span className="text-sm text-gray-600">Atanu Debbarma</span>
+              <span className={`text-sm ${getTextColor}`}>Atanu Debbarma</span>
             </div>
           </div>
         </div>

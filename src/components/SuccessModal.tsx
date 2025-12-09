@@ -1,6 +1,7 @@
 import React from 'react';
 import {BookingReceipt} from './BookingReceipt';
 import {generateBookingReceiptPDF} from '@/utils/pdfGenerator';
+import {useTheme} from '@/hooks/useTheme';
 
 interface SuccessModalProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
   bookingData,
 }) => {
   const [isDownloading, setIsDownloading] = React.useState(false);
+  const {actualTheme} = useTheme();
 
   if (!isOpen) return null;
 
@@ -44,6 +46,16 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
     }
   };
 
+  const modalBg = actualTheme === 'light' ? 'bg-gray-50' : 'bg-gray-800';
+  const closeBtn =
+    actualTheme === 'light'
+      ? 'text-gray-400 hover:text-gray-600'
+      : 'text-gray-500 hover:text-gray-300';
+  const btnSecondary =
+    actualTheme === 'light'
+      ? 'bg-white text-gray-700 border-gray-300 hover:border-gray-400 hover:bg-gray-50'
+      : 'bg-gray-700 text-gray-200 border-gray-600 hover:border-gray-500 hover:bg-gray-600';
+
   return (
     <div
       className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black p-4"
@@ -51,12 +63,12 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
       aria-modal="true"
       aria-labelledby="success-modal-title">
       <div
-        className="animate-fadeIn relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-lg bg-gray-50 shadow-2xl"
+        className={`animate-fadeIn relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-lg ${modalBg} shadow-2xl`}
         onClick={e => e.stopPropagation()}>
         {/* Close button */}
         <button
           onClick={onClose}
-          className="sticky top-4 right-4 z-10 float-right text-gray-400 transition-colors hover:text-gray-600"
+          className={`sticky top-4 right-4 z-10 float-right ${closeBtn} transition-colors`}
           aria-label="Close modal">
           <i className="fa-solid fa-xmark text-2xl"></i>
         </button>
@@ -99,7 +111,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
             </button>
             <button
               onClick={onClose}
-              className="rounded-lg border-2 border-gray-300 bg-white px-6 py-3 font-semibold text-gray-700 transition-all hover:border-gray-400 hover:bg-gray-50 active:scale-95">
+              className={`rounded-lg border-2 ${btnSecondary} px-6 py-3 font-semibold transition-all active:scale-95`}>
               Close
             </button>
           </div>

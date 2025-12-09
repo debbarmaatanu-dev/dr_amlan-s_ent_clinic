@@ -1,6 +1,13 @@
+import {useTheme} from '@/hooks/useTheme';
+
 export const FeaturesSection = () => {
+  const {actualTheme} = useTheme();
+  const bgColor = actualTheme === 'light' ? 'bg-white' : 'bg-gray-500';
+  const textColor = actualTheme === 'light' ? 'text-gray-700' : 'text-white';
   return (
-    <section className="bg-white py-16" aria-label="Why choose our ENT clinic">
+    <section
+      className={`${bgColor} py-16`}
+      aria-label="Why choose our ENT clinic">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {/* Experienced ENT Specialist */}
@@ -10,10 +17,11 @@ export const FeaturesSection = () => {
               aria-hidden="true">
               <i className="fa-solid fa-user-md text-2xl text-cyan-500"></i>
             </div>
-            <h3 className="text-foreground mb-2 text-xl font-bold">
+            <h3
+              className={`text-foreground ${textColor} mb-2 text-xl font-bold`}>
               Experienced ENT Specialist
             </h3>
-            <p className="text-muted-foreground">
+            <p className={`text-muted-foreground ${textColor}`}>
               Dedicated evaluation and treatment from a qualified ENT surgeon
               with clinical and military medical experience.
             </p>
@@ -26,10 +34,11 @@ export const FeaturesSection = () => {
               aria-hidden="true">
               <i className="fa-solid fa-clock text-2xl text-lime-500"></i>
             </div>
-            <h3 className="text-foreground mb-2 text-xl font-bold">
+            <h3
+              className={`text-foreground mb-2 text-xl font-bold ${textColor}`}>
               Streamlined Appointments
             </h3>
-            <p className="text-muted-foreground">
+            <p className={`text-muted-foreground ${textColor}`}>
               Quick, hassle-free scheduling with minimal waiting time.
             </p>
           </article>
@@ -41,10 +50,11 @@ export const FeaturesSection = () => {
               aria-hidden="true">
               <i className="fa-solid fa-calendar-check text-2xl text-cyan-500"></i>
             </div>
-            <h3 className="text-foreground mb-2 text-xl font-bold">
+            <h3
+              className={`text-foreground mb-2 text-xl font-bold ${textColor}`}>
               Flexible Timing
             </h3>
-            <p className="text-muted-foreground">
+            <p className={`text-muted-foreground ${textColor}`}>
               Evening consultations available to accommodate working individuals
               and families.
             </p>

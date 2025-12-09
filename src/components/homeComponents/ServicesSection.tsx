@@ -1,12 +1,17 @@
+import {useTheme} from '@/hooks/useTheme';
+
 const vertigoImage =
   'https://res.cloudinary.com/mobeet/image/upload/v1765202949/zzzz-Photoroom_v8wt6f.png';
 const entImage =
   'https://res.cloudinary.com/mobeet/image/upload/v1765206848/ENT_ICON-Photoroom_dgkdy8.png';
 
 export const ServicesSection = (): React.JSX.Element => {
+  const {actualTheme} = useTheme();
+
+  const bgColor = actualTheme === 'light' ? 'bg-white' : 'bg-gray-500';
   return (
     <section
-      className="mx-auto w-full bg-white py-16"
+      className={`mx-auto w-full ${bgColor} py-16`}
       aria-label="ENT Services">
       <div className="container mx-auto max-w-7xl px-4">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -30,15 +35,13 @@ export const ServicesSection = (): React.JSX.Element => {
           <article className="rounded-xl bg-blue-400 p-8 shadow-lg">
             <img
               src={vertigoImage}
-              alt="Neurotology and Vertigo"
+              alt="Vertigo"
               className="mb-4 h-16 w-16 object-contain brightness-0 invert"
             />
-            <h3 className="mb-3 text-2xl font-bold text-white">
-              Neurotology and Vertigo
-            </h3>
+            <h3 className="mb-3 text-2xl font-bold text-white">Vertigo</h3>
             <p className="text-white">
               Comprehensive examination and treatment for patients suffering
-              from dizziness,balance disorders and vertigo
+              from dizziness, balance disorders and vertigo
             </p>
           </article>
 

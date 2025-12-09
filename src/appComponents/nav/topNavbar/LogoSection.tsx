@@ -1,16 +1,30 @@
+import type {ActualTheme} from '@/appStore/themeSlice';
 import {LogoSVG} from '@/assets/Logo_SVG';
 
 type LogoSectionProps = {
   handleHomeClick: () => void;
+  actualTheme: ActualTheme;
 };
 
-export const LogoSection = ({handleHomeClick}: LogoSectionProps) => {
+export const LogoSection = ({
+  handleHomeClick,
+  actualTheme,
+}: LogoSectionProps) => {
+  const getTextColor = () => {
+    if (actualTheme === 'light') {
+      return 'text-gray-600';
+    } else {
+      return 'text-gray-200';
+    }
+  };
+
   return (
     <button
       onClick={handleHomeClick}
       className="xxxs:space-x-3 flex cursor-pointer items-center space-x-2 transition-all hover:opacity-80 active:scale-95"
       aria-label="Go to home">
-      <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-blue-100/80 p-1 shadow-md">
+      <div
+        className={`flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full p-1 shadow-md ${actualTheme === 'light' ? 'bg-blue-200/80' : 'bg-white'}`}>
         <LogoSVG />
       </div>
       <div className="flex flex-col">
@@ -20,7 +34,8 @@ export const LogoSection = ({handleHomeClick}: LogoSectionProps) => {
           </span>{' '}
           <span className="xxxxxs:block xxxxs:block xxxs:inline">AMLAN'S</span>
         </span>
-        <span className="xxxxxs:text-xs xxxxs:text-xs xxxs:text-sm xs:text-sm text-gray-600">
+        <span
+          className={`xxxxxs:text-xs xxxxs:text-xs xxxs:text-sm xs:text-sm ${getTextColor()}`}>
           ENT Clinic
         </span>
       </div>

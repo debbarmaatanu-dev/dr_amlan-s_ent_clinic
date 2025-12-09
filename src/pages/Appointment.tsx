@@ -15,6 +15,7 @@ import {PaymentNote} from '@/components/appointmentComponents/PaymentNote';
 import {appStore} from '@/appStore/appStore';
 import {PrivacyPolicyLink} from '@/components/appointmentComponents/PrivacyPolicyLink';
 import {ImportantNotices} from '@/components/appointmentComponents/ImportantNotices';
+import {useTheme} from '@/hooks/useTheme';
 
 export const Appointment = (): React.JSX.Element => {
   const [selectedDate, setSelectedDate] = useState<string>('');
@@ -89,13 +90,12 @@ export const Appointment = (): React.JSX.Element => {
   }, [selectedDate, fetchAvailableSlots]);
 
   useEffect(() => {
-    if (showModal) {
+    if (showModal || showSuccessModal) {
       setMobileNavOpen(true);
     } else {
       setMobileNavOpen(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showModal]);
+  }, [showModal, showSuccessModal]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -245,6 +245,10 @@ export const Appointment = (): React.JSX.Element => {
     }
   };
 
+  const {actualTheme} = useTheme();
+
+  const bgColor = actualTheme === 'light' ? 'bg-white' : 'bg-gray-800';
+
   return (
     <div className="flex min-h-screen flex-col">
       <main
@@ -253,7 +257,8 @@ export const Appointment = (): React.JSX.Element => {
         <section className="w-full max-w-7xl">
           <AppointmentHeader />
 
-          <article className="mx-auto w-full max-w-4xl overflow-hidden rounded-2xl bg-white shadow-xl">
+          <article
+            className={`mx-auto w-full max-w-4xl overflow-hidden rounded-2xl ${bgColor} shadow-xl`}>
             <div className="p-8 md:p-12">
               {/* Error/Success Message */}
               {message && (

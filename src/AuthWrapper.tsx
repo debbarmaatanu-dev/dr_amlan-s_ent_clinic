@@ -12,6 +12,12 @@ export const AuthWrapper = ({
 }): React.JSX.Element => {
   const [loading, setLoading] = useState(true);
   const setUser = appStore(state => state.setUser);
+  const initializeTheme = appStore(state => state.initializeTheme);
+
+  // Initialize theme from cookie on app load
+  useEffect(() => {
+    initializeTheme();
+  }, [initializeTheme]);
 
   useEffect(() => {
     const unsubscribe = onIdTokenChanged(auth, async (user: User | null) => {

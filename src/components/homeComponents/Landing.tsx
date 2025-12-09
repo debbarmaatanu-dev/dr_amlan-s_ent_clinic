@@ -1,3 +1,4 @@
+import {useTheme} from '@/hooks/useTheme';
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {ClipLoader} from 'react-spinners';
@@ -8,6 +9,7 @@ const landingImage =
 export const Landing = (): React.JSX.Element => {
   const navigation = useNavigate();
   const [loading, setLoading] = useState(true);
+  const {actualTheme} = useTheme();
 
   const handleAppointmentPress = () => {
     setTimeout(() => {
@@ -16,9 +18,16 @@ export const Landing = (): React.JSX.Element => {
     }, 250);
   };
 
+  const gradient =
+    actualTheme === 'light'
+      ? 'from-blue-100 via-blue-200 to-green-100'
+      : 'from-blue-900 via-blue-950 to-green-900';
+
+  const textColor = actualTheme === 'light' ? 'text-gray-600' : 'text-gray-200';
+
   return (
     <section
-      className="flex grow items-center justify-center bg-linear-to-br from-blue-100 via-blue-100 to-green-100 px-4 py-6 shadow-xl md:py-12 lg:px-8"
+      className={`flex grow items-center justify-center bg-linear-to-br ${gradient} px-4 py-6 shadow-xl md:py-12 lg:px-8`}
       role="main">
       <div className="h-full w-full">
         <article className="overflow-hidden">
@@ -47,7 +56,8 @@ export const Landing = (): React.JSX.Element => {
               <h1 className="mb-3 cursor-text text-2xl font-bold text-blue-600 md:text-3xl lg:text-4xl">
                 Dr. (Major) Amlan's ENT clinic
               </h1>
-              <p className="mb-15 cursor-text text-base text-gray-600 md:text-lg">
+              <p
+                className={`mb-15 cursor-text text-base ${textColor} md:text-lg`}>
                 MBBS, MS ENT,
                 <br />
                 Ex-Army Medical Corps,

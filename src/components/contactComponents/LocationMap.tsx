@@ -1,10 +1,17 @@
 import React from 'react';
+import {useTheme} from '@/hooks/useTheme';
 
 export const LocationMap: React.FC = () => {
+  const {actualTheme} = useTheme();
+
+  const bgColor = actualTheme === 'light' ? 'bg-white' : 'bg-gray-800';
+  const textColor = actualTheme === 'light' ? 'text-gray-800' : 'text-white';
+
   return (
-    <article className="mt-8 overflow-hidden rounded-2xl bg-white shadow-xl">
+    <article
+      className={`mt-8 overflow-hidden rounded-2xl ${bgColor} shadow-xl`}>
       <div className="p-8 md:p-10">
-        <h2 className="mb-6 text-2xl font-bold text-gray-800">
+        <h2 className={`mb-6 text-2xl font-bold ${textColor}`}>
           Find Us on Map
         </h2>
         <div className="h-96 w-full overflow-hidden rounded-lg">

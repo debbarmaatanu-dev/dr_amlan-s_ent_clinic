@@ -36,6 +36,10 @@
                 {
                     "key": "Permissions-Policy",
                     "value": "geolocation=(), microphone=(), camera=()"
+                },
+                {
+                    "key": "Set-Cookie",
+                    "value": "SameSite=Lax; Secure"
                 }
             ]
         }

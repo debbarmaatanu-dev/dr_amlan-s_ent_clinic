@@ -1,3 +1,5 @@
+import type {ActualTheme} from '@/appStore/themeSlice';
+import {ThemeToggler} from '@/components/ThemeToggler';
 import {type Dispatch, type SetStateAction} from 'react';
 import {useLocation} from 'react-router-dom';
 
@@ -15,13 +17,28 @@ const NAV_ITEMS = [
 ];
 
 // ---------- Shared Helpers ----------
-const useActiveHelpers = () => {
+const useActiveHelpers = (actualTheme: ActualTheme) => {
   const {pathname} = useLocation();
 
-  const active = (path: string) => pathname === path;
+  const active = (path: string) => {
+    // Handle home route special case
+    if (path === '/home') {
+      return pathname === '/home' || pathname === '/';
+    }
+    return pathname === path;
+  };
 
-  const linkClass = (path: string) =>
-    active(path) ? 'text-blue-600 underline' : 'text-gray-700';
+  const linkClass = (path: string) => {
+    if (active(path) && actualTheme === 'light') {
+      return 'text-blue-600 underline';
+    } else if (!active(path) && actualTheme === 'light') {
+      return 'text-gray-700';
+    } else if (active(path) && actualTheme === 'dark') {
+      return 'text-blue-600 underline';
+    } else if (!active(path) && actualTheme === 'dark') {
+      return 'text-gray-200';
+    }
+  };
 
   return {pathname, active, linkClass};
 };
@@ -31,6 +48,7 @@ type NavLinksProps = {
   handleNavClick: (routeName: string) => void;
   isAdmin: boolean;
   setShowLogoutModal: Dispatch<SetStateAction<boolean>>;
+  actualTheme: ActualTheme;
 };
 
 type MobileLinksProps = {
@@ -38,6 +56,7 @@ type MobileLinksProps = {
   isAdmin: boolean;
   setShowLogoutModal: Dispatch<SetStateAction<boolean>>;
   setMenuOpen: Dispatch<SetStateAction<boolean>>;
+  actualTheme: ActualTheme;
 };
 
 // ---------- Desktop Nav ----------
@@ -45,11 +64,14 @@ export const NavLinks = ({
   handleNavClick,
   isAdmin,
   setShowLogoutModal,
+  actualTheme,
 }: NavLinksProps) => {
-  const {linkClass, active} = useActiveHelpers();
+  const {linkClass, active} = useActiveHelpers(actualTheme);
 
   return (
     <div className="xxxs:space-x-6 hidden items-center space-x-4 md:flex">
+      {/* Theme Toggler */}
+      <ThemeToggler />
       {NAV_ITEMS.filter(item => item.label !== 'Admin').map(item => {
         if (item.label !== 'Appointment') {
           return (
@@ -84,9 +106,9 @@ export const NavLinks = ({
       {isAdmin ? (
         <button
           onClick={() => setShowLogoutModal(true)}
-          className="xxxs:text-base cursor-pointer text-sm font-medium text-blue-600 transition-all hover:text-blue-800 hover:underline active:scale-95"
+          className="xxxs:text-base cursor-pointer text-sm font-medium text-white transition-all hover:underline active:scale-95"
           aria-label="Logout button">
-          Logout
+          <span className="rounded-md bg-orange-500 px-2 py-2.5">Logout</span>
         </button>
       ) : (
         <button
@@ -108,8 +130,9 @@ export const MobileLinks = ({
   isAdmin,
   setShowLogoutModal,
   setMenuOpen,
+  actualTheme,
 }: MobileLinksProps) => {
-  const {linkClass, active} = useActiveHelpers();
+  const {linkClass, active} = useActiveHelpers(actualTheme);
 
   const handleMobileNavClick = (routeName: string) => {
     setMenuOpen(false);
@@ -123,6 +146,10 @@ export const MobileLinks = ({
 
   return (
     <div className="mt-8 flex flex-col space-y-4">
+      {/* Theme Toggler */}
+      <div className="flex w-[60%] items-center justify-start">
+        <ThemeToggler />
+      </div>
       {NAV_ITEMS.map(item => {
         if (item.label === 'Appointment') {
           const isActive = active(item.path);
@@ -130,7 +157,7 @@ export const MobileLinks = ({
             <button
               key={item.route}
               onClick={() => handleMobileNavClick(item.route)}
-              className={`cursor-pointer border-b border-gray-200 py-3 pb-5 text-left text-lg font-medium text-white transition-transform duration-180 ease-in-out active:scale-95`}>
+              className={`cursor-pointer border-b border-gray-400 py-3 pb-5 text-left text-lg font-medium text-white transition-transform duration-180 ease-in-out active:scale-95`}>
               <span
                 className={`rounded-md px-2 py-2 ${isActive ? 'bg-purple-700' : 'bg-blue-600'}`}>
                 {item.label}
@@ -142,7 +169,7 @@ export const MobileLinks = ({
             <button
               key={item.route}
               onClick={() => handleMobileNavClick(item.route)}
-              className={`cursor-pointer border-b border-gray-200 py-3 text-left text-lg font-medium ${linkClass(
+              className={`cursor-pointer border-b border-gray-400 py-3 text-left text-lg font-medium ${linkClass(
                 item.path,
               )} transition-transform duration-180 ease-in-out active:scale-95`}>
               {item.label}
@@ -155,13 +182,13 @@ export const MobileLinks = ({
       {isAdmin ? (
         <button
           onClick={handleMobileLogout}
-          className="cursor-pointer border-b border-gray-200 py-3 text-left text-lg font-medium text-blue-600 transition-transform duration-180 ease-in-out active:scale-95">
-          Logout
+          className="cursor-pointer border-b border-gray-400 pt-3 pb-5 text-left text-lg font-medium text-white transition-transform duration-180 ease-in-out active:scale-95">
+          <span className="rounded-md bg-orange-500 px-2 py-2">Logout</span>
         </button>
       ) : (
         <button
           onClick={() => handleMobileNavClick('admin-login')}
-          className={`cursor-pointer border-b border-gray-200 py-3 text-left text-lg font-medium ${linkClass(
+          className={`cursor-pointer border-b border-gray-400 py-3 text-left text-lg font-medium ${linkClass(
             '/admin-login',
           )} transition-transform duration-180 ease-in-out active:scale-95`}>
           Admin

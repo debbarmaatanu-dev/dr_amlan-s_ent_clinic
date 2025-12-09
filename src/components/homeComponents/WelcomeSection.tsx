@@ -1,11 +1,17 @@
+import {useTheme} from '@/hooks/useTheme';
+
 export const WelcomeSection = () => {
+  const {actualTheme} = useTheme();
+  const textHeader = actualTheme === 'light' ? 'text-gray-700' : 'text-white';
+  const textColor = actualTheme === 'light' ? 'text-gray-600' : 'text-gray-200';
   return (
     <section
       className="xs:py-10 py-8 sm:py-12 md:py-14 lg:py-16"
       aria-label="Welcome to the Clinic">
       <div className="xs:px-4 container mx-auto px-3 sm:px-6 md:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-foreground xxxs:text-2xl xs:text-2xl xs:mb-4 mb-3 text-xl font-bold sm:text-3xl md:text-4xl">
+          <h2
+            className={`text-foreground ${textHeader} xxxs:text-2xl xs:text-2xl xs:mb-4 mb-3 text-xl font-bold sm:text-3xl md:text-4xl`}>
             Welcome to Dr (Major) Amlan's ENT Clinic
           </h2>
 
@@ -13,17 +19,18 @@ export const WelcomeSection = () => {
             Expert, patient-focused ENT care
           </p>
 
-          <p className="text-foreground xs:text-base xs:leading-relaxed mb-4 text-justify text-sm leading-relaxed sm:leading-relaxed">
-            We provide comprehensive evaluation and treatment for all ear, nose,
-            and throat conditions, using precise diagnostics and evidence-based
-            management to ensure clear, reliable outcomes.
+          <p
+            className={`text-foreground ${textColor} xs:text-base xs:leading-relaxed mb-4 text-justify text-sm leading-relaxed sm:leading-relaxed`}>
+            Comprehensive evaluation and treatment is provided here for all ear,
+            nose, and throat conditions, using precise diagnostics and
+            evidence-based management to ensure clear, reliable outcomes.
             <br />
             <br />
-            <strong>
+            <span className="font-bold">
               Skin prick test / Serum-specific IgE testing for allergen
               identification and tailored immunotherapy regimens are available
               at the clinic.
-            </strong>
+            </span>
             <br />
             <br />
             First follow up after initial consultation is free within 2 weeks
@@ -34,7 +41,7 @@ export const WelcomeSection = () => {
             Agartala, West Tripura.
             <br />
             <br />
-            <span className="font-bold text-gray-800">
+            <span className="font-bold">
               Consultation fees are exempt for serving and retired Armed Forces
               personnel (Army, Navy, Air Force) and their dependants. A valid
               Service/ESM/Dependant ID must be presented.

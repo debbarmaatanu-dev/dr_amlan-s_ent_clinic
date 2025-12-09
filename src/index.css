@@ -11,6 +11,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Dark mode root variables */
+:root.dark {
+  background-color: #1a1a1a;
+  color-scheme: dark;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -18,6 +24,11 @@ body {
   cursor: default;
   background-image: linear-gradient(120deg, rgb(253, 251, 251) 0%, rgb(235, 237, 238) 100%);
   max-width: 100vw; /* Prevent horizontal scroll without breaking sticky */
+}
+
+/* Dark mode body styles */
+.dark body {
+  background-image: linear-gradient(120deg, rgb(40, 39, 38) 0%, rgb(24, 25, 26) 100%);
 }
 
 html {

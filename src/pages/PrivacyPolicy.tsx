@@ -1,9 +1,18 @@
 import React from 'react';
+import {useTheme} from '@/hooks/useTheme';
 
 const logo =
   'https://res.cloudinary.com/mobeet/image/upload/v1765202950/DrAmlanLogo_2_rzgp2v.png';
 
 export const PrivacyPolicy = (): React.JSX.Element => {
+  const {actualTheme} = useTheme();
+
+  const bgColor = actualTheme === 'light' ? 'bg-white' : 'bg-gray-800';
+  const textColor = actualTheme === 'light' ? 'text-gray-800' : 'text-white';
+  const textSecondary =
+    actualTheme === 'light' ? 'text-gray-600' : 'text-gray-200';
+  const logoBg = actualTheme === 'light' ? 'bg-white' : 'bg-gray-700';
+
   return (
     <div className="flex min-h-screen flex-col">
       <main
@@ -11,27 +20,30 @@ export const PrivacyPolicy = (): React.JSX.Element => {
         role="main">
         <section className="w-full max-w-5xl">
           <header className="flex flex-col items-center justify-center py-5">
-            <div className="mb-6 flex shrink-0 items-center justify-center rounded-full bg-white p-3 shadow-lg">
+            <div
+              className={`mb-6 flex shrink-0 items-center justify-center rounded-full ${logoBg} p-3 shadow-lg`}>
               <img
                 src={logo}
                 alt="Dr Amlan's ENT Clinic Logo"
                 className="h-32 w-32 rounded-full object-cover"
               />
             </div>
-            <h1 className="relative mb-6 inline-block text-4xl font-bold tracking-wide">
+            <h1
+              className={`relative mb-6 inline-block text-4xl font-bold tracking-wide ${textColor}`}>
               Privacy & Policies
               <span className="absolute right-0 -bottom-1 h-1 w-1/2 rounded bg-yellow-400"></span>
             </h1>
           </header>
 
-          <article className="overflow-hidden rounded-2xl bg-white shadow-xl">
+          <article
+            className={`overflow-hidden rounded-2xl ${bgColor} shadow-xl`}>
             <div className="space-y-8 p-8 md:p-12">
               {/* Terms & Conditions */}
               <section>
-                <h2 className="mb-4 text-2xl font-bold text-gray-800">
+                <h2 className={`mb-4 text-2xl font-bold ${textColor}`}>
                   Terms & Conditions
                 </h2>
-                <div className="space-y-4 text-gray-600">
+                <div className={`space-y-4 ${textSecondary}`}>
                   <p>
                     This document is an electronic record in terms of
                     Information Technology Act, 2000 and rules there under as
@@ -51,7 +63,7 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                     carefully before proceeding.
                   </p>
 
-                  <h3 className="mt-6 text-xl font-semibold text-gray-800">
+                  <h3 className={`mt-6 text-xl font-semibold ${textColor}`}>
                     Key Terms
                   </h3>
                   <ul className="list-disc space-y-2 pl-6">
@@ -81,17 +93,17 @@ export const PrivacyPolicy = (): React.JSX.Element => {
 
               {/* Privacy Policy */}
               <section className="border-t pt-8">
-                <h2 className="mb-4 text-2xl font-bold text-gray-800">
+                <h2 className={`mb-4 text-2xl font-bold ${textColor}`}>
                   Privacy Policy
                 </h2>
-                <div className="space-y-4 text-gray-600">
+                <div className={`space-y-4 ${textSecondary}`}>
                   <p>
                     This Privacy Policy describes how Dr. (Major) Amlan Debbarma
                     collects, uses, shares, protects or otherwise processes your
                     information/personal data through our website.
                   </p>
 
-                  <h3 className="mt-6 text-xl font-semibold text-gray-800">
+                  <h3 className={`mt-6 text-xl font-semibold ${textColor}`}>
                     Information Collection
                   </h3>
                   <p>
@@ -113,7 +125,7 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                     </li>
                   </ul>
 
-                  <h3 className="mt-6 text-xl font-semibold text-gray-800">
+                  <h3 className={`mt-6 text-xl font-semibold ${textColor}`}>
                     Information Usage
                   </h3>
                   <p>We use your personal data to:</p>
@@ -130,7 +142,7 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                     </li>
                   </ul>
 
-                  <h3 className="mt-6 text-xl font-semibold text-gray-800">
+                  <h3 className={`mt-6 text-xl font-semibold ${textColor}`}>
                     Data Security
                   </h3>
                   <p>
@@ -141,7 +153,7 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                     completely secure.
                   </p>
 
-                  <h3 className="mt-6 text-xl font-semibold text-gray-800">
+                  <h3 className={`mt-6 text-xl font-semibold ${textColor}`}>
                     Your Rights
                   </h3>
                   <p>
@@ -155,10 +167,10 @@ export const PrivacyPolicy = (): React.JSX.Element => {
 
               {/* Refund and Cancellation Policy */}
               <section className="border-t pt-8">
-                <h2 className="mb-4 text-2xl font-bold text-gray-800">
+                <h2 className={`mb-4 text-2xl font-bold ${textColor}`}>
                   Refund and Cancellation Policy
                 </h2>
-                <div className="space-y-4 text-gray-600">
+                <div className={`space-y-4 ${textSecondary}`}>
                   <div className="rounded-lg bg-red-50 p-4">
                     <p className="font-semibold text-red-800">
                       Important Notice:
@@ -170,7 +182,7 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                     </p>
                   </div>
 
-                  <h3 className="mt-6 text-xl font-semibold text-gray-800">
+                  <h3 className={`mt-6 text-xl font-semibold ${textColor}`}>
                     Policy Details
                   </h3>
                   <ul className="list-disc space-y-2 pl-6">
@@ -209,10 +221,10 @@ export const PrivacyPolicy = (): React.JSX.Element => {
 
               {/* Contact Information */}
               <section className="border-t pt-8">
-                <h2 className="mb-4 text-2xl font-bold text-gray-800">
+                <h2 className={`mb-4 text-2xl font-bold ${textColor}`}>
                   Contact Us
                 </h2>
-                <div className="space-y-2 text-gray-600">
+                <div className={`space-y-2 ${textSecondary}`}>
                   <p>
                     <strong>Dr. (Major) Amlan's ENT Clinic</strong>
                   </p>

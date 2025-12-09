@@ -1,4 +1,5 @@
 import React from 'react';
+import {useTheme} from '@/hooks/useTheme';
 
 interface AlertModalProps {
   isOpen: boolean;
@@ -15,6 +16,8 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   message,
   type = 'error',
 }) => {
+  const {actualTheme} = useTheme();
+
   if (!isOpen) return null;
 
   const getIconAndColor = () => {
@@ -53,6 +56,15 @@ export const AlertModal: React.FC<AlertModalProps> = ({
 
   const {icon, bgColor, iconColor, borderColor} = getIconAndColor();
 
+  const modalBg = actualTheme === 'light' ? 'bg-white' : 'bg-gray-800';
+  const textColor = actualTheme === 'light' ? 'text-gray-800' : 'text-white';
+  const textSecondary =
+    actualTheme === 'light' ? 'text-gray-600' : 'text-gray-200';
+  const closeBtn =
+    actualTheme === 'light'
+      ? 'text-gray-400 hover:text-gray-600'
+      : 'text-gray-500 hover:text-gray-300';
+
   return (
     <div
       className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black p-4"
@@ -61,12 +73,12 @@ export const AlertModal: React.FC<AlertModalProps> = ({
       aria-modal="true"
       aria-labelledby="alert-modal-title">
       <div
-        className="animate-fadeIn relative w-full max-w-md rounded-lg bg-white shadow-2xl"
+        className={`animate-fadeIn relative w-full max-w-md rounded-lg ${modalBg} shadow-2xl`}
         onClick={e => e.stopPropagation()}>
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 text-gray-400 transition-colors hover:text-gray-600"
+          className={`absolute top-3 right-3 ${closeBtn} transition-colors`}
           aria-label="Close modal">
           <i className="fa-solid fa-xmark text-xl"></i>
         </button>
@@ -82,12 +94,12 @@ export const AlertModal: React.FC<AlertModalProps> = ({
           {/* Title */}
           <h2
             id="alert-modal-title"
-            className="mb-3 text-center text-xl font-bold text-gray-800">
+            className={`mb-3 text-center text-xl font-bold ${textColor}`}>
             {title}
           </h2>
 
           {/* Message */}
-          <p className="mb-6 text-center text-gray-600">{message}</p>
+          <p className={`mb-6 text-center ${textSecondary}`}>{message}</p>
 
           {/* Button */}
           <button
