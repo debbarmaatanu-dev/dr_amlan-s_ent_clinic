@@ -10,12 +10,23 @@ export const PaymentNote: React.FC = () => {
   const textColor = actualTheme === 'light' ? 'text-gray-700' : 'text-gray-200';
 
   return (
-    <div className={`mt-6 rounded-lg border ${borderColor} ${bgColor} p-4`}>
+    <aside
+      className={`mt-6 rounded-lg border ${borderColor} ${bgColor} p-4`}
+      role="note"
+      aria-labelledby="payment-info-heading">
+      <h3 id="payment-info-heading" className="sr-only">
+        Payment Information
+      </h3>
       <p className={`text-sm ${textColor}`}>
-        <i className="fa-solid fa-credit-card mr-2 text-blue-600"></i>
-        <strong>Online Payment:</strong> Secure payment of ₹400 via Razorpay
-        (UPI, Card, NetBanking, Wallet)
+        <i
+          className="fa-solid fa-credit-card mr-2 text-blue-600"
+          aria-hidden="true"></i>
+        <strong>Secure Online Payment:</strong> ₹400 consultation fee via
+        PhonePe
+        <span className="mt-1 block text-xs opacity-75">
+          Accepted methods: UPI, Debit/Credit Card, NetBanking, Digital Wallet
+        </span>
       </p>
-    </div>
+    </aside>
   );
 };

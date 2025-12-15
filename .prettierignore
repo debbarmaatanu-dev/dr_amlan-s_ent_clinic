@@ -4,4 +4,3 @@ index.html
 build/
 tailwind.config.ts
 src/index.css
-eslint.config.ts

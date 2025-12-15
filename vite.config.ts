@@ -11,4 +11,12 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    // Use esbuild for minification (faster than terser)
+    minify: 'esbuild',
+  },
+  esbuild: {
+    // Remove console logs in production build
+    drop: ['console', 'debugger'],
+  },
 });

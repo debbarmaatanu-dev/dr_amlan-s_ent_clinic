@@ -56,7 +56,7 @@ export const handleAdminGoogleLogin = async (
     }, 2000);
   } catch (error: unknown) {
     setLoading(false);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     setError('❌ Google login failed: ' + (error as any).message);
   }
 };

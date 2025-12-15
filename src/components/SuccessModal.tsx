@@ -2,22 +2,13 @@ import React from 'react';
 import {BookingReceipt} from './BookingReceipt';
 import {generateBookingReceiptPDF} from '@/utils/pdfGenerator';
 import {useTheme} from '@/hooks/useTheme';
+import {appStore} from '@/appStore/appStore';
+import type {PaymentBookingData} from '../types/types';
 
 interface SuccessModalProps {
   isOpen: boolean;
   onClose: () => void;
-  bookingData: {
-    slotNumber: number;
-    date: string;
-    name: string;
-    gender: string;
-    age: number;
-    phone: string;
-    amount: number;
-    paymentId: string;
-    orderId: string;
-    paymentMethod?: string;
-  };
+  bookingData: PaymentBookingData;
 }
 
 export const SuccessModal: React.FC<SuccessModalProps> = ({
@@ -27,6 +18,16 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
 }) => {
   const [isDownloading, setIsDownloading] = React.useState(false);
   const {actualTheme} = useTheme();
+  const setMobileNavOpen = appStore(state => state.setMobileNavOpen);
+
+  // Hide floating icons when modal is open
+  React.useEffect(() => {
+    if (isOpen) {
+      setMobileNavOpen(true);
+    } else {
+      setMobileNavOpen(false);
+    }
+  }, [isOpen, setMobileNavOpen]);
 
   if (!isOpen) return null;
 

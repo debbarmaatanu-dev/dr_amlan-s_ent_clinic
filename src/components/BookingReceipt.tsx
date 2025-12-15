@@ -1,18 +1,8 @@
 import React from 'react';
+import type {PaymentBookingData} from '../types/types';
 
 interface BookingReceiptProps {
-  bookingData: {
-    slotNumber: number;
-    date: string;
-    name: string;
-    gender: string;
-    age: number;
-    phone: string;
-    amount: number;
-    paymentId: string;
-    orderId: string;
-    paymentMethod?: string;
-  };
+  bookingData: PaymentBookingData;
 }
 
 export const BookingReceipt: React.FC<BookingReceiptProps> = ({

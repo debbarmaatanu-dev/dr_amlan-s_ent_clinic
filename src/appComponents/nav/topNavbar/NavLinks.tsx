@@ -47,6 +47,7 @@ const useActiveHelpers = (actualTheme: ActualTheme) => {
 type NavLinksProps = {
   handleNavClick: (routeName: string) => void;
   isAdmin: boolean;
+  authInitialized: boolean;
   setShowLogoutModal: Dispatch<SetStateAction<boolean>>;
   actualTheme: ActualTheme;
 };
@@ -54,6 +55,7 @@ type NavLinksProps = {
 type MobileLinksProps = {
   handleNavClick: (routeName: string) => void;
   isAdmin: boolean;
+  authInitialized: boolean;
   setShowLogoutModal: Dispatch<SetStateAction<boolean>>;
   setMenuOpen: Dispatch<SetStateAction<boolean>>;
   actualTheme: ActualTheme;
@@ -63,6 +65,7 @@ type MobileLinksProps = {
 export const NavLinks = ({
   handleNavClick,
   isAdmin,
+  authInitialized,
   setShowLogoutModal,
   actualTheme,
 }: NavLinksProps) => {
@@ -103,7 +106,12 @@ export const NavLinks = ({
       })}
 
       {/* Admin / Logout */}
-      {isAdmin ? (
+      {!authInitialized ? (
+        // Show subtle loading indicator only for admin section
+        <div className="flex items-center">
+          <div className="h-2 w-2 animate-pulse rounded-full bg-gray-400"></div>
+        </div>
+      ) : isAdmin ? (
         <button
           onClick={() => setShowLogoutModal(true)}
           className="xxxs:text-base cursor-pointer text-sm font-medium text-white transition-all hover:underline active:scale-95"
@@ -128,6 +136,7 @@ export const NavLinks = ({
 export const MobileLinks = ({
   handleNavClick,
   isAdmin,
+  authInitialized,
   setShowLogoutModal,
   setMenuOpen,
   actualTheme,
@@ -179,7 +188,13 @@ export const MobileLinks = ({
       })}
 
       {/* Admin / Logout */}
-      {isAdmin ? (
+      {!authInitialized ? (
+        // Show subtle loading indicator only for admin section
+        <div className="flex items-center border-b border-gray-400 py-3">
+          <div className="h-2 w-2 animate-pulse rounded-full bg-gray-400"></div>
+          <span className="ml-2 text-sm text-gray-400">Loading...</span>
+        </div>
+      ) : isAdmin ? (
         <button
           onClick={handleMobileLogout}
           className="cursor-pointer border-b border-gray-400 pt-3 pb-5 text-left text-lg font-medium text-white transition-transform duration-180 ease-in-out active:scale-95">

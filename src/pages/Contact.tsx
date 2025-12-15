@@ -3,8 +3,12 @@ import {ContactHeader} from '@/components/contactComponents/ContactHeader';
 import {ContactInfo} from '@/components/contactComponents/ContactInfo';
 import {ContactForm} from '@/components/contactComponents/ContactForm';
 import {LocationMap} from '@/components/contactComponents/LocationMap';
+import {useSEO} from '@/hooks/useSEO';
 
 export const Contact = (): React.JSX.Element => {
+  // SEO optimization for contact page
+  useSEO();
+
   return (
     <div className="flex min-h-screen flex-col">
       <main

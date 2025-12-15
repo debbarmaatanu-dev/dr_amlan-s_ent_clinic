@@ -30,7 +30,7 @@ export default function AdminLoginForm({
   ];
 
   const handleGoogleLogin = (e: MouseEvent<HTMLButtonElement>) => {
-    handleAdminGoogleLogin(
+    void handleAdminGoogleLogin(
       e,
       allowedAdminEmails,
       setError,

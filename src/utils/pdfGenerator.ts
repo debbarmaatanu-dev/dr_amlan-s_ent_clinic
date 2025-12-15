@@ -1,15 +1,10 @@
 import {toJpeg} from 'html-to-image';
 import jsPDF from 'jspdf';
-
-interface BookingData {
-  slotNumber: number;
-  date: string;
-  name: string;
-  phone: string;
-}
+import type {PDFBookingData} from '../types/types';
+import {logger} from './logger';
 
 export const generateBookingReceiptPDF = async (
-  bookingData: BookingData,
+  bookingData: PDFBookingData,
 ): Promise<void> => {
   const receiptElement = document.getElementById('booking-receipt');
 
@@ -81,7 +76,7 @@ export const generateBookingReceiptPDF = async (
     const fileName = `Appointment_Receipt_${bookingData.name.replace(/\s+/g, '_')}_Slot${bookingData.slotNumber}_${bookingData.date}.pdf`;
     pdf.save(fileName);
 
-    console.log('Receipt PDF downloaded successfully!');
+    logger.log('Receipt PDF downloaded successfully!');
   } catch (error) {
     console.error('Error generating PDF:', error);
     alert('Failed to generate PDF. Please try again.');

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {ClipLoader} from 'react-spinners';
 import {useTheme} from '@/hooks/useTheme';
+import {useSEO} from '@/hooks/useSEO';
 
 const landingImage =
   'https://res.cloudinary.com/mobeet/image/upload/v1764923599/IMG_20251203_101518842_HDR_PORTRAIT_2_1_hyhvhd.jpg';
@@ -8,6 +9,9 @@ const landingImage =
 export const About = (): React.JSX.Element => {
   const [loading, setLoading] = useState(true);
   const {actualTheme} = useTheme();
+
+  // SEO optimization for about page
+  useSEO();
 
   const bgColor = actualTheme === 'light' ? 'bg-white' : 'bg-gray-800';
   const textColor = actualTheme === 'light' ? 'text-gray-800' : 'text-white';
@@ -66,13 +70,13 @@ export const About = (): React.JSX.Element => {
                 </p>
                 <p
                   className={`mb-6 cursor-text text-base ${textSecondary} md:text-lg`}>
-                  Dr. Debbarma is a board-certified otolaryngologist
-                  specializing in sinus disorders, endoscopic nasal surgery,
-                  adenotonsillectomy, Head & neck surgeries, Endoscopic and
-                  microscopic ear surgeries,vertigo,allergy treatment and sleep
-                  apnea treatment. He has a wide range of experience and served
-                  in the Army Medical Corps and performed combat duties and also
-                  treated troops to keep them fighting fit in counter terrorism
+                  Dr. Debbarma is a otolaryngologist specializing in sinus
+                  disorders, endoscopic nasal surgery, adenotonsillectomy, Head
+                  & neck surgeries, Endoscopic and microscopic ear
+                  surgeries,vertigo,allergy treatment and sleep apnea treatment.
+                  He has a wide range of experience and served in the Army
+                  Medical Corps and performed combat duties and also treated
+                  troops to keep them fighting fit in counter terrorism
                   operations in J&K as well as in the Siachen Glacier which is
                   known as the highest battlefield in the world. Presently
                   working as an ENT Surgeon at Tripura Medical College and he is

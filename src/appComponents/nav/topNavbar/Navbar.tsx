@@ -21,6 +21,7 @@ const getBGColor = (actualTheme: ActualTheme) => {
 export const NavBar = () => {
   const navigation = useNavigate();
   const user = appStore(state => state.user);
+  const authInitialized = appStore(state => state.authInitialized);
   const setMobileNavOpen = appStore(state => state.setMobileNavOpen);
   const {actualTheme} = useTheme();
 
@@ -28,11 +29,18 @@ export const NavBar = () => {
     import.meta.env.VITE_FIREBASE_ADMIN_EMAIL1,
     import.meta.env.VITE_FIREBASE_ADMIN_EMAIL2,
   ];
-  const isAdmin = allowedAdminEmails.includes(user?.email || '');
+
+  // Check if user is admin, but default to false during initial load
+  const isAdmin = user ? allowedAdminEmails.includes(user.email || '') : false;
 
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [showLogoutModal, setShowLogoutModal] = useState<boolean>(false);
   const [now, setNow] = useState(new Date());
+
+  // Use clinic status from global store
+  const clinicStatus = appStore(state => state.clinicStatus);
+  const clinicStatusLoaded = appStore(state => state.clinicStatusLoaded);
+  const fetchClinicStatus = appStore(state => state.fetchClinicStatus);
 
   useEffect(() => {
     if (menuOpen) {
@@ -40,6 +48,7 @@ export const NavBar = () => {
     } else {
       setMobileNavOpen(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [menuOpen]);
 
   const handleHomeClick = () => {
@@ -48,7 +57,7 @@ export const NavBar = () => {
       window.location.pathname !== '/'
     ) {
       setTimeout(() => {
-        navigation('/home');
+        void navigation('/home');
         scrollTo(0, 0);
       }, 250);
     }
@@ -56,7 +65,7 @@ export const NavBar = () => {
 
   const handleNavClick = (routeName: string) => {
     setTimeout(() => {
-      navigation('/' + routeName);
+      void navigation('/' + routeName);
       scrollTo(0, 0);
     }, 250);
   };
@@ -109,56 +118,131 @@ export const NavBar = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+  // 3) fetch clinic status from global store
+  useEffect(() => {
+    if (!clinicStatusLoaded) {
+      void fetchClinicStatus();
+    }
 
-  // 6:00pm = 1080
-  // 8:30pm = 1230
-  const isOpen = currentMinutes >= 1080 && currentMinutes <= 1230;
+    // Set up interval to refresh clinic status every 5 minutes
+    const statusInterval = setInterval(
+      () => {
+        void fetchClinicStatus();
+      },
+      5 * 60 * 1000,
+    );
+
+    return () => {
+      clearInterval(statusInterval);
+    };
+  }, [clinicStatusLoaded]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const currentMinutes = now.getHours() * 60 + now.getMinutes();
   const isSunday = now.getDay() === 0;
 
-  const bgColor = isOpen ? `bg-[#22B0E6]` : `bg-orange-500/90`;
+  // Determine clinic status
+  let isOpen = false;
+  let isManuallyOverridden = false;
+
+  if (clinicStatus?.isManuallyOverridden) {
+    // Admin has manually overridden the schedule
+    isManuallyOverridden = true;
+    isOpen = false;
+  } else if (isSunday) {
+    // Default Sunday closure
+    isOpen = false;
+  } else {
+    // Default schedule: 6:00pm = 1080, 8:30pm = 1230
+    isOpen = currentMinutes >= 1080 && currentMinutes <= 1230;
+  }
+
+  const bgColor = isOpen
+    ? `bg-[#22B0E6]`
+    : isManuallyOverridden
+      ? `bg-red-500/90`
+      : `bg-orange-500/90`;
 
   return (
     <>
-      {/* Top Non sitcky Container */}
-      <section className={`text-md ${bgColor} py-2 text-white`}>
+      {/* Top Information Banner */}
+      <header className={`text-md ${bgColor} py-2 text-white`} role="banner">
         <div className="container mx-auto flex flex-col flex-wrap items-center justify-between gap-2 px-4 text-sm sm:flex-row sm:gap-0">
-          <div className="flex items-center gap-4">
-            <a
-              href="tel:+918258839231"
-              className="flex items-center gap-2 transition-opacity hover:opacity-80"
-              aria-label="Call us at +91 8258839231">
-              <i className="fa-solid fa-phone h-3 w-3" aria-hidden="true"></i>
-              <span className="xs:inline hidden">Call:</span>
-              <span className="font-semibold">+91 8258839231</span>
-            </a>
-          </div>
-          <div className="flex items-center gap-2" aria-label="Opening hours">
-            <div className={styles.clockIcon}>
-              <div className={`${styles.hand} ${styles.hourHand}`}></div>
-              <div className={`${styles.hand} ${styles.minuteHand}`}></div>
+          <section aria-labelledby="contact-info">
+            <h2 id="contact-info" className="sr-only">
+              Contact Information
+            </h2>
+            <div className="flex items-center gap-4">
+              <a
+                href="tel:+918258839231"
+                className="flex items-center gap-2 transition-opacity hover:opacity-80 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 focus:outline-none"
+                aria-label="Call us at +91 8258839231">
+                <i className="fa-solid fa-phone h-3 w-3" aria-hidden="true"></i>
+                <span className="xs:inline hidden">Call:</span>
+                <span className="font-semibold">+91 8258839231</span>
+              </a>
             </div>
+          </section>
 
-            {isSunday ? (
-              <>
-                <span className="text-md font-bold">Closed on Sundays</span>
-              </>
-            ) : isOpen ? (
-              <>
-                <span className="text-md font-semibold">Open:</span>
-                <span className="font-semibold">6:00pm- 8:30pm</span>
-              </>
-            ) : (
-              <>
-                <span className="text-md font-bold">
-                  Closed Right now. Opens:
+          <section aria-labelledby="clinic-hours">
+            <h2 id="clinic-hours" className="sr-only">
+              Clinic Hours and Status
+            </h2>
+            <div className="flex items-center gap-2">
+              <div className={styles.clockIcon} aria-hidden="true">
+                <div className={`${styles.hand} ${styles.hourHand}`}></div>
+                <div className={`${styles.hand} ${styles.minuteHand}`}></div>
+              </div>
+
+              {isManuallyOverridden ? (
+                <div className="flex flex-col items-center gap-1 sm:flex-row sm:gap-2">
+                  <span
+                    className="text-md font-bold"
+                    role="status"
+                    aria-live="polite">
+                    <i className="fa-solid fa-ban mr-1" aria-hidden="true"></i>
+                    Temporarily Closed
+                  </span>
+                  {clinicStatus?.closedTill ? (
+                    <span className="text-xs font-medium">
+                      Until{' '}
+                      {new Date(
+                        clinicStatus.closedTill + 'T00:00:00',
+                      ).toLocaleDateString('en-IN', {
+                        day: 'numeric',
+                        month: 'short',
+                      })}
+                    </span>
+                  ) : (
+                    <span className="text-xs font-medium">
+                      Until further notice
+                    </span>
+                  )}
+                </div>
+              ) : isSunday ? (
+                <span
+                  className="text-md font-bold"
+                  role="status"
+                  aria-live="polite">
+                  Closed on Sundays
                 </span>
-                <span className="font-semibold">6:00pm</span>
-              </>
-            )}
-          </div>
+              ) : isOpen ? (
+                <div role="status" aria-live="polite">
+                  <span className="text-md font-semibold">Open:</span>
+                  <span className="font-semibold">6:00pm - 8:30pm</span>
+                </div>
+              ) : (
+                <div role="status" aria-live="polite">
+                  <span className="text-md font-bold">
+                    Closed Right now. Opens:
+                  </span>
+                  <span className="font-semibold"> 6:00pm</span>
+                </div>
+              )}
+            </div>
+          </section>
         </div>
-      </section>
+      </header>
+
       <nav
         className={`sticky top-0 z-50 w-full max-w-screen overflow-x-hidden ${getBGColor(actualTheme)}`}
         role="navigation"
@@ -177,7 +261,8 @@ export const NavBar = () => {
               <button
                 aria-label="Open navigation menu"
                 aria-expanded={menuOpen}
-                className={`${actualTheme === 'dark' ? 'text-gray-200' : 'text-gray-700'} transition-transform duration-180 ease-in-out focus:outline-none active:scale-95 md:hidden`}
+                aria-controls="mobile-menu"
+                className={`${actualTheme === 'dark' ? 'text-gray-200' : 'text-gray-700'} transition-transform duration-180 ease-in-out focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none active:scale-95 md:hidden`}
                 onClick={() => {
                   setTimeout(() => {
                     setMenuOpen(true);
@@ -190,6 +275,7 @@ export const NavBar = () => {
               <NavLinks
                 handleNavClick={handleNavClick}
                 isAdmin={isAdmin}
+                authInitialized={authInitialized}
                 setShowLogoutModal={setShowLogoutModal}
                 actualTheme={actualTheme}
               />
@@ -204,6 +290,7 @@ export const NavBar = () => {
           setMenuOpen={setMenuOpen}
           handleNavClick={handleNavClick}
           isAdmin={isAdmin}
+          authInitialized={authInitialized}
           setShowLogoutModal={setShowLogoutModal}
           actualTheme={actualTheme}
         />

@@ -1,0 +1,44 @@
+# Robots.txt for Dr. (Major) Amlan Debbarma ENT Clinic
+# https://www.dr-major-amlan-ent.in/
+
+User-agent: *
+Allow: /
+
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# Disallow admin and private areas
+Disallow: /admin-login
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/
+
+# Allow important pages for SEO
+Allow: /
+Allow: /home
+Allow: /about
+Allow: /contact
+Allow: /appointment
+Allow: /privacy-policy
+
+# Sitemap location
+Sitemap: https://www.dr-major-amlan-ent.in/sitemap.xml
+
+# Crawl delay (be respectful to server resources)
+Crawl-delay: 1

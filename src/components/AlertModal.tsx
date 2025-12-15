@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useTheme} from '@/hooks/useTheme';
+import {appStore} from '@/appStore/appStore';
 
 interface AlertModalProps {
   isOpen: boolean;
@@ -17,6 +18,16 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   type = 'error',
 }) => {
   const {actualTheme} = useTheme();
+  const setMobileNavOpen = appStore(state => state.setMobileNavOpen);
+
+  // Hide floating icons when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      setMobileNavOpen(true);
+    } else {
+      setMobileNavOpen(false);
+    }
+  }, [isOpen, setMobileNavOpen]);
 
   if (!isOpen) return null;
 

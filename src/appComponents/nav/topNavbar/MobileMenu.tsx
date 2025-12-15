@@ -6,6 +6,7 @@ type MobileMenuProps = {
   setMenuOpen: Dispatch<SetStateAction<boolean>>;
   handleNavClick: (routeName: string) => void;
   isAdmin: boolean;
+  authInitialized: boolean;
   setShowLogoutModal: Dispatch<SetStateAction<boolean>>;
   actualTheme: ActualTheme;
 };
@@ -14,6 +15,7 @@ export const MobileMenu = ({
   setMenuOpen,
   handleNavClick,
   isAdmin,
+  authInitialized,
   setShowLogoutModal,
   actualTheme,
 }: MobileMenuProps) => {
@@ -73,6 +75,7 @@ export const MobileMenu = ({
           setMenuOpen={setMenuOpen}
           handleNavClick={handleNavClick}
           isAdmin={isAdmin}
+          authInitialized={authInitialized}
           setShowLogoutModal={setShowLogoutModal}
           actualTheme={actualTheme}
         />

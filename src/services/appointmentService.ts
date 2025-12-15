@@ -1,35 +1,16 @@
 import {db} from './firebase';
 import {doc, getDoc} from 'firebase/firestore';
+import type {
+  DayBookings,
+  CachedSlots,
+  DateValidationResult,
+  BookingAvailabilityResult,
+  PaymentInitiationResponse,
+} from '../types/types';
+import {logger} from '../utils/logger';
 
-export interface BookingData {
-  slotNumber: number;
-  name: string;
-  gender: string;
-  age: number;
-  phone: string;
-  timestamp: string;
-}
-
-export interface PaymentBookingData {
-  slotNumber: number;
-  date: string;
-  name: string;
-  gender: string;
-  age: number;
-  phone: string;
-  amount: number;
-  paymentId: string;
-  orderId: string;
-}
-
-interface DayBookings {
-  bookings: BookingData[];
-}
-
-interface CachedSlots {
-  slots: number;
-  timestamp: number;
-}
+// Re-export types for backward compatibility
+export type {PaymentBookingData, BookingData} from '../types/types';
 
 // Client-side cache for slot availability (30 second TTL)
 const slotsCache = new Map<string, CachedSlots>();
@@ -91,13 +72,13 @@ export const checkAvailableSlots = async (
 
       if (cached && now - cached.timestamp < CACHE_TTL) {
         // Cache hit - return cached value
-        console.log(`[Cache HIT] Using cached slots for ${dateString}`);
+        logger.log(`[Cache HIT] Using cached slots for ${dateString}`);
         return cached.slots;
       }
     }
 
     // Cache miss or expired - fetch from Firestore
-    console.log(`[Cache MISS] Fetching slots from Firestore for ${dateString}`);
+    logger.log(`[Cache MISS] Fetching slots from Firestore for ${dateString}`);
     const docId = formatDateToDocId(dateString);
     const docRef = doc(db, 'appointment_bookings', docId);
     const docSnap = await getDoc(docRef);
@@ -131,7 +112,7 @@ export const checkAvailableSlots = async (
  */
 export const validateDateConstraints = (
   dateString: string,
-): {isValid: boolean; error?: string} => {
+): DateValidationResult => {
   const selectedDate = new Date(dateString + 'T00:00:00');
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -190,7 +171,7 @@ export const validateDateConstraints = (
  */
 export const validateBookingAvailability = async (
   dateString: string,
-): Promise<{isAvailable: boolean; availableSlots: number; error?: string}> => {
+): Promise<BookingAvailabilityResult> => {
   try {
     // First validate date constraints
     const dateValidation = validateDateConstraints(dateString);
@@ -227,7 +208,7 @@ export const validateBookingAvailability = async (
 };
 
 /**
- * Initiate payment via backend and open Razorpay checkout
+ * Initiate payment via backend using PhonePe (redirect approach)
  */
 export const initiatePayment = async (
   date: string,
@@ -235,11 +216,7 @@ export const initiatePayment = async (
   gender: string,
   age: number,
   phone: string,
-): Promise<{
-  success: boolean;
-  error?: string;
-  bookingData?: PaymentBookingData;
-}> => {
+): Promise<PaymentInitiationResponse> => {
   try {
     // Step 1: Create payment order on backend
     const response = await fetch(
@@ -252,85 +229,35 @@ export const initiatePayment = async (
     );
 
     const data = await response.json();
+    logger.log('Backend response:', data);
 
     if (!data.success) {
+      // Handle geolocation restriction specifically
+      if (data.code === 'GEO_RESTRICTED') {
+        return {
+          success: false,
+          error:
+            'This service is only available in India. Please contact us if you believe this is an error.',
+        };
+      }
+
+      // Handle clinic closed by admin
+      if (data.code === 'CLINIC_CLOSED') {
+        return {
+          success: false,
+          error: data.error || 'Clinic bookings are temporarily closed.',
+        };
+      }
+
       return {success: false, error: data.error};
     }
 
-    // Step 2: Open Razorpay checkout modal
-    return new Promise(resolve => {
-      const options = {
-        key: data.razorpayKeyId,
-        amount: data.amount,
-        currency: data.currency,
-        order_id: data.orderId,
-        name: "Dr. (Major) Amlan's ENT Clinic",
-        description: 'Appointment Booking Fee',
-        prefill: {
-          name: name,
-          contact: phone,
-        },
-        theme: {
-          color: '#3B82F6',
-        },
-        handler: async function (response: {
-          razorpay_order_id: string;
-          razorpay_payment_id: string;
-          razorpay_signature: string;
-        }) {
-          // Step 3: Payment successful - verify on backend
-          try {
-            const verifyResponse = await fetch(
-              `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/verify`,
-              {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                  razorpay_order_id: response.razorpay_order_id,
-                  razorpay_payment_id: response.razorpay_payment_id,
-                  razorpay_signature: response.razorpay_signature,
-                }),
-              },
-            );
+    // Step 2: Redirect to PhonePe payment page
+    logger.log('Redirecting to PhonePe:', data.redirectUrl);
+    window.location.href = data.redirectUrl;
 
-            const verifyData = await verifyResponse.json();
-
-            if (verifyData.success) {
-              resolve({
-                success: true,
-                bookingData: {
-                  slotNumber: verifyData.slotNumber,
-                  date: verifyData.date,
-                  name: verifyData.name,
-                  gender: gender,
-                  age: age,
-                  phone: phone,
-                  amount: 400,
-                  paymentId: response.razorpay_payment_id,
-                  orderId: response.razorpay_order_id,
-                },
-              });
-            } else {
-              resolve({success: false, error: verifyData.error});
-            }
-          } catch {
-            resolve({success: false, error: 'Payment verification failed'});
-          }
-        },
-        modal: {
-          ondismiss: function () {
-            resolve({success: false, error: 'Payment cancelled by user'});
-          },
-        },
-      };
-
-      const razorpay = new (
-        window as unknown as {
-          Razorpay: new (options: unknown) => {open: () => void};
-        }
-      ).Razorpay(options);
-      razorpay.open();
-    });
+    // This won't be reached due to redirect, but needed for TypeScript
+    return {success: true};
   } catch (error) {
     console.error('Payment initiation error:', error);
     return {success: false, error: 'Failed to initiate payment'};

@@ -1,6 +1,7 @@
 import type {ReactNode} from 'react';
 import {appStore} from '../appStore/appStore';
 import {Navigate} from 'react-router-dom';
+import React from 'react';
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -13,5 +14,6 @@ export const ProtectedRoute = ({children}: ProtectedRouteProps) => {
     return <Navigate to={'/home'} replace />;
   }
 
-  return <>{children}</>;
+  // eslint-disable-next-line react/jsx-no-useless-fragment
+  return <React.Fragment>{children}</React.Fragment>;
 };

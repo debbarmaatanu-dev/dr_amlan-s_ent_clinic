@@ -4,10 +4,12 @@ import {
   validateBookingAvailability,
   validateDateConstraints,
   initiatePayment,
-  type PaymentBookingData,
 } from '@/services/appointmentService';
+import type {PaymentBookingData} from '@/types/types';
 import {AlertModal} from '@/components/AlertModal';
 import {SuccessModal} from '@/components/SuccessModal';
+import {useSEO} from '@/hooks/useSEO';
+
 import {AppointmentHeader} from '@/components/appointmentComponents/AppointmentHeader';
 import {SlotAvailability} from '@/components/appointmentComponents/SlotAvailability';
 import {AppointmentForm} from '@/components/appointmentComponents/AppointmentForm';
@@ -15,7 +17,11 @@ import {PaymentNote} from '@/components/appointmentComponents/PaymentNote';
 import {appStore} from '@/appStore/appStore';
 import {PrivacyPolicyLink} from '@/components/appointmentComponents/PrivacyPolicyLink';
 import {ImportantNotices} from '@/components/appointmentComponents/ImportantNotices';
+import {SearchAppointmentModal} from '@/components/SearchAppointmentModal';
+import {AdminDownloadModal} from '@/components/AdminDownloadModal';
+import {AdminControlModal} from '@/components/AdminControlModal';
 import {useTheme} from '@/hooks/useTheme';
+import {useClinicStatus} from '@/hooks/useClinicStatus';
 
 export const Appointment = (): React.JSX.Element => {
   const [selectedDate, setSelectedDate] = useState<string>('');
@@ -40,6 +46,18 @@ export const Appointment = (): React.JSX.Element => {
   const [bookingData, setBookingData] = useState<PaymentBookingData | null>(
     null,
   );
+  const [showSearchModal, setShowSearchModal] = useState<boolean>(false);
+  const [showAdminModal, setShowAdminModal] = useState<boolean>(false);
+  const [showControlModal, setShowControlModal] = useState<boolean>(false);
+
+  // SEO optimization for appointment page
+  useSEO();
+
+  // Get user from store for admin check
+  const user = appStore(state => state.user);
+
+  // Get clinic status (fetched by Navbar - always mounted)
+  const {isClinicClosed, clinicStatus} = useClinicStatus();
 
   // Get today's date in YYYY-MM-DD format for min date
   const today = new Date().toISOString().split('T')[0];
@@ -48,6 +66,81 @@ export const Appointment = (): React.JSX.Element => {
   const maxDate = new Date();
   maxDate.setDate(maxDate.getDate() + 10);
   const maxDateString = maxDate.toISOString().split('T')[0];
+
+  // Check for payment callback on page load
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const paymentStatus = urlParams.get('payment');
+    const transactionId = urlParams.get('transaction_id');
+
+    if (paymentStatus === 'callback' && transactionId) {
+      // Handle PhonePe callback
+      void handlePaymentCallback(transactionId);
+
+      // Clean up URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Handle PhonePe payment callback
+  const handlePaymentCallback = async (transactionId: string) => {
+    setLoading(true);
+
+    try {
+      // Check payment status using transaction ID
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/status-by-transaction/${transactionId}`,
+        {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        },
+      );
+
+      const data = await response.json();
+
+      if (data.success && data.status === 'SUCCESS') {
+        // Payment successful - create booking data for receipt display
+        const bookingData: PaymentBookingData = {
+          slotNumber: data.slotNumber,
+          date: data.date,
+          name: data.name,
+          gender: data.bookingData.gender,
+          age: data.bookingData.age,
+          phone: data.bookingData.phone,
+          amount: 400,
+          paymentId: transactionId,
+          orderId: transactionId,
+        };
+
+        setBookingData(bookingData);
+        setShowSuccessModal(true);
+
+        // Refresh slots for the booking date
+        await fetchAvailableSlots(data.date, true);
+      } else {
+        // Payment failed
+        setModalContent({
+          title: 'Payment Failed',
+          message:
+            data.error || 'Payment was not successful. Please try again.',
+          type: 'error',
+        });
+        setShowModal(true);
+      }
+    } catch (error) {
+      console.error('Error checking payment callback:', error);
+      setModalContent({
+        title: 'Payment Error',
+        message:
+          'Unable to verify payment status. Please contact support if money was deducted.',
+        type: 'error',
+      });
+      setShowModal(true);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchAvailableSlots = useCallback(
     async (dateString: string, forceRefresh = false) => {
@@ -64,6 +157,8 @@ export const Appointment = (): React.JSX.Element => {
     },
     [],
   );
+
+  // URL parameter handling is done in useEffect above for redirect flow
 
   // Validate and check available slots when date changes
   useEffect(() => {
@@ -85,7 +180,7 @@ export const Appointment = (): React.JSX.Element => {
       }
 
       // If valid, fetch available slots
-      fetchAvailableSlots(selectedDate);
+      void fetchAvailableSlots(selectedDate);
     }
   }, [selectedDate, fetchAvailableSlots]);
 
@@ -95,10 +190,31 @@ export const Appointment = (): React.JSX.Element => {
     } else {
       setMobileNavOpen(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showModal, showSuccessModal]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Check if clinic is manually closed first
+    if (isClinicClosed) {
+      const errorMessage =
+        clinicStatus?.displayMessage ||
+        'Clinic is temporarily closed for online bookings. Please contact us for urgent consultations.';
+
+      setModalContent({
+        title: 'Clinic Temporarily Closed',
+        message: errorMessage,
+        type: 'error',
+      });
+      setShowModal(true);
+
+      setMessage({
+        type: 'error',
+        text: 'Clinic is temporarily closed for online bookings.',
+      });
+      return;
+    }
 
     // Validation
     if (!selectedDate || !name.trim() || !gender || !age || !phone.trim()) {
@@ -181,7 +297,7 @@ export const Appointment = (): React.JSX.Element => {
         return;
       }
 
-      // Step 2: Initiate payment and booking
+      // Step 2: Initiate payment (will redirect to PhonePe)
       const result = await initiatePayment(
         selectedDate,
         name,
@@ -190,28 +306,14 @@ export const Appointment = (): React.JSX.Element => {
         phone,
       );
 
-      if (result.success && result.bookingData) {
-        // Show success modal with receipt
-        setBookingData(result.bookingData);
-        setShowSuccessModal(true);
-
-        // Reset form
-        setName('');
-        setGender('');
-        setAge('');
-        setPhone('');
-        const currentDate = selectedDate;
-        setSelectedDate('');
-
-        // Refresh available slots with force refresh (bypass cache)
-        await fetchAvailableSlots(currentDate, true);
-      } else {
+      // If we reach here, there was an error (redirect should have happened)
+      if (!result.success) {
         const errorMessage =
-          result.error || 'Failed to book appointment. Please try again.';
+          result.error || 'Failed to initiate payment. Please try again.';
 
         // Show modal
         setModalContent({
-          title: 'Booking Failed',
+          title: 'Payment Failed',
           message: errorMessage,
           type: 'error',
         });
@@ -256,6 +358,16 @@ export const Appointment = (): React.JSX.Element => {
         role="main">
         <section className="w-full max-w-7xl">
           <AppointmentHeader />
+
+          {/* Search Appointment Button */}
+          <div className="mb-6 flex justify-center">
+            <button
+              onClick={() => setShowSearchModal(true)}
+              className="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow-md transition-colors hover:bg-blue-700">
+              <i className="fa-solid fa-search mr-2"></i>
+              Search Appointment/Receipt
+            </button>
+          </div>
 
           <article
             className={`mx-auto w-full max-w-4xl overflow-hidden rounded-2xl ${bgColor} shadow-xl`}>
@@ -305,6 +417,35 @@ export const Appointment = (): React.JSX.Element => {
 
               {/* Privacy Policy Link */}
               <PrivacyPolicyLink />
+
+              {/* Admin Download Button */}
+              {(() => {
+                const allowedAdminEmails: string[] = [
+                  import.meta.env.VITE_FIREBASE_ADMIN_EMAIL1,
+                  import.meta.env.VITE_FIREBASE_ADMIN_EMAIL2,
+                ];
+                const isAdmin = allowedAdminEmails.includes(user?.email || '');
+
+                if (isAdmin) {
+                  return (
+                    <div className="mt-6 flex items-center justify-center gap-2">
+                      <button
+                        onClick={() => setShowControlModal(true)}
+                        className="cursor-pointer rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow-md transition-colors hover:bg-blue-700">
+                        <i className="fa-solid fa-pen mr-2"></i>
+                        Control Appointments
+                      </button>
+                      <button
+                        onClick={() => setShowAdminModal(true)}
+                        className="cursor-pointer rounded-lg bg-green-600 px-6 py-3 font-medium text-white shadow-md transition-colors hover:bg-green-700">
+                        <i className="fa-solid fa-download mr-2"></i>
+                        Download Bookings
+                      </button>
+                    </div>
+                  );
+                }
+                return null;
+              })()}
             </div>
           </article>
         </section>
@@ -330,6 +471,24 @@ export const Appointment = (): React.JSX.Element => {
           bookingData={bookingData}
         />
       )}
+
+      {/* Search Appointment Modal */}
+      <SearchAppointmentModal
+        isOpen={showSearchModal}
+        onClose={() => setShowSearchModal(false)}
+      />
+
+      {/* Admin Download Modal */}
+      <AdminDownloadModal
+        isOpen={showAdminModal}
+        onClose={() => setShowAdminModal(false)}
+      />
+
+      {/* Admin Control Modal */}
+      <AdminControlModal
+        isOpen={showControlModal}
+        onClose={() => setShowControlModal(false)}
+      />
     </div>
   );
 };

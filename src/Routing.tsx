@@ -63,6 +63,7 @@ const RoutesWrapper = ({
     } else {
       setFloatingIconVisible(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentDisAllowedIcon]);
 
   return (

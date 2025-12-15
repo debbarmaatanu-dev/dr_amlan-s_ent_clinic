@@ -1,11 +1,15 @@
 import React from 'react';
 import {useTheme} from '@/hooks/useTheme';
+import {useSEO} from '@/hooks/useSEO';
 
 const logo =
   'https://res.cloudinary.com/mobeet/image/upload/v1765202950/DrAmlanLogo_2_rzgp2v.png';
 
 export const PrivacyPolicy = (): React.JSX.Element => {
   const {actualTheme} = useTheme();
+
+  // SEO optimization for privacy policy page
+  useSEO();
 
   const bgColor = actualTheme === 'light' ? 'bg-white' : 'bg-gray-800';
   const textColor = actualTheme === 'light' ? 'text-gray-800' : 'text-white';
@@ -164,10 +168,70 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                 </div>
               </section>
 
+              {/* Payment Refund Policy */}
+              <section className="border-t pt-8">
+                <h2 className={`mb-4 text-2xl font-bold ${textColor}`}>
+                  Payment Refund Policy
+                </h2>
+                <div className={`space-y-4 ${textSecondary}`}>
+                  <div className="rounded-lg bg-orange-50 p-4">
+                    <p className="font-semibold text-orange-800">
+                      <i className="fa-solid fa-exclamation-triangle mr-2"></i>
+                      Payment Issue Refund Policy:
+                    </p>
+                    <p className="mt-2 text-orange-700">
+                      If payment money was deducted from your bank account but
+                      you did not receive a booking receipt, a refund will be
+                      provided. However, you must contact us within 2 days of
+                      the transaction date.
+                    </p>
+                  </div>
+
+                  <h3 className={`mt-6 text-xl font-semibold ${textColor}`}>
+                    Refund Process for Payment Issues
+                  </h3>
+                  <ul className="list-disc space-y-2 pl-6">
+                    <li>
+                      <strong>Eligibility:</strong> Refund is only applicable if
+                      payment was deducted but no booking receipt was generated.
+                    </li>
+                    <li>
+                      <strong>Time Limit:</strong> You must report the issue
+                      within 2 days of the transaction date.
+                    </li>
+                    <li>
+                      <strong>Required Information:</strong> Please provide your
+                      transaction ID, payment details, and registered phone
+                      number when contacting us.
+                    </li>
+                    <li>
+                      <strong>Processing Time:</strong> Refunds will be
+                      processed within 5-7 business days after verification.
+                    </li>
+                    <li>
+                      <strong>Refund Method:</strong> Refunds will be credited
+                      back to the original payment method used.
+                    </li>
+                  </ul>
+
+                  <div className="mt-6 rounded-lg bg-blue-50 p-4">
+                    <p className="font-semibold text-blue-800">
+                      How to Report Payment Issues:
+                    </p>
+                    <p className="mt-2 text-blue-700">
+                      Contact us immediately at <strong>+91 8258839231</strong>{' '}
+                      or email <strong>debbarmaamlan@gmail.com</strong> with
+                      your transaction details if you face any payment-related
+                      issues.
+                    </p>
+                  </div>
+                </div>
+              </section>
+
               {/* Refund and Cancellation Policy */}
               <section className="border-t pt-8">
                 <h2 className={`mb-4 text-2xl font-bold ${textColor}`}>
-                  Refund and Cancellation Policy
+                  Appointment Cancellation Policy
                 </h2>
                 <div className={`space-y-4 ${textSecondary}`}>
                   <div className="rounded-lg bg-red-50 p-4">
