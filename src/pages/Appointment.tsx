@@ -88,7 +88,66 @@ export const Appointment = (): React.JSX.Element => {
     setLoading(true);
 
     try {
-      // Check payment status using transaction ID
+      // First check if webhook already processed this transaction (faster)
+      const webhookResponse = await fetch(
+        `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/webhook-status/${transactionId}`,
+        {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        },
+      );
+
+      const webhookData = await webhookResponse.json();
+
+      // If webhook processed, use that result (real-time)
+      if (webhookData.success && webhookData.webhookProcessed) {
+        if (
+          webhookData.eventType === 'pg.order.completed' ||
+          webhookData.eventType === 'paylink.order.completed'
+        ) {
+          // Webhook confirmed success - get booking details
+          const response = await fetch(
+            `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/status-by-transaction/${transactionId}`,
+            {
+              method: 'GET',
+              headers: {'Content-Type': 'application/json'},
+            },
+          );
+
+          const data = await response.json();
+          if (data.success && data.status === 'SUCCESS') {
+            const bookingData: PaymentBookingData = {
+              slotNumber: data.slotNumber,
+              date: data.date,
+              name: data.name,
+              gender: data.bookingData.gender,
+              age: data.bookingData.age,
+              phone: data.bookingData.phone,
+              amount: 400,
+              paymentId: transactionId,
+              orderId: transactionId,
+            };
+
+            setBookingData(bookingData);
+            setShowSuccessModal(true);
+            await fetchAvailableSlots(data.date, true);
+            setLoading(false);
+            return;
+          }
+        } else if (webhookData.eventType === 'pg.order.failed') {
+          // Webhook confirmed failure
+          setModalContent({
+            title: 'Payment Failed',
+            message: 'Payment was not successful. Please try again.',
+            type: 'error',
+          });
+          setShowModal(true);
+          setLoading(false);
+          return;
+        }
+      }
+
+      // Fallback to API status check if webhook not processed yet
       const response = await fetch(
         `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/status-by-transaction/${transactionId}`,
         {

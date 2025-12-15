@@ -119,8 +119,8 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                       telephone/mobile number, email ID
                     </li>
                     <li>
-                      Payment information: Bank account, credit/debit card
-                      details
+                      Payment information: Transaction details (we do not store
+                      card/bank details - handled securely by PhonePe)
                     </li>
                     <li>
                       Transaction information related to appointments and
@@ -155,6 +155,95 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                     information over the internet cannot always be guaranteed as
                     completely secure.
                   </p>
+
+                  <h3 className={`mt-6 text-xl font-semibold ${textColor}`}>
+                    Payment Security & Technology
+                  </h3>
+                  <div className="rounded-lg bg-green-50 p-4">
+                    <p className="font-semibold text-green-800">
+                      <i className="fa-solid fa-shield-halved mr-2"></i>
+                      Enterprise-Grade Security Standards
+                    </p>
+                    <div className="mt-3 space-y-2 text-green-700">
+                      <p>
+                        <strong>Secure Payment Processing:</strong> All payments
+                        are processed through PhonePe, a Reserve Bank of India
+                        (RBI) authorized payment gateway that complies with PCI
+                        DSS (Payment Card Industry Data Security Standard).
+                      </p>
+                      <p>
+                        <strong>No Financial Data Storage:</strong> We do not
+                        store any credit card, debit card, or bank account
+                        information on our servers. All payment details are
+                        handled securely by PhonePe's encrypted systems.
+                      </p>
+                      <p>
+                        <strong>Real-time Security:</strong> Payment
+                        confirmations are processed in real-time through secure
+                        webhooks with authentication and encryption to ensure
+                        immediate and secure booking confirmation.
+                      </p>
+                    </div>
+                  </div>
+
+                  <h3 className={`mt-6 text-xl font-semibold ${textColor}`}>
+                    Technical Security Measures
+                  </h3>
+                  <ul className="list-disc space-y-2 pl-6">
+                    <li>
+                      <strong>HTTPS Encryption:</strong> All data transmission
+                      is encrypted using industry-standard SSL/TLS encryption
+                      protocols.
+                    </li>
+                    <li>
+                      <strong>Secure Infrastructure:</strong> Our application
+                      uses enterprise-grade security including rate limiting,
+                      request validation, and secure authentication.
+                    </li>
+                    <li>
+                      <strong>Geographic Security:</strong> Our services are
+                      restricted to users within India for enhanced security and
+                      regulatory compliance.
+                    </li>
+                    <li>
+                      <strong>Audit Logging:</strong> All transactions and
+                      system access are logged and monitored for security
+                      purposes with complete audit trails.
+                    </li>
+                    <li>
+                      <strong>Minimal Data Collection:</strong> We only collect
+                      essential information required for appointment booking and
+                      do not store sensitive medical records.
+                    </li>
+                  </ul>
+
+                  <h3 className={`mt-6 text-xl font-semibold ${textColor}`}>
+                    Third-Party Security Partners
+                  </h3>
+                  <div className="space-y-2">
+                    <p>
+                      We partner with industry-leading, security-compliant
+                      service providers:
+                    </p>
+                    <ul className="list-disc space-y-1 pl-6">
+                      <li>
+                        <strong>PhonePe:</strong> RBI-authorized payment gateway
+                        with PCI DSS compliance
+                      </li>
+                      <li>
+                        <strong>Google Firebase:</strong> Enterprise-grade data
+                        storage with Google Cloud security standards
+                      </li>
+                      <li>
+                        <strong>Vercel:</strong> Secure web hosting with
+                        enterprise infrastructure and DDoS protection
+                      </li>
+                    </ul>
+                    <p className="mt-2 text-sm">
+                      All third-party services comply with international
+                      security standards and data protection regulations.
+                    </p>
+                  </div>
 
                   <h3 className={`mt-6 text-xl font-semibold ${textColor}`}>
                     Your Rights
