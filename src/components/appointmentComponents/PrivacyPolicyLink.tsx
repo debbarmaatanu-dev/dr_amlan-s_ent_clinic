@@ -36,7 +36,8 @@ export const PrivacyPolicyLink = (): React.JSX.Element => {
             className={`${actualTheme !== 'light' ? 'font-extrabold text-white' : 'font-bold'}`}>
             {' '}
             REFUND POLICY: If payment is deducted but no booking receipt is
-            received, contact us within 2 days for a refund.
+            received, please contact us within 2 days for a refund. Refunds will
+            also be issued in case of clinic closure or doctor unavailability.
           </span>
         </p>
       </div>

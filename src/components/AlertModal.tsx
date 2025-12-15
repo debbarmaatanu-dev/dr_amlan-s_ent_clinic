@@ -89,7 +89,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
         {/* Close button */}
         <button
           onClick={onClose}
-          className={`absolute top-3 right-3 ${closeBtn} transition-colors`}
+          className={`absolute top-3 right-3 cursor-pointer ${closeBtn} transition-colors`}
           aria-label="Close modal">
           <i className="fa-solid fa-xmark text-xl"></i>
         </button>
@@ -115,7 +115,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
           {/* Button */}
           <button
             onClick={onClose}
-            className={`w-full rounded-lg border-2 ${borderColor} py-3 font-semibold transition-all duration-200 hover:opacity-80 active:scale-95 ${iconColor}`}>
+            className={`w-full cursor-pointer rounded-lg border-2 ${borderColor} py-3 font-semibold transition-all duration-200 hover:opacity-80 active:scale-95 ${iconColor}`}>
             OK
           </button>
         </div>

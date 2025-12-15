@@ -214,7 +214,7 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700">
+            className="cursor-pointer text-gray-500 hover:text-gray-700">
             <i className="fa-solid fa-times text-xl"></i>
           </button>
         </div>
@@ -222,11 +222,11 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
         {/* Current Status Display */}
         {currentStatus && (
           <div className="mb-4 rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
-            <h3 className="mb-2 font-semibold text-blue-800 dark:text-blue-200">
+            <h3 className="mb-2 font-semibold text-blue-500">
               Current Status:
             </h3>
             {currentStatus.isManuallyOverridden ? (
-              <div className="text-sm text-blue-700">
+              <div className="text-sm text-blue-500">
                 <p>
                   <strong>Manually Closed</strong>
                 </p>
@@ -240,7 +240,7 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
                 )}
               </div>
             ) : (
-              <p className="text-sm text-blue-700">
+              <p className="text-sm text-blue-500">
                 Following default schedule (6:00 PM - 8:30 PM, Monday to
                 Saturday)
               </p>
@@ -275,7 +275,7 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
               <button
                 onClick={handleTurnOnToday}
                 disabled={loading}
-                className="w-full rounded-lg bg-green-600 px-4 py-2 font-medium text-white transition-colors hover:bg-green-700 disabled:opacity-50">
+                className="w-full cursor-pointer rounded-lg bg-green-600 px-4 py-2 font-medium text-white transition-colors hover:bg-green-700 disabled:opacity-50">
                 {loading ? (
                   <ClipLoader size={16} color="white" />
                 ) : (
@@ -344,7 +344,7 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-red-600 px-4 py-3 font-medium text-white transition-colors hover:bg-red-700 disabled:opacity-50">
+            className="w-full cursor-pointer rounded-lg bg-red-600 px-4 py-3 font-medium text-white transition-colors hover:bg-red-700 disabled:opacity-50">
             {loading ? (
               <ClipLoader size={16} color="white" />
             ) : (
@@ -359,7 +359,7 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
         <div className="mt-4 text-center">
           <button
             onClick={onClose}
-            className="text-sm text-gray-500 hover:text-gray-700">
+            className="cursor-pointer text-sm text-gray-500 hover:text-gray-700">
             Cancel
           </button>
         </div>

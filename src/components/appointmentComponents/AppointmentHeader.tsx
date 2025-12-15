@@ -29,8 +29,8 @@ export const AppointmentHeader: React.FC = () => {
 
       {/* Manual Clinic Status Override */}
       {clinicStatus?.isManuallyOverridden && clinicStatus.displayMessage && (
-        <div className="mt-4 rounded-lg bg-red-100 px-4 py-3 dark:bg-red-900/20">
-          <p className="text-center font-bold text-red-800 dark:text-red-200">
+        <div className="mt-4 rounded-lg bg-red-500 px-4 py-3">
+          <p className="text-center font-bold text-white">
             <i className="fa-solid fa-exclamation-triangle mr-2"></i>
             {clinicStatus.displayMessage}
           </p>

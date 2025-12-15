@@ -176,7 +176,7 @@ export const SearchAppointmentModal: React.FC<SearchAppointmentModalProps> = ({
           </h1>
           <button
             onClick={handleClose}
-            className={`text-2xl ${textSecondary} transition-colors hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none`}
+            className={`text-2xl ${textSecondary} cursor-pointer transition-colors hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none`}
             aria-label="Close search modal">
             ×
           </button>
@@ -274,7 +274,7 @@ export const SearchAppointmentModal: React.FC<SearchAppointmentModalProps> = ({
                 <button
                   type="submit"
                   disabled={loading || !phone.trim() || !date}
-                  className="w-full rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                  className="w-full cursor-pointer rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                   aria-describedby="search-button-help">
                   {loading ? (
                     <div className="flex items-center justify-center space-x-2">
@@ -315,7 +315,7 @@ export const SearchAppointmentModal: React.FC<SearchAppointmentModalProps> = ({
                     setIsMultiple(false);
                     setError(null);
                   }}
-                  className="font-medium text-blue-600 hover:text-blue-800 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none"
+                  className="cursor-pointer font-medium text-blue-600 hover:text-blue-800 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none"
                   aria-label="Go back to search form">
                   <i
                     className="fa-solid fa-arrow-left mr-2"
@@ -396,7 +396,7 @@ export const SearchAppointmentModal: React.FC<SearchAppointmentModalProps> = ({
                           role="cell">
                           <button
                             onClick={() => handleViewReceipt(booking)}
-                            className="rounded bg-blue-600 px-3 py-1 text-xs text-white transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none"
+                            className="cursor-pointer rounded bg-blue-600 px-3 py-1 text-xs text-white transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none"
                             aria-label={`View receipt for ${booking.name}, slot ${booking.slotNumber}`}>
                             <i
                               className="fa-solid fa-receipt mr-1"
@@ -424,7 +424,7 @@ export const SearchAppointmentModal: React.FC<SearchAppointmentModalProps> = ({
                     setBookingData(null);
                     setError(null);
                   }}
-                  className="font-medium text-blue-600 hover:text-blue-800 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none"
+                  className="cursor-pointer font-medium text-blue-600 hover:text-blue-800 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none"
                   aria-label="Go back to search form">
                   <i
                     className="fa-solid fa-arrow-left mr-2"

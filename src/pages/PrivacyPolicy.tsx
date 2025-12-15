@@ -183,7 +183,10 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                       If payment money was deducted from your bank account but
                       you did not receive a booking receipt, a refund will be
                       provided. However, you must contact us within 2 days of
-                      the transaction date.
+                      the transaction date. If payment is deducted but no
+                      booking receipt is received, please contact us within 2
+                      days for a refund. Refunds will also be issued in case of
+                      clinic closure or doctor unavailability.
                     </p>
                   </div>
 
@@ -239,9 +242,9 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                       Important Notice:
                     </p>
                     <p className="mt-2 text-red-700">
-                      Dr. (Major) Amlan's ENT Clinic operates on a strict NO
-                      REFUND and NO CANCELLATION policy for all appointments and
-                      services.
+                      Dr. (Major) Amlan's ENT Clinic operates on a NO REFUND and
+                      NO CANCELLATION policy for all appointments and services
+                      unless geniune circumstances arise.
                     </p>
                   </div>
 
@@ -251,12 +254,15 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                   <ul className="list-disc space-y-2 pl-6">
                     <li>
                       <strong>No Cancellations:</strong> Once an appointment is
-                      booked and payment is made, it cannot be cancelled under
-                      any circumstances.
+                      booked and payment is made, it cannot be cancelled.
                     </li>
                     <li>
-                      <strong>No Refunds:</strong> All payments made for
-                      appointments and services are final and non-refundable.
+                      <strong>Refunds:</strong> All payments made for
+                      appointments and services are final and non-refundable. If
+                      payment is deducted but no booking receipt is received,
+                      please contact us within 2 days for a refund. Refunds will
+                      also be issued in case of clinic closure or doctor
+                      unavailability.
                     </li>
                     <li>
                       <strong>Rescheduling:</strong> In case you cannot attend

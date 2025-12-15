@@ -154,7 +154,7 @@ export const BookingReceipt: React.FC<BookingReceiptProps> = ({
         </h3>
         <ul className="space-y-1 text-sm text-yellow-700">
           <li>• Please arrive 10 minutes before your scheduled time</li>
-          <li>• Bring this receipt for verification</li>
+          <li className="font-bold">• Bring this E-Receipt for verification</li>
           <li>• Clinic hours: 6:00 PM - 8:30 PM (Closed on Sundays)</li>
           <li>• For any queries, call: +91 8258839231</li>
         </ul>

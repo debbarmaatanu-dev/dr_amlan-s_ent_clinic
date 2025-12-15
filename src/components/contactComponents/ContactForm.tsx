@@ -173,7 +173,7 @@ export const ContactForm: React.FC = () => {
 
           <button
             type="submit"
-            className="w-full rounded-full bg-blue-600 px-6 py-3 text-white shadow-md transition-all duration-180 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none active:scale-95"
+            className="w-full cursor-pointer rounded-full bg-blue-600 px-6 py-3 text-white shadow-md transition-all duration-180 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none active:scale-95"
             aria-describedby="submit-help">
             <span className="text-base font-medium md:text-lg">
               <i className="fa-solid fa-envelope mr-2" aria-hidden="true"></i>

@@ -69,7 +69,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
         {/* Close button */}
         <button
           onClick={onClose}
-          className={`sticky top-4 right-4 z-10 float-right ${closeBtn} transition-colors`}
+          className={`sticky top-4 right-4 z-10 float-right cursor-pointer ${closeBtn} transition-colors`}
           aria-label="Close modal">
           <i className="fa-solid fa-xmark text-2xl"></i>
         </button>
@@ -97,7 +97,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
             <button
               onClick={handleDownload}
               disabled={isDownloading}
-              className="flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition-all hover:bg-blue-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50">
+              className="flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition-all hover:bg-blue-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50">
               {isDownloading ? (
                 <>
                   <i className="fa-solid fa-spinner fa-spin"></i>
@@ -112,7 +112,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
             </button>
             <button
               onClick={onClose}
-              className={`rounded-lg border-2 ${btnSecondary} px-6 py-3 font-semibold transition-all active:scale-95`}>
+              className={`cursor-pointer rounded-lg border-2 ${btnSecondary} px-6 py-3 font-semibold transition-all active:scale-95`}>
               Close
             </button>
           </div>

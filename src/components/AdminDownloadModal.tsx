@@ -172,7 +172,7 @@ export const AdminDownloadModal: React.FC<AdminDownloadModalProps> = ({
           </h1>
           <button
             onClick={handleClose}
-            className={`text-2xl ${textSecondary} transition-colors hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none`}
+            className={`cursor-pointer text-2xl ${textSecondary} transition-colors hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none`}
             aria-label="Close admin modal">
             ×
           </button>
@@ -385,7 +385,7 @@ export const AdminDownloadModal: React.FC<AdminDownloadModalProps> = ({
                               role="cell">
                               <button
                                 onClick={() => handleViewReceipt(booking)}
-                                className="rounded bg-blue-600 px-3 py-1 text-xs text-white transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none"
+                                className="cursor-pointer rounded bg-blue-600 px-3 py-1 text-xs text-white transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none"
                                 aria-label={`View receipt for ${booking.name}, slot ${booking.slotNumber}`}>
                                 <i
                                   className="fa-solid fa-receipt mr-1"
@@ -414,7 +414,7 @@ export const AdminDownloadModal: React.FC<AdminDownloadModalProps> = ({
                 </h2>
                 <button
                   onClick={() => setSelectedBooking(null)}
-                  className="font-medium text-blue-600 hover:text-blue-800 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none"
+                  className="cursor-pointer font-medium text-blue-600 hover:text-blue-800 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none"
                   aria-label="Go back to bookings list">
                   <i
                     className="fa-solid fa-arrow-left mr-2"
