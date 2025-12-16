@@ -55,16 +55,6 @@ export const WelcomeSection = () => {
               </p>
             </section>
 
-            <aside className="mb-4" aria-labelledby="follow-up-policy">
-              <h3 id="follow-up-policy" className="sr-only">
-                Follow-up Policy
-              </h3>
-              <p>
-                First follow up after initial consultation is free within 2
-                weeks (offline only). For follow up visit kindly call us.
-              </p>
-            </aside>
-
             <address
               className="mb-4 not-italic"
               aria-labelledby="clinic-location">

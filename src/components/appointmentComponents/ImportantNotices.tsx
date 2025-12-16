@@ -147,7 +147,8 @@ export const ImportantNotices = (): React.JSX.Element => {
         </header>
         <p className={`text-sm ${textGreenSecondary}`}>
           Armed Forces personnel (Army, Navy, Air Force) and their dependents
-          are welcome. A valid Service/ESM/Dependent ID must be presented.{' '}
+          are exepmted from appointment fees. A valid Service/ESM/Dependent ID
+          must be presented.{' '}
           <strong>Available only offline at clinic location.</strong>
         </p>
       </article>

@@ -4,7 +4,7 @@ import {useTheme} from '@/hooks/useTheme';
 import {useSEO} from '@/hooks/useSEO';
 
 const landingImage =
-  'https://res.cloudinary.com/mobeet/image/upload/v1764923599/IMG_20251203_101518842_HDR_PORTRAIT_2_1_hyhvhd.jpg';
+  'https://res.cloudinary.com/mobeet/image/upload/vvvvv_1_uiebq9.jpg';
 
 export const About = (): React.JSX.Element => {
   const [loading, setLoading] = useState(true);
@@ -70,18 +70,18 @@ export const About = (): React.JSX.Element => {
                 </p>
                 <p
                   className={`mb-6 cursor-text text-base ${textSecondary} md:text-lg`}>
-                  Dr. Debbarma is a otolaryngologist specializing in sinus
+                  Dr. Debbarma is an otolaryngologist specializing in sinus
                   disorders, endoscopic nasal surgery, adenotonsillectomy, Head
-                  & neck surgeries, Endoscopic and microscopic ear
-                  surgeries,vertigo,allergy treatment and sleep apnea treatment.
-                  He has a wide range of experience and served in the Army
-                  Medical Corps and performed combat duties and also treated
-                  troops to keep them fighting fit in counter terrorism
-                  operations in J&K as well as in the Siachen Glacier which is
-                  known as the highest battlefield in the world. Presently
-                  working as an ENT Surgeon at Tripura Medical College and he is
-                  dedicated to providing patient-centered, evidence-based care
-                  for both adults and children.
+                  & neck surgeries, Endoscopic and microscopic ear surgeries,
+                  vertigo, allergy treatment, and sleep apnea treatment. He has
+                  a wide range of experience, and he had served in the Army
+                  Medical Corps, where he had performed combat duties in the
+                  counter-terrorism operations in J&K and also treated troops to
+                  keep them fighting fit in the Siachen Glacier, also known as
+                  the highest battlefield in the world. Presently working as an
+                  ENT Surgeon at Tripura Medical College, and he is dedicated to
+                  providing patient-centered, evidence-based care for both
+                  adults and children.
                 </p>
               </div>
             </div>
