@@ -1,7 +1,12 @@
-import React from 'react';
+import React, {useState, useCallback} from 'react';
 import {ClipLoader} from 'react-spinners';
 import {useTheme} from '@/hooks/useTheme';
 import {useClinicStatus} from '@/hooks/useClinicStatus';
+
+interface FieldError {
+  field: string;
+  message: string;
+}
 
 interface AppointmentFormProps {
   selectedDate: string;
@@ -39,7 +44,11 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
   maxDate,
 }) => {
   const {actualTheme} = useTheme();
-  const {isClinicClosed} = useClinicStatus();
+  const {isClinicClosed, clinicStatus} = useClinicStatus();
+
+  // Field-level validation state
+  const [fieldErrors, setFieldErrors] = useState<FieldError[]>([]);
+  const [submitAttempted, setSubmitAttempted] = useState(false);
 
   const textColor = actualTheme === 'light' ? 'text-gray-700' : 'text-gray-200';
   const textTertiary =
@@ -49,9 +58,166 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
     actualTheme === 'light' ? 'border-gray-300' : 'border-gray-600';
   const inputText = actualTheme === 'light' ? 'text-gray-900' : 'text-white';
 
+  // Validation functions
+  const validateField = useCallback(
+    (field: string, value: string): string | null => {
+      switch (field) {
+        case 'selectedDate': {
+          if (!value) return 'Please select an appointment date';
+          const selectedDateObj = new Date(value);
+          const todayObj = new Date(today);
+          const maxDateObj = new Date(maxDate);
+          if (selectedDateObj < todayObj) return 'Cannot select past dates';
+          if (selectedDateObj > maxDateObj)
+            return 'Cannot book more than 10 days in advance';
+          return null;
+        }
+
+        case 'name': {
+          if (!value.trim()) return 'Patient name is required';
+          if (value.trim().length < 2)
+            return 'Name must be at least 2 characters';
+          if (!/^[a-zA-Z\s.]+$/.test(value.trim()))
+            return 'Name can only contain letters, spaces, and dots';
+          return null;
+        }
+
+        case 'gender': {
+          if (!value) return 'Please select gender';
+          return null;
+        }
+
+        case 'age': {
+          if (!value) return 'Age is required';
+          const ageNum = parseInt(value);
+          if (isNaN(ageNum) || ageNum < 1) return 'Age must be at least 1';
+          if (ageNum > 120) return 'Age cannot exceed 120';
+          return null;
+        }
+
+        case 'phone': {
+          if (!value.trim()) return 'Mobile number is required';
+          const phoneRegex = /^[6-9]\d{9}$/;
+          if (!phoneRegex.test(value.trim()))
+            return 'Enter valid 10-digit mobile number starting with 6-9';
+          return null;
+        }
+
+        default:
+          return null;
+      }
+    },
+    [today, maxDate],
+  );
+
+  // Calculate clinic closed message
+  const clinicClosedMessage =
+    isClinicClosed && clinicStatus?.displayMessage
+      ? clinicStatus.displayMessage
+      : '';
+
+  // Real-time validation (only after submit attempted)
+  const currentFieldErrors = submitAttempted
+    ? (() => {
+        const errors: FieldError[] = [];
+
+        ['selectedDate', 'name', 'gender', 'age', 'phone'].forEach(field => {
+          let value = '';
+          switch (field) {
+            case 'selectedDate': {
+              value = selectedDate;
+              break;
+            }
+            case 'name': {
+              value = name;
+              break;
+            }
+            case 'gender': {
+              value = gender;
+              break;
+            }
+            case 'age': {
+              value = age;
+              break;
+            }
+            case 'phone': {
+              value = phone;
+              break;
+            }
+            default:
+              break;
+          }
+
+          const error = validateField(field, value);
+          if (error) {
+            errors.push({field, message: error});
+          }
+        });
+
+        return errors;
+      })()
+    : fieldErrors;
+
+  const getFieldError = (field: string): string | null => {
+    const error = currentFieldErrors.find(err => err.field === field);
+    return error ? error.message : null;
+  };
+
+  const hasFieldError = (field: string): boolean => {
+    return currentFieldErrors.some(err => err.field === field);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitAttempted(true);
+
+    // Validate all fields
+    const errors: FieldError[] = [];
+
+    ['selectedDate', 'name', 'gender', 'age', 'phone'].forEach(field => {
+      let value = '';
+      switch (field) {
+        case 'selectedDate': {
+          value = selectedDate;
+          break;
+        }
+        case 'name': {
+          value = name;
+          break;
+        }
+        case 'gender': {
+          value = gender;
+          break;
+        }
+        case 'age': {
+          value = age;
+          break;
+        }
+        case 'phone': {
+          value = phone;
+          break;
+        }
+        default:
+          break;
+      }
+
+      const error = validateField(field, value);
+      if (error) {
+        errors.push({field, message: error});
+      }
+    });
+
+    setFieldErrors(errors);
+
+    // If no validation errors, proceed with form submission
+    if (errors.length === 0) {
+      onSubmit(e);
+    }
+  };
+
   return (
     <form
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit}
       className="space-y-6"
       role="form"
       aria-labelledby="appointment-form-heading"
@@ -81,9 +247,19 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
           max={maxDate}
           required
           aria-required="true"
-          aria-describedby="date-help"
-          className={`w-full rounded-lg border-2 ${inputBorder} ${inputBg} ${inputText} px-4 py-3 transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none`}
+          aria-describedby="date-help date-error"
+          className={`w-full rounded-lg border-2 ${
+            hasFieldError('selectedDate')
+              ? 'border-red-500 focus:border-red-500 focus:ring-red-200'
+              : `${inputBorder} focus:border-blue-500 focus:ring-blue-200`
+          } ${inputBg} ${inputText} px-4 py-3 transition-colors focus:ring-2 focus:outline-none`}
         />
+        {hasFieldError('selectedDate') && (
+          <p id="date-error" className="mt-1 text-sm text-red-600">
+            <i className="fa-solid fa-exclamation-circle mr-1"></i>
+            {getFieldError('selectedDate')}
+          </p>
+        )}
         <p id="date-help" className={`mt-1 text-xs ${textTertiary}`}>
           Bookings available up to 10 days in advance
         </p>
@@ -113,10 +289,21 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
             onChange={e => setName(e.target.value)}
             required
             aria-required="true"
+            aria-describedby="name-error"
             placeholder="Enter patient's full name"
             autoComplete="name"
-            className={`w-full rounded-lg border-2 ${inputBorder} ${inputBg} ${inputText} px-4 py-3 transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none`}
+            className={`w-full rounded-lg border-2 ${
+              hasFieldError('name')
+                ? 'border-red-500 focus:border-red-500 focus:ring-red-200'
+                : `${inputBorder} focus:border-blue-500 focus:ring-blue-200`
+            } ${inputBg} ${inputText} px-4 py-3 transition-colors focus:ring-2 focus:outline-none`}
           />
+          {hasFieldError('name') && (
+            <p id="name-error" className="mt-1 text-sm text-red-600">
+              <i className="fa-solid fa-exclamation-circle mr-1"></i>
+              {getFieldError('name')}
+            </p>
+          )}
         </div>
 
         {/* Gender */}
@@ -127,7 +314,11 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
               *
             </span>
           </legend>
-          <div className="flex gap-4" role="radiogroup" aria-required="true">
+          <div
+            className="flex gap-4"
+            role="radiogroup"
+            aria-required="true"
+            aria-describedby="gender-error">
             {['male', 'female', 'others'].map(g => (
               <label key={g} className="flex cursor-pointer items-center">
                 <input
@@ -138,12 +329,22 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
                   onChange={e => setGender(e.target.value)}
                   required
                   aria-required="true"
-                  className="mr-2 h-4 w-4 cursor-pointer text-blue-600 focus:ring-2 focus:ring-blue-200"
+                  className={`mr-2 h-4 w-4 cursor-pointer focus:ring-2 ${
+                    hasFieldError('gender')
+                      ? 'text-red-600 focus:ring-red-200'
+                      : 'text-blue-600 focus:ring-blue-200'
+                  }`}
                 />
                 <span className={`${textColor} capitalize`}>{g}</span>
               </label>
             ))}
           </div>
+          {hasFieldError('gender') && (
+            <p id="gender-error" className="mt-1 text-sm text-red-600">
+              <i className="fa-solid fa-exclamation-circle mr-1"></i>
+              {getFieldError('gender')}
+            </p>
+          )}
         </fieldset>
 
         {/* Age */}
@@ -167,9 +368,19 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
             min="1"
             max="120"
             placeholder="Enter age in years"
-            aria-describedby="age-help"
-            className={`w-full rounded-lg border-2 ${inputBorder} ${inputBg} ${inputText} px-4 py-3 transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none`}
+            aria-describedby="age-help age-error"
+            className={`w-full rounded-lg border-2 ${
+              hasFieldError('age')
+                ? 'border-red-500 focus:border-red-500 focus:ring-red-200'
+                : `${inputBorder} focus:border-blue-500 focus:ring-blue-200`
+            } ${inputBg} ${inputText} px-4 py-3 transition-colors focus:ring-2 focus:outline-none`}
           />
+          {hasFieldError('age') && (
+            <p id="age-error" className="mt-1 text-sm text-red-600">
+              <i className="fa-solid fa-exclamation-circle mr-1"></i>
+              {getFieldError('age')}
+            </p>
+          )}
           <p id="age-help" className="sr-only">
             Enter age between 1 and 120 years
           </p>
@@ -196,9 +407,19 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
             pattern="[6-9][0-9]{9}"
             placeholder="10-digit mobile number"
             autoComplete="tel"
-            aria-describedby="phone-help"
-            className={`w-full rounded-lg border-2 ${inputBorder} ${inputBg} ${inputText} px-4 py-3 transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none`}
+            aria-describedby="phone-help phone-error"
+            className={`w-full rounded-lg border-2 ${
+              hasFieldError('phone')
+                ? 'border-red-500 focus:border-red-500 focus:ring-red-200'
+                : `${inputBorder} focus:border-blue-500 focus:ring-blue-200`
+            } ${inputBg} ${inputText} px-4 py-3 transition-colors focus:ring-2 focus:outline-none`}
           />
+          {hasFieldError('phone') && (
+            <p id="phone-error" className="mt-1 text-sm text-red-600">
+              <i className="fa-solid fa-exclamation-circle mr-1"></i>
+              {getFieldError('phone')}
+            </p>
+          )}
           <p id="phone-help" className={`mt-1 text-xs ${textTertiary}`}>
             Enter 10-digit Indian mobile number starting with 6-9
           </p>
@@ -241,6 +462,67 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
           </>
         )}
       </button>
+
+      {/* Clinic Closed Message - Below Button */}
+      {isClinicClosed && clinicClosedMessage && (
+        <aside
+          className="mt-3 rounded-lg border border-red-200 bg-red-50 p-4"
+          role="alert"
+          aria-live="polite"
+          aria-labelledby="clinic-closed-heading">
+          <div className="flex items-start">
+            <i
+              className="fa-solid fa-exclamation-triangle mt-0.5 mr-3 text-red-500"
+              aria-hidden="true"></i>
+            <div>
+              <h4
+                id="clinic-closed-heading"
+                className="mb-1 text-sm font-semibold text-red-800">
+                Clinic Temporarily Closed
+              </h4>
+              <p className="text-sm text-red-700">{clinicClosedMessage}</p>
+              <p className="mt-2 text-xs text-red-600">
+                For urgent consultations, please contact us directly.
+              </p>
+            </div>
+          </div>
+        </aside>
+      )}
+
+      {/* No Slots Available Message - Below Button */}
+      {!isClinicClosed && availableSlots <= 0 && selectedDate && (
+        <aside
+          className="mt-3 rounded-lg border border-orange-200 bg-orange-50 p-4"
+          role="alert"
+          aria-live="polite"
+          aria-labelledby="no-slots-heading">
+          <div className="flex items-start">
+            <i
+              className="fa-solid fa-calendar-xmark mt-0.5 mr-3 text-orange-500"
+              aria-hidden="true"></i>
+            <div>
+              <h4
+                id="no-slots-heading"
+                className="mb-1 text-sm font-semibold text-orange-800">
+                No Online Slots Available
+              </h4>
+              <p className="text-sm text-orange-700">
+                All online slots for{' '}
+                {new Date(selectedDate).toLocaleDateString('en-IN', {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric',
+                })}{' '}
+                are booked.
+              </p>
+              <p className="mt-2 text-xs text-orange-600">
+                Please select another date or visit the clinic directly for
+                walk-in consultation.
+              </p>
+            </div>
+          </div>
+        </aside>
+      )}
 
       <p id="submit-help" className="sr-only">
         {isClinicClosed

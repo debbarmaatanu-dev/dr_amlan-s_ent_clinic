@@ -57,7 +57,7 @@ export const Appointment = (): React.JSX.Element => {
   const user = appStore(state => state.user);
 
   // Get clinic status (fetched by Navbar - always mounted)
-  const {isClinicClosed, clinicStatus} = useClinicStatus();
+  const {isClinicClosed} = useClinicStatus();
 
   // Get today's date in YYYY-MM-DD format for min date
   const today = new Date().toISOString().split('T')[0];
@@ -257,46 +257,26 @@ export const Appointment = (): React.JSX.Element => {
 
     // Check if clinic is manually closed first
     if (isClinicClosed) {
-      const errorMessage =
-        clinicStatus?.displayMessage ||
-        'Clinic is temporarily closed for online bookings. Please contact us for urgent consultations.';
-
-      setModalContent({
-        title: 'Clinic Temporarily Closed',
-        message: errorMessage,
-        type: 'error',
-      });
-      setShowModal(true);
-
-      setMessage({
-        type: 'error',
-        text: 'Clinic is temporarily closed for online bookings.',
-      });
+      // Form component will show clinic closed message below button
       return;
     }
 
-    // Validation
+    // Basic validation (form component handles detailed validation)
     if (!selectedDate || !name.trim() || !gender || !age || !phone.trim()) {
-      setMessage({
-        type: 'error',
-        text: 'Please fill in all required fields',
-      });
+      // Form component will show field-level errors
       return;
     }
 
     const ageNum = parseInt(age);
     if (isNaN(ageNum) || ageNum < 1 || ageNum > 120) {
-      setMessage({type: 'error', text: 'Please enter a valid age'});
+      // Form component will show field-level errors
       return;
     }
 
     // Validate phone number (Indian format: 10 digits)
     const phoneRegex = /^[6-9]\d{9}$/;
     if (!phoneRegex.test(phone)) {
-      setMessage({
-        type: 'error',
-        text: 'Please enter a valid 10-digit phone number',
-      });
+      // Form component will show field-level errors
       return;
     }
 
@@ -321,10 +301,7 @@ export const Appointment = (): React.JSX.Element => {
     }
 
     if (availableOnlineSlots <= 0) {
-      setMessage({
-        type: 'error',
-        text: 'No online slots available for this date. Please select another date or visit the clinic.',
-      });
+      // Form component will show no slots message below button
       return;
     }
 

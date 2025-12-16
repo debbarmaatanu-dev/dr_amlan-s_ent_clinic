@@ -21,7 +21,7 @@ export const ServicesSection = (): React.JSX.Element => {
             Our ENT Services
           </h2>
           <p className="text-lg text-gray-600">
-            Comprehensive ear, nose, and throat care in Agartala, Tripura
+            Comprehensive ear, nose, and throat care.
           </p>
         </header>
 
@@ -46,7 +46,7 @@ export const ServicesSection = (): React.JSX.Element => {
             </h3>
             <p className="text-white" itemProp="description">
               Complete assessment and management of ear, nose, and throat
-              disorders for patients of all ages in Agartala.
+              disorders for patients of all ages.
             </p>
           </article>
 
@@ -70,8 +70,7 @@ export const ServicesSection = (): React.JSX.Element => {
             </h3>
             <p className="text-white" itemProp="description">
               Comprehensive neurotological examination and treatment for
-              patients suffering from dizziness, balance disorders and vertigo
-              in Tripura.
+              patients suffering from dizziness, balance disorders and vertigo.
             </p>
           </article>
 
