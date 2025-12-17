@@ -19,6 +19,11 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 // Set persistence
-setPersistence(auth, browserLocalPersistence).catch(console.error);
+setPersistence(auth, browserLocalPersistence).catch(error => {
+  // Silent fail for auth persistence - not critical
+  if (import.meta.env.DEV) {
+    console.error('Auth persistence failed:', error);
+  }
+});
 
 export {auth, db};

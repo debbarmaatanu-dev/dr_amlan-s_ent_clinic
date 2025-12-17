@@ -93,7 +93,7 @@ export const ServicesSection = (): React.JSX.Element => {
             <p className="text-gray-800" itemProp="description">
               <strong>Skin prick test / Serum-specific IgE</strong> testing and
               customized immunotherapy for long-term relief from allergic
-              conditions in Agartala.
+              conditions.
             </p>
           </article>
 
@@ -115,7 +115,7 @@ export const ServicesSection = (): React.JSX.Element => {
             </h3>
             <p className="text-gray-600" itemProp="description">
               Modern ENT procedures including nasal endoscopy, laryngoscopy, and
-              minimally invasive treatments at Tripura Medical College.
+              minimally invasive treatments.
             </p>
           </article>
         </div>

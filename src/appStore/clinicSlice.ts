@@ -1,5 +1,6 @@
 import type {StateCreator} from 'zustand';
 import type {AppState} from './appStore';
+import {logger} from '../utils/logger';
 
 export interface ClinicStatus {
   isManuallyOverridden: boolean;
@@ -86,7 +87,7 @@ export const createClinicSlice: StateCreator<
 
       get().setClinicStatusLoaded(true);
     } catch (error) {
-      console.error('Error fetching clinic status:', error);
+      logger.error('Error fetching clinic status:', error);
       get().setClinicStatus(null);
       get().setClinicStatusLoaded(true);
     }

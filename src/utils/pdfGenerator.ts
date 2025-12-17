@@ -78,7 +78,7 @@ export const generateBookingReceiptPDF = async (
 
     logger.log('Receipt PDF downloaded successfully!');
   } catch (error) {
-    console.error('Error generating PDF:', error);
+    logger.error('Error generating PDF:', error);
     alert('Failed to generate PDF. Please try again.');
   }
 };

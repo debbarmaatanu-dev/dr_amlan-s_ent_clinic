@@ -4,6 +4,7 @@ import {BookingReceipt} from './BookingReceipt';
 import {useTheme} from '@/hooks/useTheme';
 import {appStore} from '@/appStore/appStore';
 import type {PaymentBookingData} from '../types/types';
+import {logger} from '@/utils/logger';
 
 interface AdminDownloadModalProps {
   isOpen: boolean;
@@ -115,7 +116,7 @@ export const AdminDownloadModal: React.FC<AdminDownloadModalProps> = ({
         }
       }
     } catch (error) {
-      console.error('Error fetching bookings:', error);
+      logger.error('Error fetching bookings:', error);
       setError('Failed to fetch bookings. Please try again.');
     } finally {
       setLoading(false);

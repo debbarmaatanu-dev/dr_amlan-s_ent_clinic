@@ -13,6 +13,7 @@ import {useSEO} from '@/hooks/useSEO';
 import {AppointmentHeader} from '@/components/appointmentComponents/AppointmentHeader';
 import {SlotAvailability} from '@/components/appointmentComponents/SlotAvailability';
 import {AppointmentForm} from '@/components/appointmentComponents/AppointmentForm';
+import {logger} from '@/utils/logger';
 import {PaymentNote} from '@/components/appointmentComponents/PaymentNote';
 import {appStore} from '@/appStore/appStore';
 import {PrivacyPolicyLink} from '@/components/appointmentComponents/PrivacyPolicyLink';
@@ -185,7 +186,7 @@ export const Appointment = (): React.JSX.Element => {
         setShowModal(true);
       }
     } catch (error) {
-      console.error('Error checking payment callback:', error);
+      logger.error('Error checking payment callback:', error);
       setModalContent({
         title: 'Payment Error',
         message:
@@ -207,7 +208,7 @@ export const Appointment = (): React.JSX.Element => {
         );
         setAvailableOnlineSlots(availableSlots);
       } catch (error) {
-        console.error('Error checking slots:', error);
+        logger.error('Error checking slots:', error);
         setAvailableOnlineSlots(10);
       }
     },
@@ -359,7 +360,7 @@ export const Appointment = (): React.JSX.Element => {
         });
       }
     } catch (error) {
-      console.error('Error booking appointment:', error);
+      logger.error('Error booking appointment:', error);
       const errorMessage = 'Failed to book appointment. Please try again.';
 
       // Show modal

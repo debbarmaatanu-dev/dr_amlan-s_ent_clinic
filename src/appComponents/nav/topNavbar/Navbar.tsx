@@ -8,6 +8,7 @@ import {MobileMenu} from './MobileMenu';
 import {LogoutModal} from './LogoutModal';
 import styles from './clock.module.css';
 import {useTheme} from '@/hooks/useTheme';
+import {logger} from '@/utils/logger';
 import type {ActualTheme} from '@/appStore/themeSlice';
 
 const getBGColor = (actualTheme: ActualTheme) => {
@@ -77,7 +78,7 @@ export const NavBar = () => {
       handleNavClick('home');
       window.scrollTo(0, 0);
     } catch (error) {
-      console.error('Logout failed:', error);
+      logger.error('Logout failed:', error);
       alert('Logout failed. Please try again.');
     }
   };

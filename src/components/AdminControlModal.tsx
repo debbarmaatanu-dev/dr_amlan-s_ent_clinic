@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {ClipLoader} from 'react-spinners';
 import {useTheme} from '@/hooks/useTheme';
 import {appStore} from '@/appStore/appStore';
+import {logger} from '@/utils/logger';
 
 interface AdminControlModalProps {
   isOpen: boolean;
@@ -89,7 +90,7 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
         }
       }
     } catch (error) {
-      console.error('Error fetching clinic status:', error);
+      logger.error('Error fetching clinic status:', error);
     }
   };
 
@@ -150,7 +151,7 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
         setError(data.error || 'Failed to update clinic status');
       }
     } catch (error) {
-      console.error('Error updating clinic status:', error);
+      logger.error('Error updating clinic status:', error);
       setError('Failed to update clinic status. Please try again.');
     } finally {
       setLoading(false);
@@ -194,7 +195,7 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
         setError(data.error || 'Failed to turn on clinic');
       }
     } catch (error) {
-      console.error('Error turning on clinic:', error);
+      logger.error('Error turning on clinic:', error);
       setError('Failed to turn on clinic. Please try again.');
     } finally {
       setLoading(false);

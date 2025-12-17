@@ -4,8 +4,9 @@ export default async function handler(req, res) {
   try {
     // Test both GET and POST methods
     if (req.method === 'GET') {
-      // Forward GET test to backend
-      const backendUrl = 'https://debbarmaatanu-dev-dramlan-sentclini.vercel.app/payment/webhook-test';
+      // Forward GET test to backend using environment variable
+      const backendBaseUrl = process.env.BACKEND_URL || 'https://debbarmaatanu-dev-dramlan-sentclini.vercel.app';
+      const backendUrl = new URL('/payment/webhook-test', backendBaseUrl).href;
       
       const response = await fetch(backendUrl, {
         method: 'GET',
@@ -38,8 +39,9 @@ export default async function handler(req, res) {
       });
       
     } else if (req.method === 'POST') {
-      // Forward POST test to backend
-      const backendUrl = 'https://debbarmaatanu-dev-dramlan-sentclini.vercel.app/payment/webhook-test';
+      // Forward POST test to backend using environment variable
+      const backendBaseUrl = process.env.BACKEND_URL || 'https://debbarmaatanu-dev-dramlan-sentclini.vercel.app';
+      const backendUrl = new URL('/payment/webhook-test', backendBaseUrl).href;
       
       const response = await fetch(backendUrl, {
         method: 'POST',

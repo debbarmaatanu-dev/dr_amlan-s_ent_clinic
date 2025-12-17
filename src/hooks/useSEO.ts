@@ -14,11 +14,11 @@ interface SEOData {
 const defaultSEO: SEOData = {
   title: 'Dr. (Major) Amlan Debbarma - Best ENT Doctor in Agartala, Tripura',
   description:
-    'Leading ENT specialist in Agartala, Tripura. Expert in sinus surgery, vertigo treatment, allergy testing, endoscopic procedures. Book appointment online.',
+    'ENT specialist in Agartala, Tripura. Expert in sinus surgery, vertigo treatment, allergy testing, endoscopic procedures. Book appointment online.',
   keywords:
     'ENT doctor Agartala, ENT specialist Tripura, otolaryngologist Agartala, Dr Amlan Debbarma, ENT surgeon Tripura Medical College',
   ogImage:
-    'https://res.cloudinary.com/mobeet/image/upload/v1764923599/IMG_20251203_101518842_HDR_PORTRAIT_2_1_hyhvhd.jpg',
+    'https://res.cloudinary.com/mobeet/image/upload/v1765202950/DrAmlanLogo_2_rzgp2v.png',
 };
 
 const seoPages: Record<string, SEOData> = {

@@ -4,6 +4,7 @@ import {BookingReceipt} from './BookingReceipt';
 import {useTheme} from '@/hooks/useTheme';
 import {appStore} from '@/appStore/appStore';
 import type {PaymentBookingData} from '../types/types';
+import {logger} from '@/utils/logger';
 
 interface SearchAppointmentModalProps {
   isOpen: boolean;
@@ -118,7 +119,7 @@ export const SearchAppointmentModal: React.FC<SearchAppointmentModalProps> = ({
         }
       }
     } catch (error) {
-      console.error('Error searching appointment:', error);
+      logger.error('Error searching appointment:', error);
       setError('Failed to search appointment. Please try again.');
     } finally {
       setLoading(false);

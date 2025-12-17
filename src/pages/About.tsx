@@ -31,7 +31,7 @@ export const About = (): React.JSX.Element => {
           <header className="flex flex-col items-center justify-center py-5">
             <h1
               className={`relative mb-6 inline-block text-4xl font-bold tracking-wide ${textColor}`}>
-              About Me
+              About Doctor
               <span className="absolute right-0 -bottom-1 h-1 w-1/2 rounded bg-yellow-400"></span>
             </h1>
           </header>
@@ -71,17 +71,18 @@ export const About = (): React.JSX.Element => {
                 <p
                   className={`mb-6 cursor-text text-base ${textSecondary} md:text-lg`}>
                   Dr. Debbarma is an otolaryngologist specializing in sinus
-                  disorders, endoscopic nasal surgery, adenotonsillectomy, Head
-                  & neck surgeries, Endoscopic and microscopic ear surgeries,
-                  vertigo, allergy treatment, and sleep apnea treatment. He has
-                  a wide range of experience, and he had served in the Army
-                  Medical Corps, where he had performed combat duties in the
-                  counter-terrorism operations in J&K and also treated troops to
-                  keep them fighting fit in the Siachen Glacier, also known as
-                  the highest battlefield in the world. Presently working as an
-                  ENT Surgeon at Tripura Medical College, and he is dedicated to
-                  providing patient-centered, evidence-based care for both
-                  adults and children.
+                  disorders, endoscopic nasal surgery, adenotonsillectomy, head
+                  and neck surgeries, endoscopic and microscopic ear surgeries,
+                  vertigo, allergy treatment, and sleep apnea management. With a
+                  wide range of clinical experience, service was rendered in the
+                  Army Medical Corps, including combat duties during
+                  counter-terrorism operations in Jammu and Kashmir, along with
+                  medical care provided to troops to keep them fighting fit in
+                  the Siachen Glacier, the highest battlefield in the world.
+                  Currently working as an ENT Surgeon at Tripura Medical
+                  College, dedication remains focused on providing
+                  patient-centered, evidence-based care for both adults and
+                  children.
                 </p>
               </div>
             </div>

@@ -102,7 +102,7 @@ export const checkAvailableSlots = async (
 
     return availableSlots;
   } catch (error) {
-    console.error('Error checking slots:', error);
+    logger.error('Error checking slots:', error);
     throw error;
   }
 };
@@ -198,7 +198,7 @@ export const validateBookingAvailability = async (
       availableSlots,
     };
   } catch (error) {
-    console.error('Error validating booking:', error);
+    logger.error('Error validating booking:', error);
     return {
       isAvailable: false,
       availableSlots: 0,
@@ -259,7 +259,7 @@ export const initiatePayment = async (
     // This won't be reached due to redirect, but needed for TypeScript
     return {success: true};
   } catch (error) {
-    console.error('Payment initiation error:', error);
+    logger.error('Payment initiation error:', error);
     return {success: false, error: 'Failed to initiate payment'};
   }
 };

@@ -4,6 +4,7 @@ import {generateBookingReceiptPDF} from '@/utils/pdfGenerator';
 import {useTheme} from '@/hooks/useTheme';
 import {appStore} from '@/appStore/appStore';
 import type {PaymentBookingData} from '../types/types';
+import {logger} from '@/utils/logger';
 
 interface SuccessModalProps {
   isOpen: boolean;
@@ -41,7 +42,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
         phone: bookingData.phone,
       });
     } catch (error) {
-      console.error('Download failed:', error);
+      logger.error('Download failed:', error);
     } finally {
       setIsDownloading(false);
     }
