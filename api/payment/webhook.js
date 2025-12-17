@@ -2,16 +2,29 @@
 // This allows using the approved domain for webhook URL
 
 export default async function handler(req, res) {
-  // Log all webhook attempts for debugging
-  console.log('[WEBHOOK-PROXY] Webhook received');
+  // Log ALL requests (GET, POST, everything) for debugging
+  console.log('=== WEBHOOK PROXY CALLED ===');
+  console.log('[WEBHOOK-PROXY] Timestamp:', new Date().toISOString());
   console.log('[WEBHOOK-PROXY] Method:', req.method);
-  console.log('[WEBHOOK-PROXY] Headers:', JSON.stringify(req.headers));
-  console.log('[WEBHOOK-PROXY] Body:', JSON.stringify(req.body));
+  console.log('[WEBHOOK-PROXY] URL:', req.url);
+  console.log('[WEBHOOK-PROXY] Headers:', JSON.stringify(req.headers, null, 2));
+  console.log('[WEBHOOK-PROXY] Body:', JSON.stringify(req.body, null, 2));
+  console.log('[WEBHOOK-PROXY] Query:', JSON.stringify(req.query, null, 2));
+  console.log('=== END WEBHOOK PROXY LOG ===');
 
-  // Only allow POST requests from PhonePe
+  // Allow all methods for debugging - log everything
+  if (req.method === 'GET') {
+    console.log('[WEBHOOK-PROXY] GET request received - returning test response');
+    return res.status(200).json({ 
+      success: true, 
+      message: 'Webhook proxy is reachable via GET',
+      timestamp: new Date().toISOString()
+    });
+  }
+  
   if (req.method !== 'POST') {
-    console.log('[WEBHOOK-PROXY] Rejecting non-POST request');
-    return res.status(405).json({ error: 'Method not allowed' });
+    console.log('[WEBHOOK-PROXY] Non-POST request:', req.method);
+    return res.status(405).json({ error: 'Method not allowed', method: req.method });
   }
 
   try {

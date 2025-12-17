@@ -73,8 +73,35 @@ export const Landing = (): React.JSX.Element => {
       const postResult = await postResponse.json();
       console.log('POST webhook test result:', postResult);
 
+      // Test 4: Simulate REAL PhonePe webhook through proxy
+      console.log('Testing REAL PhonePe webhook simulation through proxy...');
+      const realWebhookResponse = await fetch('/api/payment/webhook', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer test_auth_token',
+          'User-Agent': 'PhonePe-Webhook/1.0',
+        },
+        body: JSON.stringify({
+          type: 'CHECKOUT_ORDER_COMPLETED',
+          merchantId: 'M23X5VSICCNF4',
+          originalMerchantOrderId: 'booking_' + Date.now() + '_test',
+          state: 'COMPLETED',
+          amount: 40000,
+          paymentDetails: [
+            {
+              paymentMode: 'UPI',
+              transactionId: 'phonepe_test_' + Date.now(),
+            },
+          ],
+        }),
+      });
+
+      const realWebhookResult = await realWebhookResponse.json();
+      console.log('REAL PhonePe webhook simulation result:', realWebhookResult);
+
       setWebhookResult(
-        `✅ All tests passed!\n\nBackend: ${backendResult.success ? 'OK' : 'FAILED'}\nProxy: ${proxyResult.success ? 'OK' : 'FAILED'}\nPOST: ${postResult.success ? 'OK' : 'FAILED'}`,
+        `✅ All tests completed!\n\nBackend: ${backendResult.success ? 'OK' : 'FAILED'}\nProxy: ${proxyResult.success ? 'OK' : 'FAILED'}\nReal Webhook: ${realWebhookResult.success ? 'OK' : 'FAILED'}`,
       );
     } catch (error) {
       console.error('Webhook test failed:', error);
