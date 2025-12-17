@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, Suspense, lazy} from 'react';
 import {
   checkAvailableSlots,
   validateBookingAvailability,
@@ -18,9 +18,22 @@ import {PaymentNote} from '@/components/appointmentComponents/PaymentNote';
 import {appStore} from '@/appStore/appStore';
 import {PrivacyPolicyLink} from '@/components/appointmentComponents/PrivacyPolicyLink';
 import {ImportantNotices} from '@/components/appointmentComponents/ImportantNotices';
-import {SearchAppointmentModal} from '@/components/SearchAppointmentModal';
-import {AdminDownloadModal} from '@/components/AdminDownloadModal';
-import {AdminControlModal} from '@/components/AdminControlModal';
+// Lazy load heavy components (only loaded when needed)
+const SearchAppointmentModal = lazy(() =>
+  import('@/components/SearchAppointmentModal').then(module => ({
+    default: module.SearchAppointmentModal,
+  })),
+);
+const AdminDownloadModal = lazy(() =>
+  import('@/components/AdminDownloadModal').then(module => ({
+    default: module.AdminDownloadModal,
+  })),
+);
+const AdminControlModal = lazy(() =>
+  import('@/components/AdminControlModal').then(module => ({
+    default: module.AdminControlModal,
+  })),
+);
 import {useTheme} from '@/hooks/useTheme';
 import {useClinicStatus} from '@/hooks/useClinicStatus';
 
@@ -507,22 +520,49 @@ export const Appointment = (): React.JSX.Element => {
       )}
 
       {/* Search Appointment Modal */}
-      <SearchAppointmentModal
-        isOpen={showSearchModal}
-        onClose={() => setShowSearchModal(false)}
-      />
+      {showSearchModal && (
+        <Suspense
+          fallback={
+            <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black">
+              <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-white"></div>
+            </div>
+          }>
+          <SearchAppointmentModal
+            isOpen={showSearchModal}
+            onClose={() => setShowSearchModal(false)}
+          />
+        </Suspense>
+      )}
 
       {/* Admin Download Modal */}
-      <AdminDownloadModal
-        isOpen={showAdminModal}
-        onClose={() => setShowAdminModal(false)}
-      />
+      {showAdminModal && (
+        <Suspense
+          fallback={
+            <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black">
+              <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-white"></div>
+            </div>
+          }>
+          <AdminDownloadModal
+            isOpen={showAdminModal}
+            onClose={() => setShowAdminModal(false)}
+          />
+        </Suspense>
+      )}
 
       {/* Admin Control Modal */}
-      <AdminControlModal
-        isOpen={showControlModal}
-        onClose={() => setShowControlModal(false)}
-      />
+      {showControlModal && (
+        <Suspense
+          fallback={
+            <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black">
+              <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-white"></div>
+            </div>
+          }>
+          <AdminControlModal
+            isOpen={showControlModal}
+            onClose={() => setShowControlModal(false)}
+          />
+        </Suspense>
+      )}
     </div>
   );
 };

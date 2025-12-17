@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, Suspense, lazy} from 'react';
 import {
   Route,
   BrowserRouter as Router,
@@ -6,16 +6,34 @@ import {
   useLocation,
 } from 'react-router-dom';
 import {WhatsAppIcon, UpArrowIcon} from './appComponents/bottomFloatingIcons';
-import {Home} from './pages/Home';
 import {NavBar} from './appComponents/nav/topNavbar/Navbar';
 import {Footer} from './appComponents/nav/footer/Footer';
-import {About} from './pages/About';
-import {Contact} from './pages/Contact';
-import {PrivacyPolicy} from './pages/PrivacyPolicy';
-import {FAQ} from './pages/FAQ';
-import {Appointment} from './pages/Appointment';
 import {ProtectedRoute} from './appComponents/ProtectedRoute';
-import {Login} from './pages/Login';
+
+// Lazy load pages for better code splitting
+const Home = lazy(() =>
+  import('./pages/Home').then(module => ({default: module.Home})),
+);
+const About = lazy(() =>
+  import('./pages/About').then(module => ({default: module.About})),
+);
+const Contact = lazy(() =>
+  import('./pages/Contact').then(module => ({default: module.Contact})),
+);
+const PrivacyPolicy = lazy(() =>
+  import('./pages/PrivacyPolicy').then(module => ({
+    default: module.PrivacyPolicy,
+  })),
+);
+const FAQ = lazy(() =>
+  import('./pages/FAQ').then(module => ({default: module.FAQ})),
+);
+const Appointment = lazy(() =>
+  import('./pages/Appointment').then(module => ({default: module.Appointment})),
+);
+const Login = lazy(() =>
+  import('./pages/Login').then(module => ({default: module.Login})),
+);
 
 // Placeholder component for routes without content yet
 // const PlaceholderPage = ({title}: {title: string}) => {
@@ -72,23 +90,33 @@ const RoutesWrapper = ({
       <NavBar />
 
       <main className="flex-1">
-        <Routes>
-          <Route path={'/'} element={<Home />} />
-          <Route path={'/home'} element={<Home />} />
-          <Route path={'/about'} element={<About />} />
-          <Route path={'/contact'} element={<Contact />} />
-          <Route path={'/privacy-policy'} element={<PrivacyPolicy />} />
-          <Route path={'/faq'} element={<FAQ />} />
-          <Route path={'/appointment'} element={<Appointment />} />
-          <Route
-            path={'/admin-login'}
-            element={
-              <ProtectedRoute>
-                <Login />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
+        <Suspense
+          fallback={
+            <div className="flex min-h-screen items-center justify-center">
+              <div className="text-center">
+                <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
+                <p className="text-gray-600">Loading...</p>
+              </div>
+            </div>
+          }>
+          <Routes>
+            <Route path={'/'} element={<Home />} />
+            <Route path={'/home'} element={<Home />} />
+            <Route path={'/about'} element={<About />} />
+            <Route path={'/contact'} element={<Contact />} />
+            <Route path={'/privacy-policy'} element={<PrivacyPolicy />} />
+            <Route path={'/faq'} element={<FAQ />} />
+            <Route path={'/appointment'} element={<Appointment />} />
+            <Route
+              path={'/admin-login'}
+              element={
+                <ProtectedRoute>
+                  <Login />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </Suspense>
       </main>
       <Footer />
 

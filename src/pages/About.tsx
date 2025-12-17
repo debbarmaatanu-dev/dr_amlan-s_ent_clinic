@@ -54,6 +54,7 @@ export const About = (): React.JSX.Element => {
                     className="h-full w-full object-cover"
                     onLoad={() => setLoading(false)}
                     style={{display: loading ? 'none' : 'block'}}
+                    loading="lazy"
                   />
                 </div>
               </div>

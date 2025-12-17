@@ -1,5 +1,4 @@
-import {toJpeg} from 'html-to-image';
-import jsPDF from 'jspdf';
+// Dynamic imports for PDF generation libraries (only loaded when needed)
 import type {PDFBookingData} from '../types/types';
 import {logger} from './logger';
 
@@ -14,6 +13,11 @@ export const generateBookingReceiptPDF = async (
   }
 
   try {
+    // Dynamically import PDF libraries only when needed
+    const [{toJpeg}, jsPDF] = await Promise.all([
+      import('html-to-image'),
+      import('jspdf').then(module => module.default),
+    ]);
     // Store original styles
     const originalStyles = {
       width: receiptElement.style.width,

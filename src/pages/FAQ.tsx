@@ -218,6 +218,7 @@ export const FAQ = (): React.JSX.Element => {
                 src={logo}
                 alt="Dr Amlan's ENT Clinic Logo"
                 className="h-32 w-32 rounded-full object-cover"
+                loading="lazy"
               />
             </div>
             <h1

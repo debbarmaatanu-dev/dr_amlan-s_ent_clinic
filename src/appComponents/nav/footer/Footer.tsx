@@ -60,6 +60,7 @@ export function Footer() {
                 className="h-18 w-18 object-cover"
                 width="72"
                 height="72"
+                loading="lazy"
               />
               <div>
                 <h2

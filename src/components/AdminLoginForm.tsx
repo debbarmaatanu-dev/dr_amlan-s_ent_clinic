@@ -105,6 +105,7 @@ export default function AdminLoginForm({
                 alt="Google Icon"
                 className="rounded-full"
                 aria-label="Google Icon"
+                loading="lazy"
               />
             </div>
             <span className="text-lg">Continue with Google</span>
