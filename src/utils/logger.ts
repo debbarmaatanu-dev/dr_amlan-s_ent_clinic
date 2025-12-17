@@ -1,6 +1,6 @@
 /**
  * Production-safe logging utility for frontend
- * Only logs errors in production, full logging in development
+ * Logs are visible in Vercel functions but not in browser devtools in production
  */
 
 const isProduction = import.meta.env.PROD;
@@ -11,28 +11,22 @@ export const logger = {
     console.error(...args);
   },
 
-  // Only log in development
+  // Log in development and Vercel functions (for debugging)
   log: (...args: unknown[]) => {
-    if (!isProduction) {
-      console.log(...args);
-    }
+    console.log(...args);
   },
 
-  // Only log in development
+  // Log in development and Vercel functions (for debugging)
   info: (...args: unknown[]) => {
-    if (!isProduction) {
-      console.info(...args);
-    }
+    console.info(...args);
   },
 
-  // Only log in development
+  // Log in development and Vercel functions (for debugging)
   warn: (...args: unknown[]) => {
-    if (!isProduction) {
-      console.warn(...args);
-    }
+    console.warn(...args);
   },
 
-  // Only log in development
+  // Only log in development (debug is too verbose for production)
   debug: (...args: unknown[]) => {
     if (!isProduction) {
       console.debug(...args);

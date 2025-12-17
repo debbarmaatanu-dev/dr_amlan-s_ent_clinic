@@ -101,10 +101,7 @@ export const Appointment = (): React.JSX.Element => {
 
       // If webhook processed, use that result (real-time)
       if (webhookData.success && webhookData.webhookProcessed) {
-        if (
-          webhookData.eventType === 'pg.order.completed' ||
-          webhookData.eventType === 'paylink.order.completed'
-        ) {
+        if (webhookData.eventType === 'CHECKOUT_ORDER_COMPLETED') {
           // Webhook confirmed success - get booking details
           const response = await fetch(
             `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/status-by-transaction/${transactionId}`,
@@ -134,7 +131,7 @@ export const Appointment = (): React.JSX.Element => {
             setLoading(false);
             return;
           }
-        } else if (webhookData.eventType === 'pg.order.failed') {
+        } else if (webhookData.eventType === 'CHECKOUT_ORDER_FAILED') {
           // Webhook confirmed failure
           setModalContent({
             title: 'Payment Failed',

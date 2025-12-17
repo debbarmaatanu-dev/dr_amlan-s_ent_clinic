@@ -16,7 +16,7 @@ export default defineConfig({
     minify: 'esbuild',
   },
   esbuild: {
-    // Remove console logs in production build
-    drop: ['console', 'debugger'],
+    // Only remove debugger statements, keep console logs for Vercel debugging
+    drop: ['debugger'],
   },
 });
