@@ -41,6 +41,7 @@ export function Footer() {
     },
     {label: 'About', path: '/about', ariaLabel: 'Learn about Dr. Amlan'},
     {label: 'Contact', path: '/contact', ariaLabel: 'Contact information'},
+    {label: 'FAQ', path: '/faq', ariaLabel: 'Frequently asked questions'},
     {label: 'Admin', path: '/admin-login', ariaLabel: 'Admin login portal'},
   ];
 

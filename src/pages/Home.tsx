@@ -1,4 +1,5 @@
 import {FeaturesSection} from '@/components/homeComponents/FeaturesSection';
+import {FAQSection} from '@/components/homeComponents/FAQSection';
 import {Landing} from '@/components/homeComponents/Landing';
 import {ServicesSection} from '@/components/homeComponents/ServicesSection';
 import {WelcomeSection} from '@/components/homeComponents/WelcomeSection';
@@ -21,6 +22,8 @@ export const Home = (): React.JSX.Element => {
         <WelcomeSection />
         {/* Features Section */}
         <FeaturesSection />
+        {/* FAQ Section */}
+        <FAQSection />
       </main>
     </div>
   );

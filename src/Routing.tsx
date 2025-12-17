@@ -12,6 +12,7 @@ import {Footer} from './appComponents/nav/footer/Footer';
 import {About} from './pages/About';
 import {Contact} from './pages/Contact';
 import {PrivacyPolicy} from './pages/PrivacyPolicy';
+import {FAQ} from './pages/FAQ';
 import {Appointment} from './pages/Appointment';
 import {ProtectedRoute} from './appComponents/ProtectedRoute';
 import {Login} from './pages/Login';
@@ -77,6 +78,7 @@ const RoutesWrapper = ({
           <Route path={'/about'} element={<About />} />
           <Route path={'/contact'} element={<Contact />} />
           <Route path={'/privacy-policy'} element={<PrivacyPolicy />} />
+          <Route path={'/faq'} element={<FAQ />} />
           <Route path={'/appointment'} element={<Appointment />} />
           <Route
             path={'/admin-login'}

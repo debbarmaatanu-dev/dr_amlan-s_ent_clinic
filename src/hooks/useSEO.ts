@@ -75,6 +75,15 @@ const seoPages: Record<string, SEOData> = {
       'ENT clinic privacy policy Agartala, Dr Amlan Debbarma terms conditions, patient data protection Tripura, ENT appointment refund policy',
     canonicalUrl: 'https://www.dr-major-amlan-ent.in/privacy-policy',
   },
+  '/faq': {
+    title:
+      'FAQ - Dr. Amlan Debbarma ENT Clinic Agartala | Common Questions Answered',
+    description:
+      'Frequently asked questions about Dr. (Major) Amlan Debbarma ENT Clinic in Agartala, Tripura. Find answers about consultation fees, clinic timings, booking appointments, payment methods, and ENT treatments.',
+    keywords:
+      'ENT clinic FAQ Agartala, Dr Amlan Debbarma questions, ENT consultation fees Tripura, clinic timings Agartala, ENT appointment booking, ENT treatment questions',
+    canonicalUrl: 'https://www.dr-major-amlan-ent.in/faq',
+  },
 };
 
 export const useSEO = (customSEO?: Partial<SEOData>) => {
@@ -268,6 +277,85 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
           email: 'debbarmaamlan@gmail.com',
         },
       ],
+    };
+  } else if (currentPath === '/faq') {
+    // FAQPage schema for FAQ page
+    structuredData = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      name: seo.title,
+      description: seo.description,
+      url: 'https://www.dr-major-amlan-ent.in/faq',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'What ENT conditions do you treat?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'We provide comprehensive ENT care including ear infections, hearing loss, tinnitus, vertigo, nasal congestion, sinusitis, allergies, throat infections, tonsillitis, voice disorders, endoscopic sinus surgery, microscopic ear procedures, and allergy testing and treatment.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What are the consultation fees and payment options?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Consultation fee is ₹400 (Fixed). We accept online payment via PhonePe including UPI, Credit/Debit Cards, and Net Banking. Armed Forces personnel and their dependents are exempted from fees with valid ID (offline only). First follow-up within 2 weeks is free (offline only).',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What are the clinic timings?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Clinic hours are 6:00 PM - 8:30 PM, Monday to Saturday. Closed on Sundays.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'How do I book an appointment?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'You can book online through our Appointment page (10 slots per day) or walk-in at the clinic during consultation hours (10 additional offline slots). Contact us at +91 8258839231 or WhatsApp +91 6033521499 for assistance.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What payment methods are accepted?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'We accept secure online payments through PhonePe payment gateway including UPI, Credit Cards, Debit Cards, and Net Banking. All payments are processed securely with PCI DSS compliance.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'How long does a consultation typically take?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'A typical consultation takes approximately 15-20 minutes, including medical history review, physical examination, diagnosis, treatment plan discussion, and prescription.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Do you treat children?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes, we provide ENT care for patients of all ages, including children. We treat ear infections, hearing problems, tonsillitis, adenoid issues, nasal congestion, allergies, and throat infections in children. Parents/guardians must accompany children during consultations.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Do I need a referral from another doctor?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'No referral is required. You can directly book an appointment for any ENT-related concerns. However, if referred by another doctor, please bring the referral letter, previous medical reports, and list of current medications.',
+          },
+        },
+      ],
+      about: {
+        '@type': 'MedicalOrganization',
+        name: 'Dr. (Major) Amlan Debbarma ENT Clinic',
+      },
     };
   } else {
     // Basic WebPage schema for other pages
