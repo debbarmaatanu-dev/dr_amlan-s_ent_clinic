@@ -4,8 +4,6 @@ export const IMAGES = {
     'https://res.cloudinary.com/mobeet/image/upload/v1765202950/DrAmlanLogo_2_rzgp2v.png',
   DOCTOR_PHOTO:
     'https://res.cloudinary.com/mobeet/image/upload/v1764923599/IMG_20251203_101518842_HDR_PORTRAIT_2_1_hyhvhd.jpg',
-  LANDING_IMAGE:
-    'https://res.cloudinary.com/mobeet/image/upload/vvvvv_1_uiebq9.jpg',
   VERTIGO_ICON:
     'https://res.cloudinary.com/mobeet/image/upload/v1765202949/zzzz-Photoroom_v8wt6f.png',
   ENT_ICON:

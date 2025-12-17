@@ -3,9 +3,8 @@ import {ClipLoader} from 'react-spinners';
 import {useTheme} from '@/hooks/useTheme';
 import {useSEO} from '@/hooks/useSEO';
 
-import {IMAGES} from '@/constants/images';
-
-const landingImage = IMAGES.LANDING_IMAGE;
+const landingImage =
+  'https://res.cloudinary.com/mobeet/image/upload/DoctorPhoto_iasqya.jpg';
 
 export const About = (): React.JSX.Element => {
   const [loading, setLoading] = useState(true);
@@ -51,11 +50,10 @@ export const About = (): React.JSX.Element => {
                   )}
                   <img
                     src={landingImage}
-                    alt="Medical Team"
+                    alt="Dr. Amlan Debbarma"
                     className="h-full w-full object-cover"
                     onLoad={() => setLoading(false)}
                     style={{display: loading ? 'none' : 'block'}}
-                    loading="lazy"
                   />
                 </div>
               </div>
