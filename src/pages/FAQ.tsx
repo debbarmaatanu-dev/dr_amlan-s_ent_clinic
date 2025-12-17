@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import {useTheme} from '@/hooks/useTheme';
 import {useSEO} from '@/hooks/useSEO';
 
-const logo =
-  'https://res.cloudinary.com/mobeet/image/upload/v1765202950/DrAmlanLogo_2_rzgp2v.png';
+import {IMAGES} from '@/constants/images';
+
+const logo = IMAGES.CLINIC_LOGO;
 
 interface FAQItem {
   question: string;

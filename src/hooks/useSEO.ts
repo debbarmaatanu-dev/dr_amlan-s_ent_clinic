@@ -1,5 +1,6 @@
 import {useEffect} from 'react';
 import {useLocation} from 'react-router-dom';
+import {IMAGES} from '@/constants/images';
 
 interface SEOData {
   title: string;
@@ -17,8 +18,7 @@ const defaultSEO: SEOData = {
     'ENT specialist in Agartala, Tripura. Expert in sinus surgery, vertigo treatment, allergy testing, endoscopic procedures. Book appointment online.',
   keywords:
     'ENT doctor Agartala, ENT specialist Tripura, otolaryngologist Agartala, Dr Amlan Debbarma, ENT surgeon Tripura Medical College',
-  ogImage:
-    'https://res.cloudinary.com/mobeet/image/upload/v1765202950/DrAmlanLogo_2_rzgp2v.png',
+  ogImage: IMAGES.CLINIC_LOGO,
 };
 
 const seoPages: Record<string, SEOData> = {
@@ -213,9 +213,8 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
           '@id': 'https://www.dr-major-amlan-ent.in/#organization',
           name: 'Dr. (Major) Amlan Debbarma ENT Clinic',
           url: 'https://www.dr-major-amlan-ent.in/',
-          logo: 'https://res.cloudinary.com/mobeet/image/upload/v1765202950/DrAmlanLogo_2_rzgp2v.png',
-          image:
-            'https://res.cloudinary.com/mobeet/image/upload/v1764923599/IMG_20251203_101518842_HDR_PORTRAIT_2_1_hyhvhd.jpg',
+          logo: IMAGES.CLINIC_LOGO,
+          image: IMAGES.DOCTOR_PHOTO,
           description:
             'Leading ENT clinic in Agartala, Tripura providing comprehensive ear, nose, and throat treatments',
           address: {
@@ -246,8 +245,7 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
           honorificPrefix: 'Dr.',
           honorificSuffix: 'MS ENT',
           url: 'https://www.dr-major-amlan-ent.in/about',
-          image:
-            'https://res.cloudinary.com/mobeet/image/upload/v1764923599/IMG_20251203_101518842_HDR_PORTRAIT_2_1_hyhvhd.jpg',
+          image: IMAGES.DOCTOR_PHOTO,
           jobTitle: 'ENT Surgeon',
           description:
             'MS ENT, Ex-Army Medical Corps, Endoscopic and Microscopic ENT surgeon at Tripura Medical College',

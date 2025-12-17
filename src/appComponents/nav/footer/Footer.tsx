@@ -2,8 +2,9 @@ import type {ActualTheme} from '@/appStore/themeSlice';
 import {useTheme} from '@/hooks/useTheme';
 import {useNavigate} from 'react-router-dom';
 
-const logo =
-  'https://res.cloudinary.com/mobeet/image/upload/v1765202950/DrAmlanLogo_2_rzgp2v.png';
+import {IMAGES} from '@/constants/images';
+
+const logo = IMAGES.CLINIC_LOGO;
 
 const getBGColor = (actualTheme: ActualTheme) => {
   if (actualTheme === 'light') {

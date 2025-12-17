@@ -3,8 +3,9 @@ import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {ClipLoader} from 'react-spinners';
 
-const landingImage =
-  'https://res.cloudinary.com/mobeet/image/upload/v1764923599/IMG_20251203_101518842_HDR_PORTRAIT_2_1_hyhvhd.jpg';
+import {IMAGES} from '@/constants/images';
+
+const landingImage = IMAGES.DOCTOR_PHOTO;
 
 export const Landing = (): React.JSX.Element => {
   const navigation = useNavigate();

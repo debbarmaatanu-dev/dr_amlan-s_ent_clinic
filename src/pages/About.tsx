@@ -3,8 +3,9 @@ import {ClipLoader} from 'react-spinners';
 import {useTheme} from '@/hooks/useTheme';
 import {useSEO} from '@/hooks/useSEO';
 
-const landingImage =
-  'https://res.cloudinary.com/mobeet/image/upload/vvvvv_1_uiebq9.jpg';
+import {IMAGES} from '@/constants/images';
+
+const landingImage = IMAGES.LANDING_IMAGE;
 
 export const About = (): React.JSX.Element => {
   const [loading, setLoading] = useState(true);

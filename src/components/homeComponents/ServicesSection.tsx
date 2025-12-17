@@ -1,9 +1,8 @@
 import {useTheme} from '@/hooks/useTheme';
+import {IMAGES} from '@/constants/images';
 
-const vertigoImage =
-  'https://res.cloudinary.com/mobeet/image/upload/v1765202949/zzzz-Photoroom_v8wt6f.png';
-const entImage =
-  'https://res.cloudinary.com/mobeet/image/upload/v1765206848/ENT_ICON-Photoroom_dgkdy8.png';
+const vertigoImage = IMAGES.VERTIGO_ICON;
+const entImage = IMAGES.ENT_ICON;
 
 export const ServicesSection = (): React.JSX.Element => {
   const {actualTheme} = useTheme();

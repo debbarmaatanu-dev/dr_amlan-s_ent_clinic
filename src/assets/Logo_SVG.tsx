@@ -1,3 +1,5 @@
+import {IMAGES} from '@/constants/images';
+
 export const LogoSVG = () => {
   return (
     <svg
@@ -7,13 +9,7 @@ export const LogoSVG = () => {
       height="100%"
       viewBox="0 0 512 512"
       className="h-full w-full rounded-full">
-      <image
-        xlinkHref="https://res.cloudinary.com/mobeet/image/upload/v1765203645/DrAmlanLogoTop_pagg2c.png"
-        x="0"
-        y="0"
-        width="512"
-        height="512"
-      />
+      <image xlinkHref={IMAGES.LOGO_TOP} x="0" y="0" width="512" height="512" />
     </svg>
   );
 };

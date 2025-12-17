@@ -3,8 +3,9 @@ import {handleAdminGoogleLogin} from '@/services/googleLoginHelper';
 import {type MouseEvent} from 'react';
 import {useTheme} from '@/hooks/useTheme';
 
-const googleIcon =
-  'https://res.cloudinary.com/mobeet/image/upload/google_rgvahv.jpg';
+import {IMAGES} from '@/constants/images';
+
+const googleIcon = IMAGES.GOOGLE_ICON;
 
 type AdminLoginFormProps = {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
