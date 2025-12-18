@@ -39,6 +39,10 @@ export const ContactInfo: React.FC = () => {
   const textColor = actualTheme === 'light' ? 'text-gray-800' : 'text-white';
   const textSecondary =
     actualTheme === 'light' ? 'text-gray-600' : 'text-gray-200';
+  const textLinkColor =
+    actualTheme === 'light'
+      ? 'text-blue-600 hover:text-blue-800'
+      : 'text-blue-200 hover:text-blue-400';
 
   return (
     <article className={`overflow-hidden rounded-2xl ${bgColor} shadow-xl`}>
@@ -53,9 +57,7 @@ export const ContactInfo: React.FC = () => {
           iconBg="bg-blue-600"
           title="Phone"
           textColor={textColor}>
-          <a
-            href="tel:+918258839231"
-            className="block text-blue-600 hover:text-blue-800">
+          <a href="tel:+918258839231" className={`block ${textLinkColor}`}>
             +91 8258839231
           </a>
         </ContactItem>
@@ -70,7 +72,7 @@ export const ContactInfo: React.FC = () => {
             href="https://wa.me/916033521499"
             target="_blank"
             rel="noopener noreferrer"
-            className="block text-blue-600 hover:text-blue-800">
+            className={`block ${textLinkColor}`}>
             +91 6033521499
           </a>
         </ContactItem>
@@ -83,7 +85,7 @@ export const ContactInfo: React.FC = () => {
           textColor={textColor}>
           <a
             href="mailto:debbarmaamlan@gmail.com"
-            className="block text-blue-600 hover:text-blue-800">
+            className={`block ${textLinkColor}`}>
             debbarmaamlan@gmail.com
           </a>
         </ContactItem>

@@ -8,6 +8,9 @@ export const ServicesSection = (): React.JSX.Element => {
   const {actualTheme} = useTheme();
 
   const bgColor = actualTheme === 'light' ? 'bg-white' : 'bg-gray-500';
+  const textColor = actualTheme === 'light' ? 'text-gray-800' : 'text-white';
+  const textSecondary =
+    actualTheme === 'light' ? 'text-gray-600' : 'text-gray-200';
   return (
     <section
       className={`mx-auto w-full ${bgColor} py-16`}
@@ -16,10 +19,10 @@ export const ServicesSection = (): React.JSX.Element => {
         <header className="mb-12 text-center">
           <h2
             id="services-heading"
-            className="mb-4 text-3xl font-bold text-gray-800 md:text-4xl">
+            className={`mb-4 text-3xl font-bold ${textColor} md:text-4xl`}>
             Our ENT Services
           </h2>
-          <p className="text-lg text-gray-600">
+          <p className={`text-lg ${textSecondary}`}>
             Comprehensive ear, nose, and throat care.
           </p>
         </header>
