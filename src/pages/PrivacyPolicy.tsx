@@ -238,7 +238,8 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                       </li>
                       <li>
                         <strong>Vercel:</strong> Secure web hosting with
-                        enterprise infrastructure and DDoS protection
+                        enterprise infrastructure and DDoS protection and Web
+                        Application Firewall.
                       </li>
                     </ul>
                     <p className="mt-2 text-sm">
@@ -274,10 +275,8 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                       If payment money was deducted from your bank account but
                       you did not receive a booking receipt, a refund will be
                       provided. However, you must contact us within 2 days of
-                      the transaction date. If payment is deducted but no
-                      booking receipt is received, please contact us within 2
-                      days for a refund. Refunds will also be issued in case of
-                      clinic closure or doctor unavailability.
+                      the transaction date. Refunds will also be issued in case
+                      of clinic closure or doctor unavailability.
                     </p>
                   </div>
 

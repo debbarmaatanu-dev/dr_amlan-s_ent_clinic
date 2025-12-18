@@ -171,7 +171,8 @@ export const ImportantNotices = (): React.JSX.Element => {
         <p className={`text-sm ${textAmberSecondary}`}>
           First (1st) Follow-up appointments within 2 weeks are free of charge.{' '}
           <strong className={textAmber}>
-            Follow-ups must be booked offline at the clinic location.
+            Follow-ups must be booked offline by calling or visiting at the
+            clinic location.
           </strong>
         </p>
       </article>
