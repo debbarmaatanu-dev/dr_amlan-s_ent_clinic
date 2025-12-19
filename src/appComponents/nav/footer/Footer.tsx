@@ -149,7 +149,7 @@ export function Footer() {
             <div className="space-y-4">
               <h2
                 id="footer-nav-heading"
-                className={`sm:text-md mb-4 text-2xl font-medium ${getTextColor(actualTheme)}`}>
+                className={`mb-4 text-2xl font-medium sm:text-lg ${getTextColor(actualTheme)}`}>
                 Useful Links
               </h2>
               <ul className="space-y-2" role="list">
@@ -158,7 +158,7 @@ export function Footer() {
                     <button
                       onClick={() => handleNav(link.path)}
                       aria-label={link.ariaLabel}
-                      className={`sm:text-md block cursor-pointer text-lg ${actualTheme === 'light' ? 'text-gray-500' : 'text-gray-300'} duration-180 ease-in-out hover:text-blue-300 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none active:scale-95`}>
+                      className={`block cursor-pointer text-lg sm:text-[16px] ${actualTheme === 'light' ? 'text-gray-500' : 'text-gray-300'} duration-180 ease-in-out hover:text-blue-300 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none active:scale-95`}>
                       {link.label}
                     </button>
                   </li>
@@ -171,8 +171,8 @@ export function Footer() {
           <section aria-labelledby="location-heading">
             <h2
               id="location-heading"
-              className={`mb-4 text-lg font-semibold ${getTextColor(actualTheme)}`}>
-              Our Location
+              className={`mb-4 text-2xl font-semibold sm:text-lg ${getTextColor(actualTheme)}`}>
+              Clinic Location
             </h2>
             <div className="flex h-64 w-full items-center justify-center border-gray-600 bg-gray-700">
               <iframe
