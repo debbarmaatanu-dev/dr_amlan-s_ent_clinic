@@ -69,10 +69,12 @@ export function Footer() {
                   className="text-xl font-bold text-blue-600">
                   Dr. (Major) Amlan's ENT clinic
                 </h2>
-                <p className={`text-sm ${getTextColor(actualTheme)}`}>
+                <p
+                  className={`text-md sm:text-sm ${getTextColor(actualTheme)}`}>
                   MBBS, MS ENT
                 </p>
-                <p className={`text-sm ${getTextColor(actualTheme)}`}>
+                <p
+                  className={`text-md sm:text-sm ${getTextColor(actualTheme)}`}>
                   Ex-Army Medical Corps
                   <br />
                   Endoscopic and Microscopic ENT surgeon
@@ -80,7 +82,7 @@ export function Footer() {
               </div>
             </header>
 
-            <div className="mt-4 flex flex-col items-start space-y-3">
+            <div className="text-md mt-4 flex flex-col items-start space-y-3 sm:text-sm">
               <section aria-labelledby="contact-methods">
                 <h3 id="contact-methods" className="sr-only">
                   Contact Methods
@@ -108,7 +110,7 @@ export function Footer() {
               </section>
 
               <address
-                className={`${actualTheme === 'light' ? 'text-gray-500' : 'text-gray-300'} not-italic`}
+                className={`${actualTheme === 'light' ? 'text-gray-500' : 'text-gray-300'} text-md not-italic sm:text-sm`}
                 aria-labelledby="clinic-address">
                 <h3 id="clinic-address" className="sr-only">
                   Clinic Address
@@ -128,7 +130,7 @@ export function Footer() {
               <div>
                 <a
                   href="mailto:debbarmaamlan@gmail.com"
-                  className="text-blue-600 hover:text-blue-800 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none"
+                  className="text-md text-blue-600 hover:text-blue-800 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none sm:text-sm"
                   aria-label="Send email to debbarmaamlan@gmail.com">
                   <span
                     className={`${actualTheme === 'light' ? 'text-gray-500' : 'text-gray-300'}`}>
@@ -143,11 +145,11 @@ export function Footer() {
           {/* Middle Column - Navigation Links */}
           <nav
             aria-labelledby="footer-nav-heading"
-            className="flex flex-col items-center justify-center text-justify">
-            <div className="space-y-2">
+            className="flex flex-col items-start justify-start text-justify sm:items-center">
+            <div className="space-y-4">
               <h2
                 id="footer-nav-heading"
-                className={`mb-4 text-lg font-medium ${getTextColor(actualTheme)}`}>
+                className={`sm:text-md mb-4 text-2xl font-medium ${getTextColor(actualTheme)}`}>
                 Useful Links
               </h2>
               <ul className="space-y-2" role="list">
@@ -156,7 +158,7 @@ export function Footer() {
                     <button
                       onClick={() => handleNav(link.path)}
                       aria-label={link.ariaLabel}
-                      className={`block cursor-pointer ${actualTheme === 'light' ? 'text-gray-500' : 'text-gray-300'} duration-180 ease-in-out hover:text-blue-300 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none active:scale-95`}>
+                      className={`sm:text-md block cursor-pointer text-lg ${actualTheme === 'light' ? 'text-gray-500' : 'text-gray-300'} duration-180 ease-in-out hover:text-blue-300 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none active:scale-95`}>
                       {link.label}
                     </button>
                   </li>
@@ -208,7 +210,7 @@ export function Footer() {
 
         {/* Copyright Section */}
         <div
-          className={`mt-8 flex flex-col items-center justify-between border-t ${getTextColor(actualTheme)} pt-6 text-sm text-gray-600 md:flex-row`}>
+          className={`text-md mt-8 flex flex-col items-center justify-between border-t sm:text-sm ${getTextColor(actualTheme)} pt-6 text-sm text-gray-600 md:flex-row`}>
           <div className="flex flex-col items-center justify-center gap-2 text-center sm:items-start sm:justify-start sm:text-start">
             <p>© 2025 Dr. (Major) Amlan's ENT Clinic</p>
             <p>All Rights Reserved.</p>
@@ -234,6 +236,15 @@ export function Footer() {
                 &nbsp;
               </a>
               <a
+                href="https://www.facebook.com/atanuDebbarma001"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit creator's Facebook profile (opens in new tab)"
+                className={`text-sm ${getTextColor(actualTheme)} hover:text-blue-600 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none`}>
+                <i className="fa-brands fa-facebook" aria-hidden="true"></i>
+                &nbsp;
+              </a>
+              <a
                 href="https://www.linkedin.com/in/atanu-debbarma"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -243,7 +254,7 @@ export function Footer() {
                 &nbsp;
               </a>
               <span className={`text-sm ${getTextColor(actualTheme)}`}>
-                Atanu Debbarma
+                &nbsp; Atanu Debbarma
               </span>
             </div>
           </div>

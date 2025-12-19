@@ -39,39 +39,64 @@ export const SlotAvailability: React.FC<SlotAvailabilityProps> = ({
     );
   }
 
-  return (
-    <div
-      className={`mb-6 rounded-lg border-2 px-4 py-3 ${
-        availableSlots > 0
-          ? 'border-green-300 bg-green-50'
-          : 'border-red-300 bg-red-50'
-      }`}>
-      <div className="flex items-center justify-between">
-        <div>
-          <p className={`text-sm font-medium ${textColor}`}>
-            Available Online Slots
-          </p>
-          <p
-            className={`text-md font-bold ${
-              availableSlots > 0 ? 'text-green-600' : 'text-red-600'
-            }`}>
-            {availableSlots} / 10
-          </p>
-        </div>
-        <div>
-          {availableSlots > 0 ? (
-            <i className="fa-solid fa-circle-check text-lg text-green-500"></i>
-          ) : (
+  // T^D^: Uncomment when patient base increases - currently hidden to avoid showing low booking numbers
+  // return (
+  //   <div
+  //     className={`mb-6 rounded-lg border-2 px-4 py-3 ${
+  //       availableSlots > 0
+  //         ? 'border-green-300 bg-green-50'
+  //         : 'border-red-300 bg-red-50'
+  //     }`}>
+  //     <div className="flex items-center justify-between">
+  //       <di>
+  //         <p className={`text-sm font-medium ${textColor}`}>
+  //           Available Online Slots
+  //         </p>
+  //         <p
+  //           className={`text-md font-bold ${
+  //             availableSlots > 0 ? 'text-green-600' : 'text-red-600'
+  //           }`}>
+  //           {availableSlots} / 10
+  //         </p>
+  //       </div>
+  //       <div>
+  //         {availableSlots > 0 ? (
+  //           <i className="fa-solid fa-circle-check text-lg text-green-500"></i>
+  //         ) : (
+  //           <i className="fa-solid fa-circle-xmark text-lg text-red-500"></i>
+  //         )}
+  //       </div>
+  //     </div>
+  //     {availableSlots <= 0 && (
+  //       <p className="mt-2 text-sm text-red-600">
+  //         No online slots available. Please visit the clinic directly or select
+  //         another date.
+  //       </p>
+  //     )}
+  //   </div>
+  // );
+
+  // Show only when slots are full (0 available)
+  if (availableSlots <= 0) {
+    return (
+      <div className="mb-6 rounded-lg border-2 border-red-300 bg-red-50 px-4 py-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className={`text-sm font-medium ${textColor}`}>Slot Status</p>
+            <p className="text-md font-bold text-red-600">Fully Booked</p>
+          </div>
+          <div>
             <i className="fa-solid fa-circle-xmark text-lg text-red-500"></i>
-          )}
+          </div>
         </div>
-      </div>
-      {availableSlots <= 0 && (
         <p className="mt-2 text-sm text-red-600">
           No online slots available. Please visit the clinic directly or select
           another date.
         </p>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
+
+  // Don't show anything when slots are available (hide the count)
+  return null;
 };
