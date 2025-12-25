@@ -20,7 +20,7 @@ export const ServicesSection = (): React.JSX.Element => {
           <h2
             id="services-heading"
             className={`mb-4 text-3xl font-bold ${textColor} md:text-4xl`}>
-            Our ENT Services
+            Offered ENT Services
           </h2>
           <p className={`text-lg ${textSecondary}`}>
             Comprehensive ear, nose, and throat care.
