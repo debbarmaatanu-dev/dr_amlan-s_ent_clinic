@@ -114,7 +114,7 @@ export const ContactInfo: React.FC = () => {
           title="Clinic Hours"
           textColor={textColor}>
           <p className={textSecondary}>
-            Monday - Saturday: 9:00 AM - 6:00 PM
+            Monday - Saturday: 6:00 PM - 8:30 PM
             <br />
             Sunday: Closed
           </p>
