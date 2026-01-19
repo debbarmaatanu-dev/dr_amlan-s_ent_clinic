@@ -86,3 +86,106 @@ export const generateBookingReceiptPDF = async (
     alert('Failed to generate PDF. Please try again.');
   }
 };
+
+export const generateModalReceiptPDF = async (
+  bookingData: PDFBookingData,
+  filePrefix: string = 'Appointment',
+): Promise<void> => {
+  try {
+    // Create a temporary container outside the modal for clean PDF capture
+    const tempContainer = document.createElement('div');
+    tempContainer.style.position = 'fixed';
+    tempContainer.style.top = '-9999px';
+    tempContainer.style.left = '-9999px';
+    tempContainer.style.width = '800px';
+    tempContainer.style.minHeight = 'auto';
+    tempContainer.style.height = 'auto';
+    tempContainer.style.backgroundColor = '#ffffff';
+    tempContainer.style.zIndex = '-1';
+    tempContainer.style.padding = '0';
+    tempContainer.style.margin = '0';
+    tempContainer.style.overflow = 'visible';
+
+    // Create a temporary receipt element
+    const originalReceipt = document.getElementById('booking-receipt');
+    if (!originalReceipt) {
+      throw new Error('Receipt element not found');
+    }
+
+    // Clone the receipt content
+    const clonedReceipt = originalReceipt.cloneNode(true) as HTMLElement;
+    clonedReceipt.id = 'temp-booking-receipt';
+
+    // Ensure the cloned receipt has proper styling - SAME AS ORIGINAL FUNCTION
+    clonedReceipt.style.width = '800px';
+    clonedReceipt.style.maxWidth = '800px';
+    clonedReceipt.style.height = 'auto';
+    clonedReceipt.style.minHeight = 'auto';
+    clonedReceipt.style.overflow = 'visible';
+    clonedReceipt.style.position = 'relative';
+
+    // Add to temporary container and then to body
+    tempContainer.appendChild(clonedReceipt);
+    document.body.appendChild(tempContainer);
+
+    // Wait longer for rendering and layout to settle
+    await new Promise(resolve => setTimeout(resolve, 300));
+
+    // Generate PDF using the temporary element - SAME CAPTURE OPTIONS AS ORIGINAL
+    const {toJpeg} = await import('html-to-image');
+    const jsPDF = (await import('jspdf')).default;
+
+    const imgData = await toJpeg(clonedReceipt, {
+      quality: 0.9,
+      pixelRatio: 2,
+      cacheBust: true,
+      skipFonts: false,
+      // Remove device-specific sizing - let it capture naturally like original
+    });
+
+    // Create PDF - IDENTICAL A4 SETUP AS ORIGINAL
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdfWidth = 210; // A4 width in mm
+    const pdfHeight = 297; // A4 height in mm
+    const margin = 10;
+
+    // Load image and add to PDF
+    const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = reject;
+      image.src = imgData;
+    });
+
+    // IDENTICAL SCALING LOGIC AS ORIGINAL FUNCTION
+    const imgWidth = img.width;
+    const imgHeight = img.height;
+
+    // Calculate width to fit on page with margins - SAME AS ORIGINAL
+    const availableWidth = pdfWidth - 2 * margin;
+    const scaleFactor = availableWidth / imgWidth;
+    const scaledHeight = imgHeight * scaleFactor;
+
+    // Add image to PDF (single page for receipt) - SAME AS ORIGINAL
+    pdf.addImage(
+      imgData,
+      'JPEG',
+      margin,
+      margin,
+      availableWidth,
+      Math.min(scaledHeight, pdfHeight - 2 * margin),
+    );
+
+    // Save PDF
+    const fileName = `${filePrefix}_Receipt_${bookingData.name.replace(/\s+/g, '_')}_Slot${bookingData.slotNumber}_${bookingData.date}.pdf`;
+    pdf.save(fileName);
+
+    // Clean up
+    document.body.removeChild(tempContainer);
+
+    logger.log(`${filePrefix} receipt PDF downloaded successfully!`);
+  } catch (error) {
+    logger.error(`${filePrefix} download failed:`, error);
+    alert('Failed to generate PDF. Please try again.');
+  }
+};

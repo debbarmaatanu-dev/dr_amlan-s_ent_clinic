@@ -44,7 +44,7 @@ Allow: /apple-touch-icon.png
 Allow: /site.webmanifest
 Allow: /browserconfig.xml
 
-# Sitemap location
+# Sitemap location (canonical version only)
 Sitemap: https://www.dr-major-amlan-ent.in/sitemap.xml
 
 # Crawl delay (be respectful to server resources)

@@ -55,6 +55,17 @@ export const WelcomeSection = () => {
               </p>
             </section>
 
+            <section className="mb-4" aria-labelledby="sleep-apnea-treatment">
+              <h3 id="sleep-apnea-treatment" className="sr-only">
+                Sleep Apnea Treatment
+              </h3>
+              <p className="font-bold">
+                Sleep Apnea & Snoring: Flexible sleep endoscopy helps identify
+                areas of airway collapse during sleep, enabling targeted
+                treatment for sleep-related breathing disorders.
+              </p>
+            </section>
+
             <address
               className="mb-4 not-italic"
               aria-labelledby="clinic-location">

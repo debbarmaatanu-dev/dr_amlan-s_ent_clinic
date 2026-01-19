@@ -1,33 +1,19 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {ClipLoader} from 'react-spinners';
-import {BookingReceipt} from './BookingReceipt';
-import {useTheme} from '@/hooks/useTheme';
-import {appStore} from '@/appStore/appStore';
+import {ReceiptView} from './shared/ReceiptView';
+import {useModalTheme} from '@/hooks/useModalTheme';
+import {useModalState} from '@/hooks/useModalState';
+import {
+  handleGeoRestrictionError,
+  createModalCloseHandler,
+} from '@/utils/modalHelpers';
 import type {PaymentBookingData} from '../types/types';
+import type {BookingTableData} from '../types/booking';
 import {logger} from '@/utils/logger';
 
 interface AdminDownloadModalProps {
   isOpen: boolean;
   onClose: () => void;
-}
-
-interface BookingTableData {
-  slotNumber: number;
-  name: string;
-  phone: string;
-  date: string;
-  gender: string;
-  age: number;
-  amount: number;
-  paymentId: string;
-  orderId: string;
-  paymentMethod?: string;
-  paymentStatus?: string;
-  refundInfo?: {
-    refundId?: string;
-    status?: string;
-    reason?: string;
-  };
 }
 
 export const AdminDownloadModal: React.FC<AdminDownloadModalProps> = ({
@@ -41,29 +27,19 @@ export const AdminDownloadModal: React.FC<AdminDownloadModalProps> = ({
     useState<PaymentBookingData | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const {actualTheme} = useTheme();
-  const setMobileNavOpen = appStore(state => state.setMobileNavOpen);
+  // Use unified hooks
+  const {
+    bgColor,
+    textColor,
+    textSecondary,
+    inputBg,
+    inputBorder,
+    inputText,
+    tableBg,
+    borderColor,
+  } = useModalTheme();
 
-  // Hide floating icons when modal is open
-  useEffect(() => {
-    if (isOpen) {
-      setMobileNavOpen(true);
-    } else {
-      setMobileNavOpen(false);
-    }
-  }, [isOpen, setMobileNavOpen]);
-
-  const bgColor = actualTheme === 'light' ? 'bg-white' : 'bg-gray-800';
-  const textColor = actualTheme === 'light' ? 'text-gray-800' : 'text-white';
-  const textSecondary =
-    actualTheme === 'light' ? 'text-gray-600' : 'text-gray-300';
-  const inputBg = actualTheme === 'light' ? 'bg-white' : 'bg-gray-700';
-  const inputBorder =
-    actualTheme === 'light' ? 'border-gray-300' : 'border-gray-600';
-  const inputText = actualTheme === 'light' ? 'text-gray-900' : 'text-white';
-  const tableBg = actualTheme === 'light' ? 'bg-gray-50' : 'bg-gray-700';
-  const borderColor =
-    actualTheme === 'light' ? 'border-gray-200' : 'border-gray-600';
+  useModalState(isOpen);
 
   const handleDateSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const date = e.target.value;
@@ -107,13 +83,7 @@ export const AdminDownloadModal: React.FC<AdminDownloadModalProps> = ({
         setBookings(data.bookings);
       } else {
         // Handle geolocation restriction specifically
-        if (data.code === 'GEO_RESTRICTED') {
-          setError(
-            'This service is only available in India. Please contact support if you believe this is an error.',
-          );
-        } else {
-          setError(data.error || 'No bookings found for this date');
-        }
+        setError(handleGeoRestrictionError(data));
       }
     } catch (error) {
       logger.error('Error fetching bookings:', error);
@@ -141,14 +111,16 @@ export const AdminDownloadModal: React.FC<AdminDownloadModalProps> = ({
     setSelectedBooking(receiptData);
   };
 
-  const handleClose = () => {
-    setSelectedDate('');
-    setBookings([]);
-    setSelectedBooking(null);
-    setError(null);
-    setLoading(false);
-    onClose();
-  };
+  const handleClose = createModalCloseHandler(
+    [
+      () => setSelectedDate(''),
+      () => setBookings([]),
+      () => setSelectedBooking(null),
+      () => setError(null),
+      () => setLoading(false),
+    ],
+    onClose,
+  );
 
   if (!isOpen) return null;
 
@@ -404,28 +376,12 @@ export const AdminDownloadModal: React.FC<AdminDownloadModalProps> = ({
             </section>
           ) : (
             /* Booking Receipt View */
-            <section
-              className="space-y-4"
-              aria-labelledby="receipt-view-heading">
-              <header className="flex items-center justify-between">
-                <h2
-                  id="receipt-view-heading"
-                  className={`text-lg font-semibold ${textColor}`}>
-                  Booking Receipt
-                </h2>
-                <button
-                  onClick={() => setSelectedBooking(null)}
-                  className="cursor-pointer font-medium text-blue-600 hover:text-blue-800 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none"
-                  aria-label="Go back to bookings list">
-                  <i
-                    className="fa-solid fa-arrow-left mr-2"
-                    aria-hidden="true"></i>
-                  Back to List
-                </button>
-              </header>
-
-              <BookingReceipt bookingData={selectedBooking} />
-            </section>
+            <ReceiptView
+              bookingData={selectedBooking}
+              onBack={() => setSelectedBooking(null)}
+              filePrefix="Admin"
+              title="Booking Receipt"
+            />
           )}
         </main>
       </div>

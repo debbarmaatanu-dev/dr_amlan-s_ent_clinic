@@ -1,28 +1,20 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {ClipLoader} from 'react-spinners';
-import {BookingReceipt} from './BookingReceipt';
-import {useTheme} from '@/hooks/useTheme';
-import {appStore} from '@/appStore/appStore';
+import {ReceiptView} from './shared/ReceiptView';
+import {useModalTheme} from '@/hooks/useModalTheme';
+import {useModalState} from '@/hooks/useModalState';
+import {
+  handleGeoRestrictionError,
+  validatePhoneNumber,
+  createModalCloseHandler,
+} from '@/utils/modalHelpers';
 import type {PaymentBookingData} from '../types/types';
+import type {BookingTableData} from '../types/booking';
 import {logger} from '@/utils/logger';
 
 interface SearchAppointmentModalProps {
   isOpen: boolean;
   onClose: () => void;
-}
-
-interface BookingTableData {
-  slotNumber: number;
-  name: string;
-  phone: string;
-  date: string;
-  gender: string;
-  age: number;
-  amount: number;
-  paymentId: string;
-  orderId: string;
-  paymentMethod?: string;
-  timestamp?: string;
 }
 
 export const SearchAppointmentModal: React.FC<SearchAppointmentModalProps> = ({
@@ -41,26 +33,18 @@ export const SearchAppointmentModal: React.FC<SearchAppointmentModalProps> = ({
   const [isMultiple, setIsMultiple] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const {actualTheme} = useTheme();
-  const setMobileNavOpen = appStore(state => state.setMobileNavOpen);
+  // Use unified hooks
+  const {
+    bgColor,
+    textColor,
+    textSecondary,
+    inputBg,
+    inputBorder,
+    inputText,
+    actualTheme,
+  } = useModalTheme();
 
-  // Hide floating icons when modal is open
-  useEffect(() => {
-    if (isOpen) {
-      setMobileNavOpen(true);
-    } else {
-      setMobileNavOpen(false);
-    }
-  }, [isOpen, setMobileNavOpen]);
-
-  const bgColor = actualTheme === 'light' ? 'bg-white' : 'bg-gray-800';
-  const textColor = actualTheme === 'light' ? 'text-gray-800' : 'text-white';
-  const textSecondary =
-    actualTheme === 'light' ? 'text-gray-600' : 'text-gray-300';
-  const inputBg = actualTheme === 'light' ? 'bg-white' : 'bg-gray-700';
-  const inputBorder =
-    actualTheme === 'light' ? 'border-gray-300' : 'border-gray-600';
-  const inputText = actualTheme === 'light' ? 'text-gray-900' : 'text-white';
+  useModalState(isOpen);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,8 +55,7 @@ export const SearchAppointmentModal: React.FC<SearchAppointmentModalProps> = ({
     }
 
     // Validate phone number
-    const phoneRegex = /^[6-9]\d{9}$/;
-    if (!phoneRegex.test(phone)) {
+    if (!validatePhoneNumber(phone)) {
       setError('Please enter a valid 10-digit phone number');
       return;
     }
@@ -107,16 +90,7 @@ export const SearchAppointmentModal: React.FC<SearchAppointmentModalProps> = ({
         }
       } else {
         // Handle geolocation restriction specifically
-        if (data.code === 'GEO_RESTRICTED') {
-          setError(
-            'This service is only available in India. Please contact us if you believe this is an error.',
-          );
-        } else {
-          setError(
-            data.error ||
-              'No booking found for the provided phone number and date',
-          );
-        }
+        setError(handleGeoRestrictionError(data));
       }
     } catch (error) {
       logger.error('Error searching appointment:', error);
@@ -143,16 +117,18 @@ export const SearchAppointmentModal: React.FC<SearchAppointmentModalProps> = ({
     setIsMultiple(false);
   };
 
-  const handleClose = () => {
-    setPhone('');
-    setDate('');
-    setBookingData(null);
-    setMultipleBookings([]);
-    setIsMultiple(false);
-    setError(null);
-    setLoading(false);
-    onClose();
-  };
+  const handleClose = createModalCloseHandler(
+    [
+      () => setPhone(''),
+      () => setDate(''),
+      () => setBookingData(null),
+      () => setMultipleBookings([]),
+      () => setIsMultiple(false),
+      () => setError(null),
+      () => setLoading(false),
+    ],
+    onClose,
+  );
 
   if (!isOpen) return null;
 
@@ -413,29 +389,15 @@ export const SearchAppointmentModal: React.FC<SearchAppointmentModalProps> = ({
             </section>
           ) : (
             /* Single Booking Receipt */
-            <section className="space-y-4" aria-labelledby="receipt-heading">
-              <header className="flex items-center justify-between">
-                <h2
-                  id="receipt-heading"
-                  className={`text-lg font-semibold ${textColor}`}>
-                  Appointment Found!
-                </h2>
-                <button
-                  onClick={() => {
-                    setBookingData(null);
-                    setError(null);
-                  }}
-                  className="cursor-pointer font-medium text-blue-600 hover:text-blue-800 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none"
-                  aria-label="Go back to search form">
-                  <i
-                    className="fa-solid fa-arrow-left mr-2"
-                    aria-hidden="true"></i>
-                  Search Again
-                </button>
-              </header>
-
-              <BookingReceipt bookingData={bookingData!} />
-            </section>
+            <ReceiptView
+              bookingData={bookingData!}
+              onBack={() => {
+                setBookingData(null);
+                setError(null);
+              }}
+              filePrefix="Customer"
+              title="Appointment Found!"
+            />
           )}
         </main>
       </div>

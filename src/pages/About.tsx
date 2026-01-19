@@ -4,7 +4,7 @@ import {useTheme} from '@/hooks/useTheme';
 import {useSEO} from '@/hooks/useSEO';
 
 const landingImage =
-  'https://res.cloudinary.com/mobeet/image/upload/DoctorPhoto_iasqya.jpg';
+  'https://res.cloudinary.com/mobeet/image/upload/WEBP/DOCTOR_PHOTO_ABOUT_j3pbtx.webp';
 
 export const About = (): React.JSX.Element => {
   const [loading, setLoading] = useState(true);

@@ -13,6 +13,7 @@ const NAV_ITEMS = [
   },
   {label: 'About', route: 'about', path: '/about'},
   {label: 'Contact', route: 'contact', path: '/contact'},
+  {label: 'FAQ', route: 'faq', path: '/faq'},
   {label: 'Admin', route: 'admin-login', path: '/admin-login'},
 ];
 

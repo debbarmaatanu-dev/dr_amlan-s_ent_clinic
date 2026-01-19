@@ -13,40 +13,40 @@ interface SEOData {
 }
 
 const defaultSEO: SEOData = {
-  title: 'Dr. (Major) Amlan Debbarma - Best ENT Doctor in Agartala, Tripura',
+  title: 'Dr. (Major) Amlan Debbarma - ENT Specialist in Agartala, Tripura',
   description:
-    'ENT specialist in Agartala, Tripura. Expert in sinus surgery, vertigo treatment, allergy testing, endoscopic procedures. Book appointment online.',
+    'Expert ENT specialist in Agartala, Tripura. Specialist in sinus surgery, vertigo treatment, asthma management, allergy testing, sleep apnea diagnosis, flexible sleep endoscopy, endoscopic procedures. Book appointment online.',
   keywords:
-    'ENT doctor Agartala, ENT specialist Tripura, otolaryngologist Agartala, Dr Amlan Debbarma, ENT surgeon Tripura Medical College',
+    'ENT doctor Agartala, ENT specialist Tripura, otolaryngologist Agartala, Dr Amlan Debbarma, ENT surgeon Tripura Medical College, asthma treatment, allergy management, sleep apnea treatment, flexible sleep endoscopy, snoring treatment, best ENT doctor, leading ENT specialist',
   ogImage: IMAGES.CLINIC_LOGO,
 };
 
 const seoPages: Record<string, SEOData> = {
   '/': {
     title:
-      'Dr. (Major) Amlan Debbarma - Best ENT Doctor in Agartala, Tripura | Online Appointment',
+      'Dr. (Major) Amlan Debbarma - ENT Specialist in Agartala, Tripura | Online Appointment',
     description:
-      'Book appointment with Dr. (Major) Amlan Debbarma, leading ENT specialist in Agartala, Tripura. MS ENT, Ex-Army Medical Corps. Expert in sinus surgery, vertigo treatment, allergy testing.',
+      'Book appointment with Dr. (Major) Amlan Debbarma, expert ENT specialist in Agartala, Tripura. MS ENT, Ex-Army Medical Corps. Specialist in sinus surgery, vertigo treatment, asthma management, allergy testing, sleep apnea diagnosis.',
     keywords:
-      'ENT doctor Agartala, book ENT appointment Tripura, Dr Amlan Debbarma ENT, otolaryngologist Agartala, ENT specialist Tripura Medical College, sinus doctor Agartala, vertigo treatment Tripura',
+      'ENT doctor Agartala, book ENT appointment Tripura, Dr Amlan Debbarma ENT, otolaryngologist Agartala, ENT specialist Tripura Medical College, sinus doctor Agartala, vertigo treatment Tripura, asthma treatment, allergy management, sleep apnea treatment, flexible sleep endoscopy, snoring doctor, best ENT doctor, leading ENT specialist',
     canonicalUrl: 'https://www.dr-major-amlan-ent.in/',
   },
   '/home': {
     title:
-      'Dr. (Major) Amlan Debbarma - Best ENT Doctor in Agartala, Tripura | Online Appointment',
+      'Dr. (Major) Amlan Debbarma - ENT Specialist in Agartala, Tripura | Online Appointment',
     description:
-      'Book appointment with Dr. (Major) Amlan Debbarma, leading ENT specialist in Agartala, Tripura. MS ENT, Ex-Army Medical Corps. Expert in sinus surgery, vertigo treatment, allergy testing.',
+      'Book appointment with Dr. (Major) Amlan Debbarma, expert ENT specialist in Agartala, Tripura. MS ENT, Ex-Army Medical Corps. Specialist in sinus surgery, vertigo treatment, asthma management, allergy testing, sleep apnea diagnosis.',
     keywords:
-      'ENT doctor Agartala, book ENT appointment Tripura, Dr Amlan Debbarma ENT, otolaryngologist Agartala, ENT specialist Tripura Medical College, sinus doctor Agartala, vertigo treatment Tripura',
-    canonicalUrl: 'https://www.dr-major-amlan-ent.in/',
+      'ENT doctor Agartala, book ENT appointment Tripura, Dr Amlan Debbarma ENT, otolaryngologist Agartala, ENT specialist Tripura Medical College, sinus doctor Agartala, vertigo treatment Tripura, asthma treatment, allergy management, sleep apnea treatment, flexible sleep endoscopy, snoring doctor, best ENT doctor, leading ENT specialist',
+    canonicalUrl: 'https://www.dr-major-amlan-ent.in/', // Same canonical as / - tells Google this is duplicate
   },
   '/about': {
     title:
       'About Dr. (Major) Amlan Debbarma - ENT Surgeon Tripura Medical College | MS ENT Agartala',
     description:
-      'Learn about Dr. (Major) Amlan Debbarma, MS ENT, Ex-Army Medical Corps officer. Leading ENT surgeon at Tripura Medical College, Agartala. Expert in endoscopic surgery, vertigo treatment.',
+      'Learn about Dr. (Major) Amlan Debbarma, MS ENT, Ex-Army Medical Corps officer. Expert ENT surgeon at Tripura Medical College, Agartala. Specialist in endoscopic surgery, vertigo treatment, sleep apnea diagnosis.',
     keywords:
-      'Dr Amlan Debbarma biography, ENT surgeon Tripura Medical College, MS ENT Agartala, Army Medical Corps ENT, otolaryngologist background Tripura, ENT doctor qualifications Agartala',
+      'Dr Amlan Debbarma biography, ENT surgeon Tripura Medical College, MS ENT Agartala, Army Medical Corps ENT, otolaryngologist background Tripura, ENT doctor qualifications Agartala, sleep apnea specialist, leading ENT surgeon, best ENT doctor',
     canonicalUrl: 'https://www.dr-major-amlan-ent.in/about',
   },
   '/contact': {
@@ -62,9 +62,9 @@ const seoPages: Record<string, SEOData> = {
     title:
       'Book ENT Appointment Online - Dr. Amlan Debbarma Agartala | ₹400 Consultation',
     description:
-      'Book online appointment with Dr. (Major) Amlan Debbarma, ENT specialist in Agartala, Tripura. ₹400 consultation fee. Available Mon-Sat 6-8:30 PM. Secure online payment.',
+      'Book online appointment with Dr. (Major) Amlan Debbarma, expert ENT specialist in Agartala, Tripura. ₹400 consultation fee. Available Mon-Sat 6-8:30 PM. Secure online payment.',
     keywords:
-      'book ENT appointment online Agartala, ENT consultation fee Tripura, Dr Amlan Debbarma appointment, online ENT booking Agartala, ENT doctor appointment Tripura',
+      'book ENT appointment online Agartala, ENT consultation fee Tripura, Dr Amlan Debbarma appointment, online ENT booking Agartala, ENT doctor appointment Tripura, best ENT appointment booking, leading ENT consultation',
     canonicalUrl: 'https://www.dr-major-amlan-ent.in/appointment',
   },
   '/privacy-policy': {
@@ -97,7 +97,7 @@ export const useSEO = (customSEO?: Partial<SEOData>) => {
     // Update document title
     document.title = finalSEO.title;
 
-    // Update meta tags
+    // Update meta tags (but preserve favicon links)
     updateMetaTag('description', finalSEO.description);
     updateMetaTag('keywords', finalSEO.keywords);
 
@@ -213,10 +213,15 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
           '@id': 'https://www.dr-major-amlan-ent.in/#organization',
           name: 'Dr. (Major) Amlan Debbarma ENT Clinic',
           url: 'https://www.dr-major-amlan-ent.in/',
-          logo: IMAGES.CLINIC_LOGO,
+          logo: {
+            '@type': 'ImageObject',
+            url: IMAGES.CLINIC_LOGO,
+            width: 512,
+            height: 512,
+          },
           image: IMAGES.DOCTOR_PHOTO,
           description:
-            'Leading ENT clinic in Agartala, Tripura providing comprehensive ear, nose, and throat treatments',
+            'Expert ENT clinic in Agartala, Tripura providing comprehensive ear, nose, and throat treatments including sleep apnea diagnosis',
           address: {
             '@type': 'PostalAddress',
             streetAddress: '1st Floor, Capital Pathlab, Bijoykumar Chowmuhani',
@@ -254,6 +259,8 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
             'Endoscopic Surgery',
             'Vertigo Treatment',
             'Allergy Testing',
+            'Asthma Management',
+            'Sleep Apnea Diagnosis',
           ],
           alumniOf: 'Tripura Medical College',
           memberOf: {
@@ -290,7 +297,7 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
           name: 'What ENT conditions do you treat?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'We provide comprehensive ENT care including ear infections, hearing loss, tinnitus, vertigo, nasal congestion, sinusitis, allergies, throat infections, tonsillitis, voice disorders, endoscopic sinus surgery, microscopic ear procedures, and allergy testing and treatment.',
+            text: 'We provide comprehensive ENT care including ear infections, hearing loss, tinnitus, vertigo, nasal congestion, sinusitis, allergies, asthma management, throat infections, tonsillitis, voice disorders, sleep apnea, snoring disorders, endoscopic sinus surgery, microscopic ear procedures, and allergy testing and treatment.',
           },
         },
         {
@@ -347,6 +354,30 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
           acceptedAnswer: {
             '@type': 'Answer',
             text: 'No referral is required. You can directly book an appointment for any ENT-related concerns. However, if referred by another doctor, please bring the referral letter, previous medical reports, and list of current medications.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Do you treat sleep apnea and snoring problems?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes, we diagnose and treat sleep apnea and snoring disorders using flexible sleep endoscopy to identify areas of airway collapse during sleep. This helps us provide targeted treatment for sleep-related breathing disorders.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Do you provide asthma and allergy management?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes, Dr. (Major) Amlan Debbarma is specially trained in asthma and allergy management. We offer comprehensive allergy testing including skin prick tests and serum-specific IgE testing, along with customized immunotherapy for long-term relief from allergic conditions and asthma management.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What is flexible sleep endoscopy and how does it help?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Flexible sleep endoscopy is an advanced diagnostic procedure that allows us to visualize the upper airway during sleep-like conditions. It helps identify the exact areas where airway collapse occurs during sleep, enabling us to provide targeted and effective treatment for sleep apnea and snoring disorders.',
           },
         },
       ],

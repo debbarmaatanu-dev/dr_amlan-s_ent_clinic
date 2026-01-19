@@ -1,4 +1,4 @@
-<?xml version="1.2" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
@@ -6,32 +6,24 @@
   <!-- Homepage -->
   <url>
     <loc>https://www.dr-major-amlan-ent.in/</loc>
-    <lastmod>2025-12-25</lastmod>
+    <lastmod>2026-01-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://res.cloudinary.com/mobeet/image/upload/v1765202950/DrAmlanLogo_2_rzgp2v.png</image:loc>
+      <image:loc>https://res.cloudinary.com/mobeet/image/upload/WEBP/DrAmlanLogo_2_spt68s.webp</image:loc>
       <image:title>Dr. (Major) Amlan Debbarma ENT Clinic Logo</image:title>
-      <image:caption>Leading ENT doctor in Agartala, Tripura specializing in comprehensive ear, nose, and throat treatments</image:caption>
+      <image:caption>Expert ENT doctor in Agartala, Tripura specializing in comprehensive ear, nose, and throat treatments including sleep apnea diagnosis</image:caption>
     </image:image>
-  </url>
-  
-  <!-- Home (alternate route) -->
-  <url>
-    <loc>https://www.dr-major-amlan-ent.in/home</loc>
-    <lastmod>2025-12-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
   </url>
   
   <!-- About Page -->
   <url>
     <loc>https://www.dr-major-amlan-ent.in/about</loc>
-    <lastmod>2025-12-18</lastmod>
+    <lastmod>2026-01-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://res.cloudinary.com/mobeet/image/upload/v1764923599/IMG_20251203_101518842_HDR_PORTRAIT_2_1_hyhvhd.jpg</image:loc>
+      <image:loc>https://res.cloudinary.com/mobeet/image/upload/WEBP/DOCTOR_PHOTO_zgnaz1.webp</image:loc>
       <image:title>About Dr. (Major) Amlan Debbarma</image:title>
       <image:caption>MS ENT, Ex-Army Medical Corps, ENT Surgeon at Tripura Medical College</image:caption>
     </image:image>
@@ -40,7 +32,7 @@
   <!-- Appointment Booking - Enhanced with field validation and UX improvements -->
   <url>
     <loc>https://www.dr-major-amlan-ent.in/appointment</loc>
-    <lastmod>2025-12-18</lastmod>
+    <lastmod>2026-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
@@ -48,7 +40,7 @@
   <!-- Contact Page -->
   <url>
     <loc>https://www.dr-major-amlan-ent.in/contact</loc>
-    <lastmod>2025-12-25</lastmod>
+    <lastmod>2026-01-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -56,7 +48,7 @@
   <!-- Privacy Policy -->
   <url>
     <loc>https://www.dr-major-amlan-ent.in/privacy-policy</loc>
-    <lastmod>2025-12-18</lastmod>
+    <lastmod>2026-01-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -64,7 +56,7 @@
   <!-- FAQ Page -->
   <url>
     <loc>https://www.dr-major-amlan-ent.in/faq</loc>
-    <lastmod>2025-12-18</lastmod>
+    <lastmod>2026-01-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

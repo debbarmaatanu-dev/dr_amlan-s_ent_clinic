@@ -1,15 +1,17 @@
 // Centralized image constants to avoid duplication
 export const IMAGES = {
   CLINIC_LOGO:
-    'https://res.cloudinary.com/mobeet/image/upload/v1765202950/DrAmlanLogo_2_rzgp2v.png',
+    'https://res.cloudinary.com/mobeet/image/upload/WEBP/DrAmlanLogo_2_spt68s.webp',
   DOCTOR_PHOTO:
-    'https://res.cloudinary.com/mobeet/image/upload/v1764923599/IMG_20251203_101518842_HDR_PORTRAIT_2_1_hyhvhd.jpg',
+    'https://res.cloudinary.com/mobeet/image/upload/WEBP/DOCTOR_PHOTO_zgnaz1.webp',
   VERTIGO_ICON:
-    'https://res.cloudinary.com/mobeet/image/upload/v1765202949/zzzz-Photoroom_v8wt6f.png',
+    'https://res.cloudinary.com/mobeet/image/upload/WEBP/VERTIGO_ICON_kvxn6z.webp',
   ENT_ICON:
-    'https://res.cloudinary.com/mobeet/image/upload/v1765206848/ENT_ICON-Photoroom_dgkdy8.png',
+    'https://res.cloudinary.com/mobeet/image/upload/WEBP/ENT_ICON_vfq7bw.webp',
   GOOGLE_ICON:
-    'https://res.cloudinary.com/mobeet/image/upload/google_rgvahv.jpg',
+    'https://res.cloudinary.com/mobeet/image/upload/WEBP/GOOGLE_ICON_sygvob.webp',
   LOGO_TOP:
-    'https://res.cloudinary.com/mobeet/image/upload/v1765203645/DrAmlanLogoTop_pagg2c.png',
+    'https://res.cloudinary.com/mobeet/image/upload/WEBP/DrAmlanLogoTop_oxkvbz.webp',
+  SLEEP_APNEA_ICON:
+    'https://res.cloudinary.com/mobeet/image/upload/WEBP/sleep-apnea-icon_binaek.webp',
 } as const;

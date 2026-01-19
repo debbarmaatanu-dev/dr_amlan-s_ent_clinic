@@ -81,6 +81,10 @@ export const Landing = (): React.JSX.Element => {
                 <span itemProp="worksFor">
                   Tripura Medical College, Agartala
                 </span>
+                <br />
+                <span className="text-md pt-2" itemProp="Specialty">
+                  Trained in Asthma and Allergy management
+                </span>
               </p>
               <div className="flex flex-col gap-4">
                 <button

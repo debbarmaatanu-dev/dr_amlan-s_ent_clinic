@@ -3,6 +3,7 @@ import {IMAGES} from '@/constants/images';
 
 const vertigoImage = IMAGES.VERTIGO_ICON;
 const entImage = IMAGES.ENT_ICON;
+const sleepApneaImage = IMAGES.SLEEP_APNEA_ICON;
 
 export const ServicesSection = (): React.JSX.Element => {
   const {actualTheme} = useTheme();
@@ -99,12 +100,45 @@ export const ServicesSection = (): React.JSX.Element => {
             </p>
           </article>
 
-          {/* Endoscopic & Advanced Procedures */}
+          {/* Snoring & Sleep Apnea */}
           <article
-            className="rounded-xl border-2 border-cyan-400 bg-white p-8 shadow-lg sm:col-span-2 lg:col-span-1 lg:col-start-2"
+            className="rounded-xl bg-purple-500 p-8 shadow-lg"
             itemScope
             itemType="https://schema.org/MedicalProcedure">
-            <figure className="mb-4">
+            <figure className="mb-0">
+              <img
+                src={sleepApneaImage}
+                alt="Sleep apnea treatment icon - Snoring and sleep disorder diagnosis"
+                className="h-20 w-20 object-cover brightness-0 invert"
+                width="64"
+                height="64"
+                loading="lazy"
+              />
+              <figcaption className="sr-only">
+                <a
+                  href="https://www.vecteezy.com/free-vector/apnea"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-white opacity-70">
+                  Apnea Vectors by Vecteezy
+                </a>
+              </figcaption>
+            </figure>
+            <h3 className="mb-3 text-2xl font-bold text-white" itemProp="name">
+              Snoring / Sleep Apnea
+            </h3>
+            <p className="text-white" itemProp="description">
+              Flexible sleep endoscopy to see the area of collapse and necessary
+              treatment accordingly for sleep-related breathing disorders.
+            </p>
+          </article>
+
+          {/* Endoscopic & Advanced Procedures */}
+          <article
+            className="rounded-xl border-2 border-cyan-400 bg-white p-8 shadow-lg sm:col-span-2 lg:col-span-1"
+            itemScope
+            itemType="https://schema.org/MedicalProcedure">
+            <figure className="mb-7">
               <i
                 className="fa-solid fa-microscope text-5xl text-cyan-400"
                 aria-label="Endoscopic surgery icon"
