@@ -46,7 +46,7 @@ export const SearchAppointmentModal: React.FC<SearchAppointmentModalProps> = ({
 
   useModalState(isOpen);
 
-  const handleSearch = async (e: React.FormEvent) => {
+  const handleSearch = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!phone.trim() || !date) {

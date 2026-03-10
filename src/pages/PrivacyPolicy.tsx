@@ -407,8 +407,12 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                     </a>
                   </p>
                   <p>
-                    <strong>Clinic Hours:</strong> Monday - Saturday (9:00 AM -
-                    6:00 PM)
+                    <strong>Clinic Hours:</strong> Monday - Saturday (6:00 PM -
+                    8:30 PM)
+                  </p>
+                  <p>
+                    <strong>Sunday:</strong> Allergy clinic from 10:30 AM to
+                    1:00 PM (Prior appointment required) (Offline Only)
                   </p>
                 </div>
               </section>

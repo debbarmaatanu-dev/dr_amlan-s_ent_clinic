@@ -263,7 +263,7 @@ export const Appointment = (): React.JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showModal, showSuccessModal]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Check if clinic is manually closed first

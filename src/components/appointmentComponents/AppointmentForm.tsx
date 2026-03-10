@@ -21,7 +21,7 @@ interface AppointmentFormProps {
   setPhone: (phone: string) => void;
   loading: boolean;
   availableSlots: number;
-  onSubmit: (e: React.FormEvent) => void;
+  onSubmit: (e: React.SubmitEvent<HTMLFormElement>) => void;
   today: string;
   maxDate: string;
 }
@@ -167,7 +167,7 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
     return currentFieldErrors.some(err => err.field === field);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitAttempted(true);
 

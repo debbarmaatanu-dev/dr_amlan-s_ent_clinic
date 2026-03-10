@@ -80,8 +80,9 @@ export const FAQ = (): React.JSX.Element => {
           <p className="mb-2">
             <strong>Days:</strong> Monday to Saturday
           </p>
-          <p>
-            <strong>Closed:</strong> Sundays
+          <p className="mb-2">
+            <strong>Sunday:</strong> Allergy clinic from 10:30 AM to 1:00 PM
+            (Prior appointment required) (Offline Only)
           </p>
         </div>
       ),

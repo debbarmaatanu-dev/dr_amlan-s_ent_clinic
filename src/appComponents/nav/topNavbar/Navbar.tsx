@@ -141,26 +141,31 @@ export const NavBar = () => {
   const currentMinutes = now.getHours() * 60 + now.getMinutes();
   const isSunday = now.getDay() === 0;
 
+  // Sunday allergy clinic: 10:30 AM = 630 minutes, 1:00 PM = 780 minutes
+  const isSundayAllergyClinicOpen =
+    isSunday && currentMinutes >= 630 && currentMinutes <= 780;
+
   // Determine clinic status
-  let isOpen = false;
   let isManuallyOverridden = false;
+  let isSundayAllergyOpen = false;
+  let isOpen = false;
 
   if (clinicStatus?.isManuallyOverridden) {
     // Admin has manually overridden the schedule
     isManuallyOverridden = true;
-    isOpen = false;
-  } else if (isSunday) {
-    // Default Sunday closure
-    isOpen = false;
-  } else {
+  } else if (isSundayAllergyClinicOpen) {
+    // Sunday allergy clinic is open
+    isSundayAllergyOpen = true;
+    isOpen = true;
+  } else if (!isSunday) {
     // Default schedule: 6:00pm = 1080, 8:30pm = 1230
     isOpen = currentMinutes >= 1080 && currentMinutes <= 1230;
   }
 
-  const bgColor = isOpen
-    ? `bg-[#22B0E6]`
-    : isManuallyOverridden
-      ? `bg-red-500/90`
+  const bgColor = isManuallyOverridden
+    ? `bg-red-500/90`
+    : isSundayAllergyOpen || isOpen
+      ? `bg-[#22B0E6]`
       : `bg-orange-500/90`;
 
   return (
@@ -218,6 +223,19 @@ export const NavBar = () => {
                       Until further notice
                     </span>
                   )}
+                </div>
+              ) : isSundayAllergyOpen ? (
+                <div role="status" aria-live="polite">
+                  <span className="text-md font-semibold">
+                    <i
+                      className="fa-solid fa-flask-vial mr-1"
+                      aria-hidden="true"></i>
+                    Allergy clinic:
+                  </span>
+                  <span className="font-semibold">10:30am - 1:00pm</span>
+                  <span className="ml-2 text-xs font-medium">
+                    (Prior appointment required)
+                  </span>
                 </div>
               ) : isSunday ? (
                 <span

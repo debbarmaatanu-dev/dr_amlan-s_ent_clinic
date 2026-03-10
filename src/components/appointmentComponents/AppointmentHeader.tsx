@@ -27,6 +27,11 @@ export const AppointmentHeader: React.FC = () => {
         Clinic Hours: 6:00 PM - 8:30 PM (Monday to Saturday)
       </p>
 
+      <p className={`text-center text-sm ${textTertiary} mt-1`}>
+        Sunday: Allergy clinic from 10:30 AM to 1 :00 PM (Prior appointment
+        required)
+      </p>
+
       {/* Manual Clinic Status Override */}
       {clinicStatus?.isManuallyOverridden && clinicStatus.displayMessage && (
         <div className="mt-4 rounded-lg bg-red-500 px-4 py-3">

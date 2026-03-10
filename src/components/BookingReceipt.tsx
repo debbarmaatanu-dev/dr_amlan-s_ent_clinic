@@ -156,6 +156,10 @@ export const BookingReceipt: React.FC<BookingReceiptProps> = ({
           <li>• Please arrive 10 minutes before your scheduled time</li>
           <li className="font-bold">• Bring this E-Receipt for verification</li>
           <li>• Clinic hours: 6:00 PM - 8:30 PM (Closed on Sundays)</li>
+          <li>
+            • Sunday: Allergy clinic from 10:30 AM to 1 :00 PM (Prior
+            appointment required)
+          </li>
           <li>• For any queries, call: +91 8258839231</li>
         </ul>
       </div>

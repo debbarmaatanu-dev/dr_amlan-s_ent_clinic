@@ -116,7 +116,9 @@ export const ContactInfo: React.FC = () => {
           <p className={textSecondary}>
             Monday - Saturday: 6:00 PM - 8:30 PM
             <br />
-            Sunday: Closed
+            Sunday: Closed. Allergy clinic from 10:30 AM to 1 :00 PM
+            <br />
+            (Prior appointment required) (Offline appointment only)
           </p>
         </ContactItem>
       </div>

@@ -12,7 +12,8 @@ export const FAQSection = () => {
   const quickFAQs = [
     {
       question: 'What are the clinic timings?',
-      answer: '6:00 PM - 8:30 PM (Mon-Sat)',
+      answer:
+        '6:00 PM - 8:30 PM (Mon-Sat).\nSunday: Allergy clinic from 10:30 AM to 1:00 PM.',
       icon: 'fa-clock',
     },
     {
@@ -66,7 +67,9 @@ export const FAQSection = () => {
               <h3 className={`text-lg font-semibold ${textColor} mb-2`}>
                 {faq.question}
               </h3>
-              <p className={`${textColor} opacity-80`}>{faq.answer}</p>
+              <p className={`${textColor} whitespace-pre-line opacity-80`}>
+                {faq.answer}
+              </p>
             </article>
           ))}
         </div>

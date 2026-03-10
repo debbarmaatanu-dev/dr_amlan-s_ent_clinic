@@ -98,8 +98,16 @@ export const ImportantNotices = (): React.JSX.Element => {
               <i className="fa-solid fa-clock mr-2" aria-hidden="true"></i>
               <strong>Clinic Hours:</strong>
             </dt>
+            <dd className="ml-1 inline">6:00 PM - 8:30 PM (Mon to Sat)</dd>
+          </div>
+          <div>
+            <dt className="inline">
+              <i className="fa-solid fa-clock mr-2" aria-hidden="true"></i>
+              <strong>Sunday:</strong>
+            </dt>
             <dd className="ml-1 inline">
-              6:00 PM - 8:30 PM (Closed on Sundays)
+              Allergy clinic from 10:30 AM to 1 :00 PM (Prior appointment
+              required) (Offline Only)
             </dd>
           </div>
           <div>
