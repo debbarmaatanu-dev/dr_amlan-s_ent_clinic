@@ -28,7 +28,7 @@ export const PrivacyPolicy = (): React.JSX.Element => {
               className={`mb-6 flex shrink-0 items-center justify-center rounded-full bg-white p-3 shadow-lg`}>
               <img
                 src={logo}
-                alt="Dr Amlan's ENT Clinic Logo"
+                alt="Dr (Major) Amlan's ENT & Allergy Clinic Logo"
                 className="h-32 w-32 rounded-full object-cover"
                 loading="lazy"
               />
@@ -332,9 +332,9 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                       Important Notice:
                     </p>
                     <p className="mt-2 text-red-700">
-                      Dr. (Major) Amlan's ENT Clinic operates on a NO REFUND and
-                      NO CANCELLATION policy for all appointments and services
-                      unless geniune circumstances arise.
+                      Dr. (Major) Amlan's ENT &amp; Allergy Clinic operates on a
+                      NO REFUND and NO CANCELLATION policy for all appointments
+                      and services unless geniune circumstances arise.
                     </p>
                   </div>
 
@@ -385,7 +385,9 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                 </h2>
                 <div className={`space-y-2 ${textSecondary}`}>
                   <p>
-                    <strong>Dr. (Major) Amlan's ENT Clinic</strong>
+                    <strong>
+                      Dr. (Major) Amlan's ENT &amp; Allergy Clinic
+                    </strong>
                   </p>
                   <p>1st Floor, Capital Pathlab</p>
                   <p>Bijoykumar Chowmuhani, Agartala</p>

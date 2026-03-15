@@ -16,7 +16,7 @@ export const WelcomeSection = () => {
             <h2
               id="welcome-heading"
               className={`text-foreground ${textHeader} xxxs:text-2xl xs:text-2xl xs:mb-4 mb-3 text-xl font-bold sm:text-3xl md:text-4xl`}>
-              Welcome to Dr (Major) Amlan's ENT Clinic
+              Welcome to Dr (Major) Amlan's ENT &amp; Allergy Clinic
             </h2>
 
             <p className="text-muted-foreground xs:text-base mb-4 text-sm text-blue-600 sm:mb-5 md:mb-6">

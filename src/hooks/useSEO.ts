@@ -26,41 +26,41 @@ const seoPages: Record<string, SEOData> = {
     title:
       'Dr. (Major) Amlan Debbarma - ENT Specialist in Agartala, Tripura | Online Appointment',
     description:
-      'Book appointment with Dr. (Major) Amlan Debbarma, expert ENT specialist in Agartala, Tripura. MS ENT, Ex-Army Medical Corps. Specialist in sinus surgery, vertigo treatment, asthma management, allergy testing, sleep apnea diagnosis.',
+      'Book appointment with Dr. (Major) Amlan Debbarma, expert ENT specialist in Agartala, Tripura. MBBS, MS ENT (Gold Medalist), Ex-Army Medical Corps. Specialist in sinus surgery, vertigo treatment, asthma management, allergy testing, sleep apnea diagnosis.',
     keywords:
-      'ENT doctor Agartala, book ENT appointment Tripura, Dr Amlan Debbarma ENT, otolaryngologist Agartala, ENT specialist Tripura Medical College, sinus doctor Agartala, vertigo treatment Tripura, asthma treatment, allergy management, sleep apnea treatment, flexible sleep endoscopy, snoring doctor, best ENT doctor, leading ENT specialist',
+      'ENT doctor Agartala, book ENT appointment Tripura, Dr Amlan Debbarma ENT, otolaryngologist Agartala, ENT specialist Tripura Medical College, sinus doctor Agartala, vertigo treatment Tripura, asthma treatment, allergy management, sleep apnea treatment, flexible sleep endoscopy, snoring doctor, best ENT doctor, leading ENT specialist, MS ENT Gold Medalist',
     canonicalUrl: 'https://www.dr-major-amlan-ent.in/',
   },
   '/home': {
     title:
       'Dr. (Major) Amlan Debbarma - ENT Specialist in Agartala, Tripura | Online Appointment',
     description:
-      'Book appointment with Dr. (Major) Amlan Debbarma, expert ENT specialist in Agartala, Tripura. MS ENT, Ex-Army Medical Corps. Specialist in sinus surgery, vertigo treatment, asthma management, allergy testing, sleep apnea diagnosis.',
+      'Book appointment with Dr. (Major) Amlan Debbarma, expert ENT specialist in Agartala, Tripura. MBBS, MS ENT (Gold Medalist), Ex-Army Medical Corps. Specialist in sinus surgery, vertigo treatment, asthma management, allergy testing, sleep apnea diagnosis.',
     keywords:
-      'ENT doctor Agartala, book ENT appointment Tripura, Dr Amlan Debbarma ENT, otolaryngologist Agartala, ENT specialist Tripura Medical College, sinus doctor Agartala, vertigo treatment Tripura, asthma treatment, allergy management, sleep apnea treatment, flexible sleep endoscopy, snoring doctor, best ENT doctor, leading ENT specialist',
+      'ENT doctor Agartala, book ENT appointment Tripura, Dr Amlan Debbarma ENT, otolaryngologist Agartala, ENT specialist Tripura Medical College, sinus doctor Agartala, vertigo treatment Tripura, asthma treatment, allergy management, sleep apnea treatment, flexible sleep endoscopy, snoring doctor, best ENT doctor, leading ENT specialist, MS ENT Gold Medalist',
     canonicalUrl: 'https://www.dr-major-amlan-ent.in/', // Same canonical as / - tells Google this is duplicate
   },
   '/about': {
     title:
-      'About Dr. (Major) Amlan Debbarma - ENT Surgeon Tripura Medical College | MS ENT Agartala',
+      'About Dr. (Major) Amlan Debbarma - ENT, Head & Neck Surgeon and Allergy Specialist | Tripura Medical College',
     description:
-      'Learn about Dr. (Major) Amlan Debbarma, MS ENT, Ex-Army Medical Corps officer. Expert ENT surgeon at Tripura Medical College, Agartala. Specialist in endoscopic surgery, vertigo treatment, sleep apnea diagnosis.',
+      'Learn about Dr. (Major) Amlan Debbarma, MBBS, MS ENT (Gold Medalist), Ex-Army Medical Corps officer. ENT, Head & Neck Surgeon and Allergy Specialist at Tripura Medical College, Agartala. Specialist in endoscopic surgery, vertigo treatment, sleep apnea diagnosis.',
     keywords:
-      'Dr Amlan Debbarma biography, ENT surgeon Tripura Medical College, MS ENT Agartala, Army Medical Corps ENT, otolaryngologist background Tripura, ENT doctor qualifications Agartala, sleep apnea specialist, leading ENT surgeon, best ENT doctor',
+      'Dr Amlan Debbarma biography, ENT Head Neck Surgeon Tripura Medical College, MS ENT Gold Medalist Agartala, Allergy Specialist Agartala, Army Medical Corps ENT, otolaryngologist background Tripura, ENT doctor qualifications Agartala, sleep apnea specialist, leading ENT surgeon, best ENT doctor',
     canonicalUrl: 'https://www.dr-major-amlan-ent.in/about',
   },
   '/contact': {
     title:
-      'Contact Dr. Amlan Debbarma ENT Clinic Agartala | Book Appointment Tripura',
+      'Contact Dr. (Major) Amlan Debbarma ENT & Allergy Clinic Agartala | Book Appointment Tripura',
     description:
-      'Contact Dr. (Major) Amlan Debbarma ENT Clinic in Agartala, Tripura. Located at Capital Pathlab, Bijoykumar Chowmuhani. Call +91 8258839231 for appointments.',
+      'Contact Dr. (Major) Amlan Debbarma ENT & Allergy Clinic in Agartala, Tripura. Located at Capital Pathlab, Bijoykumar Chowmuhani. Call +91 8258839231 for appointments.',
     keywords:
       'ENT clinic Agartala contact, Dr Amlan Debbarma phone number, ENT appointment Tripura, Capital Pathlab ENT clinic, Bijoykumar Chowmuhani ENT doctor',
     canonicalUrl: 'https://www.dr-major-amlan-ent.in/contact',
   },
   '/appointment': {
     title:
-      'Book ENT Appointment Online - Dr. Amlan Debbarma Agartala | ₹400 Consultation',
+      'Book ENT Appointment Online - Dr. (Major) Amlan Debbarma Agartala | ₹400 Consultation',
     description:
       'Book online appointment with Dr. (Major) Amlan Debbarma, expert ENT specialist in Agartala, Tripura. ₹400 consultation fee. Available Mon-Sat 6-8:30 PM. Sunday allergy clinic 10:30 AM-1 PM. Secure online payment.',
     keywords:
@@ -68,18 +68,19 @@ const seoPages: Record<string, SEOData> = {
     canonicalUrl: 'https://www.dr-major-amlan-ent.in/appointment',
   },
   '/privacy-policy': {
-    title: 'Privacy Policy & Terms - Dr. Amlan Debbarma ENT Clinic Agartala',
+    title:
+      'Privacy Policy & Terms - Dr. (Major) Amlan Debbarma ENT & Allergy Clinic Agartala',
     description:
-      'Privacy policy, terms & conditions, and refund policy for Dr. (Major) Amlan Debbarma ENT Clinic, Agartala, Tripura. Patient data protection and appointment policies.',
+      'Privacy policy, terms & conditions, and refund policy for Dr. (Major) Amlan Debbarma ENT & Allergy Clinic, Agartala, Tripura. Patient data protection and appointment policies.',
     keywords:
       'ENT clinic privacy policy Agartala, Dr Amlan Debbarma terms conditions, patient data protection Tripura, ENT appointment refund policy',
     canonicalUrl: 'https://www.dr-major-amlan-ent.in/privacy-policy',
   },
   '/faq': {
     title:
-      'FAQ - Dr. Amlan Debbarma ENT Clinic Agartala | Common Questions Answered',
+      'FAQ - Dr. (Major) Amlan Debbarma ENT & Allergy Clinic Agartala | Common Questions Answered',
     description:
-      'Frequently asked questions about Dr. (Major) Amlan Debbarma ENT Clinic in Agartala, Tripura. Find answers about consultation fees, clinic timings (Mon-Sat 6-8:30 PM, Sunday allergy clinic 10:30 AM-1 PM), booking appointments, payment methods, and ENT treatments.',
+      'Frequently asked questions about Dr. (Major) Amlan Debbarma ENT & Allergy Clinic in Agartala, Tripura. Find answers about consultation fees, clinic timings (Mon-Sat 6-8:30 PM, Sunday allergy clinic 10:30 AM-1 PM), booking appointments, payment methods, and ENT treatments.',
     keywords:
       'ENT clinic FAQ Agartala, Dr Amlan Debbarma questions, ENT consultation fees Tripura, clinic timings Agartala, allergy clinic Sunday, ENT appointment booking, ENT treatment questions',
     canonicalUrl: 'https://www.dr-major-amlan-ent.in/faq',
@@ -122,7 +123,7 @@ export const useSEO = (customSEO?: Partial<SEOData>) => {
     updateMetaTag('og:type', 'website', 'property');
     updateMetaTag(
       'og:site_name',
-      'Dr. (Major) Amlan Debbarma ENT Clinic',
+      'Dr. (Major) Amlan Debbarma ENT & Allergy Clinic',
       'property',
     );
     updateMetaTag('og:locale', 'en_IN', 'property');
@@ -211,7 +212,7 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
         {
           '@type': 'MedicalOrganization',
           '@id': 'https://www.dr-major-amlan-ent.in/#organization',
-          name: 'Dr. (Major) Amlan Debbarma ENT Clinic',
+          name: 'Dr. (Major) Amlan Debbarma ENT & Allergy Clinic',
           url: 'https://www.dr-major-amlan-ent.in/',
           logo: {
             '@type': 'ImageObject',
@@ -221,7 +222,7 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
           },
           image: IMAGES.DOCTOR_PHOTO,
           description:
-            'Expert ENT clinic in Agartala, Tripura providing comprehensive ear, nose, and throat treatments including sleep apnea diagnosis',
+            'Expert ENT & Allergy clinic in Agartala, Tripura providing comprehensive ear, nose, throat, head & neck, and allergy treatments including sleep apnea diagnosis',
           address: {
             '@type': 'PostalAddress',
             streetAddress: '1st Floor, Capital Pathlab, Bijoykumar Chowmuhani',
@@ -248,12 +249,12 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
           givenName: 'Amlan',
           familyName: 'Debbarma',
           honorificPrefix: 'Dr.',
-          honorificSuffix: 'MS ENT',
+          honorificSuffix: 'MBBS, MS ENT (Gold Medalist)',
           url: 'https://www.dr-major-amlan-ent.in/about',
           image: IMAGES.DOCTOR_PHOTO,
           jobTitle: 'ENT Surgeon',
           description:
-            'MS ENT, Ex-Army Medical Corps, Endoscopic and Microscopic ENT surgeon at Tripura Medical College',
+            'MBBS, MS ENT (Gold Medalist), Ex-Army Medical Corps, Endoscopic and Microscopic ENT surgeon at Tripura Medical College',
           medicalSpecialty: [
             'Otolaryngology',
             'Endoscopic Surgery',
@@ -383,7 +384,7 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
       ],
       about: {
         '@type': 'MedicalOrganization',
-        name: 'Dr. (Major) Amlan Debbarma ENT Clinic',
+        name: 'Dr. (Major) Amlan Debbarma ENT & Allergy Clinic',
       },
     };
   } else {
@@ -396,12 +397,12 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
       url: `https://www.dr-major-amlan-ent.in${currentPath}`,
       isPartOf: {
         '@type': 'WebSite',
-        name: 'Dr. (Major) Amlan Debbarma ENT Clinic',
+        name: 'Dr. (Major) Amlan Debbarma ENT & Allergy Clinic',
         url: 'https://www.dr-major-amlan-ent.in/',
       },
       about: {
         '@type': 'MedicalOrganization',
-        name: 'Dr. (Major) Amlan Debbarma ENT Clinic',
+        name: 'Dr. (Major) Amlan Debbarma ENT & Allergy Clinic',
       },
     };
   }

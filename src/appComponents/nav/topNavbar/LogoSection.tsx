@@ -36,7 +36,7 @@ export const LogoSection = ({
         </span>
         <span
           className={`xxxxxs:text-xs xxxxs:text-xs xxxs:text-sm xs:text-sm ${getTextColor()}`}>
-          ENT Clinic
+          ENT &amp; Allergy Clinic
         </span>
       </div>
     </button>

@@ -331,7 +331,7 @@ export const FAQ = (): React.JSX.Element => {
               className={`mb-6 flex shrink-0 items-center justify-center rounded-full bg-white p-3 shadow-lg`}>
               <img
                 src={logo}
-                alt="Dr Amlan's ENT Clinic Logo"
+                alt="Dr (Major) Amlan's ENT & Allergy Clinic Logo"
                 className="h-32 w-32 rounded-full object-cover"
                 loading="lazy"
               />

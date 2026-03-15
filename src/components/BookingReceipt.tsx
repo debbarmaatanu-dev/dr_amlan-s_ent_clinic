@@ -32,7 +32,7 @@ export const BookingReceipt: React.FC<BookingReceiptProps> = ({
       {/* Header */}
       <div className="mb-6 border-b-2 border-blue-600 pb-4 text-center">
         <h1 className="text-2xl font-bold text-blue-600">
-          Dr. (Major) Amlan's ENT Clinic
+          Dr. (Major) Amlan's ENT &amp; Allergy Clinic
         </h1>
         <p className="text-sm text-gray-600">MBBS, MS ENT</p>
         <p className="text-sm text-gray-600">Ex-Army Medical Corps</p>
@@ -169,7 +169,9 @@ export const BookingReceipt: React.FC<BookingReceiptProps> = ({
         <p>
           This is a computer-generated receipt and does not require signature
         </p>
-        <p className="mt-1">Thank you for choosing Dr. Amlan's ENT Clinic</p>
+        <p className="mt-1">
+          Thank you for choosing Dr. (Major) Amlan's ENT &amp; Allergy Clinic
+        </p>
       </div>
     </div>
   );

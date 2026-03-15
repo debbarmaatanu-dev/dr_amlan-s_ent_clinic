@@ -6,33 +6,33 @@
   <!-- Homepage -->
   <url>
     <loc>https://www.dr-major-amlan-ent.in/</loc>
-    <lastmod>2026-01-19</lastmod>
+    <lastmod>2026-03-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/mobeet/image/upload/WEBP/DrAmlanLogo_2_spt68s.webp</image:loc>
-      <image:title>Dr. (Major) Amlan Debbarma ENT Clinic Logo</image:title>
-      <image:caption>Expert ENT doctor in Agartala, Tripura specializing in comprehensive ear, nose, and throat treatments including sleep apnea diagnosis</image:caption>
+      <image:title>Dr. (Major) Amlan Debbarma ENT &amp; Allergy Clinic Logo</image:title>
+      <image:caption>Expert ENT &amp; Allergy doctor in Agartala, Tripura specializing in comprehensive ear, nose, throat, head &amp; neck, and allergy treatments including sleep apnea diagnosis</image:caption>
     </image:image>
   </url>
   
   <!-- About Page -->
   <url>
     <loc>https://www.dr-major-amlan-ent.in/about</loc>
-    <lastmod>2026-01-19</lastmod>
+    <lastmod>2026-03-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
       <image:loc>https://res.cloudinary.com/mobeet/image/upload/WEBP/DOCTOR_PHOTO_zgnaz1.webp</image:loc>
       <image:title>About Dr. (Major) Amlan Debbarma</image:title>
-      <image:caption>MS ENT, Ex-Army Medical Corps, ENT Surgeon at Tripura Medical College</image:caption>
+      <image:caption>MBBS, MS ENT (Gold Medalist), Ex-Army Medical Corps, ENT Head &amp; Neck Surgeon and Allergy Specialist at Tripura Medical College</image:caption>
     </image:image>
   </url>
   
   <!-- Appointment Booking - Enhanced with field validation and UX improvements -->
   <url>
     <loc>https://www.dr-major-amlan-ent.in/appointment</loc>
-    <lastmod>2026-01-19</lastmod>
+    <lastmod>2026-03-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
@@ -40,7 +40,7 @@
   <!-- Contact Page -->
   <url>
     <loc>https://www.dr-major-amlan-ent.in/contact</loc>
-    <lastmod>2026-01-19</lastmod>
+    <lastmod>2026-03-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -48,7 +48,7 @@
   <!-- Privacy Policy -->
   <url>
     <loc>https://www.dr-major-amlan-ent.in/privacy-policy</loc>
-    <lastmod>2026-01-19</lastmod>
+    <lastmod>2026-03-15</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -56,7 +56,7 @@
   <!-- FAQ Page -->
   <url>
     <loc>https://www.dr-major-amlan-ent.in/faq</loc>
-    <lastmod>2026-01-19</lastmod>
+    <lastmod>2026-03-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

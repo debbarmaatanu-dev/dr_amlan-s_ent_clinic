@@ -29,7 +29,7 @@ export const Landing = (): React.JSX.Element => {
   return (
     <section
       className={`flex grow items-center justify-center bg-linear-to-br ${gradient} px-4 py-6 shadow-xl md:py-12 lg:px-8`}
-      aria-label="Dr. Amlan Debbarma ENT Clinic Introduction">
+      aria-label="Dr. (Major) Amlan Debbarma ENT & Allergy Clinic Introduction">
       <div className="h-full w-full">
         <article className="overflow-hidden">
           {/* Header Section - Split Design */}
@@ -60,7 +60,7 @@ export const Landing = (): React.JSX.Element => {
             {/* Right Box - Text Content */}
             <div className="flex flex-col justify-center p-8 md:p-12 lg:p-16">
               <h1 className="mb-3 text-2xl font-bold text-blue-600 md:text-3xl lg:text-4xl">
-                Dr. (Major) Amlan's ENT Clinic
+                Dr. (Major) Amlan's ENT &amp; Allergy Clinic
               </h1>
               <p
                 className={`mb-6 text-base ${textColor} md:text-lg`}
@@ -69,7 +69,9 @@ export const Landing = (): React.JSX.Element => {
                 <span itemProp="honorificPrefix">Dr. (Major)</span>{' '}
                 <span itemProp="name">Amlan Debbarma</span>
                 <br />
-                <span itemProp="hasCredential">MBBS, MS ENT</span>
+                <span itemProp="hasCredential">
+                  MBBS, MS ENT (Gold Medalist)
+                </span>
                 <br />
                 <span itemProp="alumniOf">Ex-Army Medical Corps</span>
                 <br />
@@ -90,7 +92,7 @@ export const Landing = (): React.JSX.Element => {
                 <button
                   className="w-fit cursor-pointer rounded-md bg-blue-600 px-6 py-3 text-white shadow-md transition-transform duration-180 hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none active:scale-95"
                   onClick={handleAppointmentPress}
-                  aria-label="Book an appointment with Dr. Amlan Debbarma">
+                  aria-label="Book an appointment with Dr. (Major) Amlan Debbarma">
                   <span className="text-base font-medium md:text-lg">
                     <i
                       className="fa-solid fa-calendar-plus mr-2"

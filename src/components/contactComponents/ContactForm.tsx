@@ -57,8 +57,8 @@ export const ContactForm: React.FC = () => {
             Send us a Message
           </h2>
           <p className={`mb-4 text-sm ${textSecondary}`}>
-            Get in touch with Dr. Amlan Debbarma's ENT Clinic for inquiries or
-            appointment assistance.
+            Get in touch with Dr. (Major) Amlan Debbarma's ENT &amp; Allergy
+            Clinic for inquiries or appointment assistance.
           </p>
         </header>
 

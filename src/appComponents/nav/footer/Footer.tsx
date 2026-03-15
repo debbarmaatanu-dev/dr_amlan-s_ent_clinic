@@ -57,7 +57,7 @@ export function Footer() {
             <header className="flex items-center space-x-4">
               <img
                 src={logo}
-                alt="Dr. Amlan's ENT Clinic Logo"
+                alt="Dr.(Major) Amlan's ENT & Allergy Clinic Logo"
                 className="h-18 w-18 object-cover"
                 width="72"
                 height="72"
@@ -67,7 +67,7 @@ export function Footer() {
                 <h2
                   id="clinic-info-heading"
                   className="text-xl font-bold text-blue-600">
-                  Dr. (Major) Amlan's ENT clinic
+                  Dr. (Major) Amlan's ENT &amp; Allergy Clinic
                 </h2>
                 <p
                   className={`text-md sm:text-sm ${getTextColor(actualTheme)}`}>
@@ -183,7 +183,7 @@ export function Footer() {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Dr. Amlan's ENT Clinic location on Google Maps"
+                title="Dr. (Major) Amlan's ENT & Allergy Clinic location on Google Maps"
                 aria-label="Interactive map showing clinic location at Capital Pathlab, Bijoykumar Chowmuhani, Agartala"></iframe>
             </div>
           </section>
@@ -212,7 +212,7 @@ export function Footer() {
         <div
           className={`text-md mt-8 flex flex-col items-center justify-between border-t sm:text-sm ${getTextColor(actualTheme)} pt-6 text-sm text-gray-600 md:flex-row`}>
           <div className="flex flex-col items-center justify-center gap-2 text-center sm:items-start sm:justify-start sm:text-start">
-            <p>© 2025 Dr. (Major) Amlan's ENT Clinic</p>
+            <p>© 2025 Dr. (Major) Amlan's ENT &amp; Allergy Clinic</p>
             <p>All Rights Reserved.</p>
             <button
               onClick={() => handleNav('/privacy-policy')}

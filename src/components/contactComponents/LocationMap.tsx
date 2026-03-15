@@ -19,7 +19,7 @@ export const LocationMap: React.FC = () => {
             Find Our Clinic Location
           </h2>
           <address className={`mb-4 text-sm ${textColor} not-italic`}>
-            <strong>Dr. (Major) Amlan's ENT Clinic</strong>
+            <strong>Dr. (Major) Amlan's ENT &amp; Allergy Clinic</strong>
             <br />
             1st Floor, Capital Pathlab
             <br />
@@ -47,7 +47,7 @@ export const LocationMap: React.FC = () => {
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            title="Interactive map showing Dr. (Major) Amlan's ENT Clinic location at Capital Pathlab, Bijoykumar Chowmuhani, Agartala, Tripura"
+            title="Interactive map showing Dr. (Major) Amlan's ENT & Allergy Clinic location at Capital Pathlab, Bijoykumar Chowmuhani, Agartala, Tripura"
             aria-describedby="map-description"></iframe>
         </div>
 
