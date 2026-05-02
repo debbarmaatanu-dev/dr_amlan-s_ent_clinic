@@ -312,7 +312,7 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                       How to Report Payment Issues:
                     </p>
                     <p className="mt-2 text-blue-700">
-                      Contact us immediately at <strong>+91 8258839231</strong>{' '}
+                      Contact us immediately at <strong>+91 7085548785</strong>{' '}
                       or email <strong>debbarmaamlan@gmail.com</strong> with
                       your transaction details if you face any payment-related
                       issues.
@@ -395,9 +395,9 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                   <p className="mt-4">
                     <strong>Phone:</strong>{' '}
                     <a
-                      href="tel:+918258839231"
+                      href="tel:+917085548785"
                       className="text-blue-600 hover:text-blue-800">
-                      +91 8258839231
+                      +91 7085548785
                     </a>
                   </p>
                   <p>

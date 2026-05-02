@@ -1,4 +1,6 @@
 {
+  "buildCommand": "bun install --frozen-lockfile && bun run build",
+  "installCommand": "bun install --frozen-lockfile",
   "redirects": [
     {
       "source": "/(.*)",

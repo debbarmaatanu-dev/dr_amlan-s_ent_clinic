@@ -28,9 +28,9 @@ export const LocationMap: React.FC = () => {
             Agartala, West Tripura - 799001
             <br />
             <a
-              href="tel:+918258839231"
+              href="tel:+917085548785"
               className="text-blue-600 hover:text-blue-800">
-              Phone: +91 8258839231
+              Phone: +91 7085548785
             </a>
           </address>
         </header>

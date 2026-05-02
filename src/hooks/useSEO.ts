@@ -53,7 +53,7 @@ const seoPages: Record<string, SEOData> = {
     title:
       'Contact Dr. (Major) Amlan Debbarma ENT & Allergy Clinic Agartala | Book Appointment Tripura',
     description:
-      'Contact Dr. (Major) Amlan Debbarma ENT & Allergy Clinic in Agartala, Tripura. Located at Capital Pathlab, Bijoykumar Chowmuhani. Call +91 8258839231 for appointments.',
+      'Contact Dr. (Major) Amlan Debbarma ENT & Allergy Clinic in Agartala, Tripura. Located at Capital Pathlab, Bijoykumar Chowmuhani. Call +91 7085548785 for appointments.',
     keywords:
       'ENT clinic Agartala contact, Dr Amlan Debbarma phone number, ENT appointment Tripura, Capital Pathlab ENT clinic, Bijoykumar Chowmuhani ENT doctor',
     canonicalUrl: 'https://www.dr-major-amlan-ent.in/contact',
@@ -236,7 +236,7 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
             latitude: 23.8315,
             longitude: 91.2868,
           },
-          telephone: '+91-8258839231',
+          telephone: '+91-7085548785',
           email: 'debbarmaamlan@gmail.com',
           openingHours: ['Mo-Sa 18:00-20:30', 'Su 10:30-13:00'],
           medicalSpecialty: 'Otolaryngology',
@@ -279,7 +279,7 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
             postalCode: '799001',
             addressCountry: 'IN',
           },
-          telephone: '+91-8258839231',
+          telephone: '+91-7085548785',
           email: 'debbarmaamlan@gmail.com',
         },
       ],
@@ -322,7 +322,7 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
           name: 'How do I book an appointment?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'You can book online through our Appointment page (10 slots per day) or walk-in at the clinic during consultation hours (10 additional offline slots). Contact us at +91 8258839231 or WhatsApp +91 6033521499 for assistance.',
+            text: 'You can book online through our Appointment page (10 slots per day) or walk-in at the clinic during consultation hours (10 additional offline slots). Contact us at +91 7085548785 or WhatsApp +91 6033521499 for assistance.',
           },
         },
         {

@@ -54,13 +54,6 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
     actualTheme === 'light' ? 'border-gray-300' : 'border-gray-600';
   const inputText = actualTheme === 'light' ? 'text-gray-900' : 'text-white';
 
-  // Fetch current clinic status
-  useEffect(() => {
-    if (isOpen) {
-      void fetchClinicStatus();
-    }
-  }, [isOpen]);
-
   const fetchClinicStatus = async () => {
     try {
       const {auth} = await import('@/services/firebase');
@@ -93,6 +86,14 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
       logger.error('Error fetching clinic status:', error);
     }
   };
+
+  // Fetch current clinic status
+  useEffect(() => {
+    if (isOpen) {
+      void fetchClinicStatus();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();

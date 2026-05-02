@@ -67,6 +67,7 @@ export default defineConfig([
       'react/jsx-no-useless-fragment': 'warn',
       'react/no-deprecated': 'warn',
       'react-hooks/exhaustive-deps': 'warn',
+      'react-hooks/set-state-in-effect': 'off',
 
       '@typescript-eslint/no-unused-vars': ['error', {argsIgnorePattern: '^_'}],
       '@typescript-eslint/consistent-type-imports': 'error',

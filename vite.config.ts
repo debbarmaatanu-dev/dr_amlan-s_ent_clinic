@@ -1,5 +1,5 @@
 import {defineConfig} from 'vite';
-import react from '@vitejs/plugin-react-swc';
+import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 
@@ -12,11 +12,6 @@ export default defineConfig({
     },
   },
   build: {
-    // Use esbuild for minification (faster than terser)
-    minify: 'esbuild',
-  },
-  esbuild: {
-    // Only remove debugger statements, keep console logs for Vercel debugging
-    drop: ['debugger'],
+    minify: 'oxc',
   },
 });

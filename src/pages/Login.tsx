@@ -12,7 +12,6 @@ export const Login = (): React.JSX.Element => {
   // Auto-dismiss error modal after 2 seconds
   useEffect(() => {
     if (error && !loading && !success) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setShowModal(true);
       const timer = setTimeout(() => {
         setShowModal(false);

@@ -81,6 +81,140 @@ export const Appointment = (): React.JSX.Element => {
   maxDate.setDate(maxDate.getDate() + 10);
   const maxDateString = maxDate.toISOString().split('T')[0];
 
+  const fetchAvailableSlots = async (
+    dateString: string,
+    forceRefresh = false,
+  ) => {
+    try {
+      const availableSlots = await checkAvailableSlots(
+        dateString,
+        forceRefresh,
+      );
+      setAvailableOnlineSlots(availableSlots);
+    } catch (error) {
+      logger.error('Error checking slots:', error);
+      setAvailableOnlineSlots(10);
+    }
+  };
+
+  // Handle PhonePe payment callback
+  const handlePaymentCallback = useCallback(
+    async (transactionId: string) => {
+      setLoading(true);
+
+      try {
+        // First check if webhook already processed this transaction (faster)
+        const webhookResponse = await fetch(
+          `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/webhook-status/${transactionId}`,
+          {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+          },
+        );
+
+        const webhookData = await webhookResponse.json();
+
+        // If webhook processed, use that result (real-time)
+        if (webhookData.success && webhookData.webhookProcessed) {
+          if (webhookData.eventType === 'CHECKOUT_ORDER_COMPLETED') {
+            // Webhook confirmed success - get booking details
+            const response = await fetch(
+              `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/status-by-transaction/${transactionId}`,
+              {
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'},
+              },
+            );
+
+            const data = await response.json();
+            if (data.success && data.status === 'SUCCESS') {
+              const bookingData: PaymentBookingData = {
+                slotNumber: data.slotNumber,
+                date: data.date,
+                name: data.name,
+                gender: data.bookingData.gender,
+                age: data.bookingData.age,
+                phone: data.bookingData.phone,
+                amount: 400,
+                paymentId: transactionId,
+                orderId: transactionId,
+              };
+
+              setBookingData(bookingData);
+              setShowSuccessModal(true);
+              await fetchAvailableSlots(data.date, true);
+              setLoading(false);
+              return;
+            }
+          } else if (webhookData.eventType === 'CHECKOUT_ORDER_FAILED') {
+            // Webhook confirmed failure
+            setModalContent({
+              title: 'Payment Failed',
+              message: 'Payment was not successful. Please try again.',
+              type: 'error',
+            });
+            setShowModal(true);
+            setLoading(false);
+            return;
+          }
+        }
+
+        // Fallback to API status check if webhook not processed yet
+        const response = await fetch(
+          `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/status-by-transaction/${transactionId}`,
+          {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+          },
+        );
+
+        const data = await response.json();
+
+        if (data.success && data.status === 'SUCCESS') {
+          // Payment successful - create booking data for receipt display
+          const bookingData: PaymentBookingData = {
+            slotNumber: data.slotNumber,
+            date: data.date,
+            name: data.name,
+            gender: data.bookingData.gender,
+            age: data.bookingData.age,
+            phone: data.bookingData.phone,
+            amount: 400,
+            paymentId: transactionId,
+            orderId: transactionId,
+          };
+
+          setBookingData(bookingData);
+          setShowSuccessModal(true);
+
+          // Refresh slots for the booking date
+          await fetchAvailableSlots(data.date, true);
+        } else {
+          // Payment failed
+          setModalContent({
+            title: 'Payment Failed',
+            message:
+              data.error || 'Payment was not successful. Please try again.',
+            type: 'error',
+          });
+          setShowModal(true);
+        }
+      } catch (error) {
+        logger.error('Error checking payment callback:', error);
+        setModalContent({
+          title: 'Payment Error',
+          message:
+            'Unable to verify payment status. Please contact support if money was deducted.',
+          type: 'error',
+        });
+        setShowModal(true);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [fetchAvailableSlots],
+  );
+
   // Check for payment callback on page load
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -94,139 +228,7 @@ export const Appointment = (): React.JSX.Element => {
       // Clean up URL
       window.history.replaceState({}, document.title, window.location.pathname);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // Handle PhonePe payment callback
-  const handlePaymentCallback = async (transactionId: string) => {
-    setLoading(true);
-
-    try {
-      // First check if webhook already processed this transaction (faster)
-      const webhookResponse = await fetch(
-        `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/webhook-status/${transactionId}`,
-        {
-          method: 'GET',
-          headers: {'Content-Type': 'application/json'},
-        },
-      );
-
-      const webhookData = await webhookResponse.json();
-
-      // If webhook processed, use that result (real-time)
-      if (webhookData.success && webhookData.webhookProcessed) {
-        if (webhookData.eventType === 'CHECKOUT_ORDER_COMPLETED') {
-          // Webhook confirmed success - get booking details
-          const response = await fetch(
-            `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/status-by-transaction/${transactionId}`,
-            {
-              method: 'GET',
-              headers: {'Content-Type': 'application/json'},
-            },
-          );
-
-          const data = await response.json();
-          if (data.success && data.status === 'SUCCESS') {
-            const bookingData: PaymentBookingData = {
-              slotNumber: data.slotNumber,
-              date: data.date,
-              name: data.name,
-              gender: data.bookingData.gender,
-              age: data.bookingData.age,
-              phone: data.bookingData.phone,
-              amount: 400,
-              paymentId: transactionId,
-              orderId: transactionId,
-            };
-
-            setBookingData(bookingData);
-            setShowSuccessModal(true);
-            await fetchAvailableSlots(data.date, true);
-            setLoading(false);
-            return;
-          }
-        } else if (webhookData.eventType === 'CHECKOUT_ORDER_FAILED') {
-          // Webhook confirmed failure
-          setModalContent({
-            title: 'Payment Failed',
-            message: 'Payment was not successful. Please try again.',
-            type: 'error',
-          });
-          setShowModal(true);
-          setLoading(false);
-          return;
-        }
-      }
-
-      // Fallback to API status check if webhook not processed yet
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/status-by-transaction/${transactionId}`,
-        {
-          method: 'GET',
-          headers: {'Content-Type': 'application/json'},
-        },
-      );
-
-      const data = await response.json();
-
-      if (data.success && data.status === 'SUCCESS') {
-        // Payment successful - create booking data for receipt display
-        const bookingData: PaymentBookingData = {
-          slotNumber: data.slotNumber,
-          date: data.date,
-          name: data.name,
-          gender: data.bookingData.gender,
-          age: data.bookingData.age,
-          phone: data.bookingData.phone,
-          amount: 400,
-          paymentId: transactionId,
-          orderId: transactionId,
-        };
-
-        setBookingData(bookingData);
-        setShowSuccessModal(true);
-
-        // Refresh slots for the booking date
-        await fetchAvailableSlots(data.date, true);
-      } else {
-        // Payment failed
-        setModalContent({
-          title: 'Payment Failed',
-          message:
-            data.error || 'Payment was not successful. Please try again.',
-          type: 'error',
-        });
-        setShowModal(true);
-      }
-    } catch (error) {
-      logger.error('Error checking payment callback:', error);
-      setModalContent({
-        title: 'Payment Error',
-        message:
-          'Unable to verify payment status. Please contact support if money was deducted.',
-        type: 'error',
-      });
-      setShowModal(true);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchAvailableSlots = useCallback(
-    async (dateString: string, forceRefresh = false) => {
-      try {
-        const availableSlots = await checkAvailableSlots(
-          dateString,
-          forceRefresh,
-        );
-        setAvailableOnlineSlots(availableSlots);
-      } catch (error) {
-        logger.error('Error checking slots:', error);
-        setAvailableOnlineSlots(10);
-      }
-    },
-    [],
-  );
+  }, [handlePaymentCallback]);
 
   // URL parameter handling is done in useEffect above for redirect flow
 
@@ -252,7 +254,8 @@ export const Appointment = (): React.JSX.Element => {
       // If valid, fetch available slots
       void fetchAvailableSlots(selectedDate);
     }
-  }, [selectedDate, fetchAvailableSlots]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedDate]);
 
   useEffect(() => {
     if (showModal || showSuccessModal) {

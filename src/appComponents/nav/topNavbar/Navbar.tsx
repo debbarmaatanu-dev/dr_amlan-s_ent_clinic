@@ -179,12 +179,12 @@ export const NavBar = () => {
             </h2>
             <div className="flex items-center gap-4">
               <a
-                href="tel:+918258839231"
+                href="tel:+917085548785"
                 className="flex items-center gap-2 transition-opacity hover:opacity-80 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 focus:outline-none"
-                aria-label="Call us at +91 8258839231">
+                aria-label="Call us at +91 7085548785">
                 <i className="fa-solid fa-phone h-3 w-3" aria-hidden="true"></i>
                 <span className="xs:inline hidden">Call:</span>
-                <span className="font-semibold">+91 8258839231</span>
+                <span className="font-semibold">+91 7085548785</span>
               </a>
             </div>
           </section>
