@@ -92,7 +92,6 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
     if (isOpen) {
       void fetchClinicStatus();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {

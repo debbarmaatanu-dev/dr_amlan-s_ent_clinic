@@ -81,21 +81,21 @@ export const Appointment = (): React.JSX.Element => {
   maxDate.setDate(maxDate.getDate() + 10);
   const maxDateString = maxDate.toISOString().split('T')[0];
 
-  const fetchAvailableSlots = async (
-    dateString: string,
-    forceRefresh = false,
-  ) => {
-    try {
-      const availableSlots = await checkAvailableSlots(
-        dateString,
-        forceRefresh,
-      );
-      setAvailableOnlineSlots(availableSlots);
-    } catch (error) {
-      logger.error('Error checking slots:', error);
-      setAvailableOnlineSlots(10);
-    }
-  };
+  const fetchAvailableSlots = useCallback(
+    async (dateString: string, forceRefresh = false) => {
+      try {
+        const availableSlots = await checkAvailableSlots(
+          dateString,
+          forceRefresh,
+        );
+        setAvailableOnlineSlots(availableSlots);
+      } catch (error) {
+        logger.error('Error checking slots:', error);
+        setAvailableOnlineSlots(10);
+      }
+    },
+    [],
+  );
 
   // Handle PhonePe payment callback
   const handlePaymentCallback = useCallback(
@@ -254,8 +254,7 @@ export const Appointment = (): React.JSX.Element => {
       // If valid, fetch available slots
       void fetchAvailableSlots(selectedDate);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedDate]);
+  }, [selectedDate, fetchAvailableSlots]);
 
   useEffect(() => {
     if (showModal || showSuccessModal) {
