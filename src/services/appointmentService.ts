@@ -1,7 +1,4 @@
-import {db} from './firebase';
-import {doc, getDoc} from 'firebase/firestore';
 import type {
-  DayBookings,
   CachedSlots,
   DateValidationResult,
   BookingAvailabilityResult,
@@ -77,22 +74,27 @@ export const checkAvailableSlots = async (
       }
     }
 
-    // Cache miss or expired - fetch from Firestore
-    logger.log(`[Cache MISS] Fetching slots from Firestore for ${dateString}`);
-    const docId = formatDateToDocId(dateString);
-    const docRef = doc(db, 'appointment_bookings', docId);
-    const docSnap = await getDoc(docRef);
+    // Cache miss or expired - fetch via backend (Admin SDK; Firestore client reads disabled)
+    logger.log(`[Cache MISS] Fetching slots from API for ${dateString}`);
+    const response = await fetch(
+      `${import.meta.env.VITE_API_BACKEND_URL}/api/appointment/available-slots?date=${encodeURIComponent(dateString)}`,
+      {method: 'GET', headers: {'Content-Type': 'application/json'}},
+    );
+    const data = (await response.json()) as {
+      success?: boolean;
+      availableSlots?: number;
+      error?: string;
+    };
 
-    let availableSlots: number;
-
-    if (docSnap.exists()) {
-      const data = docSnap.data() as DayBookings;
-      const bookings = data.bookings || [];
-      const onlineCount = bookings.length;
-      availableSlots = 10 - onlineCount;
-    } else {
-      availableSlots = 10;
+    if (
+      !response.ok ||
+      !data.success ||
+      typeof data.availableSlots !== 'number'
+    ) {
+      throw new Error(data.error || `Slot check failed (${response.status})`);
     }
+
+    const availableSlots = data.availableSlots;
 
     // Update cache
     slotsCache.set(dateString, {
