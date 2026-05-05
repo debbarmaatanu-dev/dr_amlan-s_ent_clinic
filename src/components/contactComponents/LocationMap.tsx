@@ -21,7 +21,7 @@ export const LocationMap: React.FC = () => {
           <address className={`mb-4 text-sm ${textColor} not-italic`}>
             <strong>Dr. (Major) Amlan's ENT &amp; Allergy Clinic</strong>
             <br />
-            1st Floor, Capital Pathlab
+            Capital Pathlab
             <br />
             Bijoykumar Chowmuhani
             <br />
@@ -53,8 +53,8 @@ export const LocationMap: React.FC = () => {
 
         <p id="map-description" className={`mt-4 text-sm ${textColor}`}>
           Interactive Google Maps showing the exact location of our ENT clinic
-          in Agartala, Tripura. The clinic is located on the 1st floor of
-          Capital Pathlab building at Bijoykumar Chowmuhani.
+          in Agartala, Tripura. The clinic is located at the Capital Pathlab
+          building at Bijoykumar Chowmuhani.
         </p>
       </div>
     </section>

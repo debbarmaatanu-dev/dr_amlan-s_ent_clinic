@@ -58,7 +58,7 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                   </p>
                   <p>
                     The Platform is owned by Dr. (Major) Amlan Debbarma, with
-                    its registered office at 1st Floor, Capital Pathlab,
+                    its registered office at Capital Pathlab,
                     Bijoykumar Chowmuhani, Agartala, West Tripura - 799001.
                   </p>
                   <p>
@@ -389,7 +389,7 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                       Dr. (Major) Amlan's ENT &amp; Allergy Clinic
                     </strong>
                   </p>
-                  <p>1st Floor, Capital Pathlab</p>
+                  <p>Capital Pathlab</p>
                   <p>Bijoykumar Chowmuhani, Agartala</p>
                   <p>West Tripura - 799001</p>
                   <p className="mt-4">

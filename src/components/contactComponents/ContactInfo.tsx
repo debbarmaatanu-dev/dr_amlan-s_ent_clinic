@@ -97,7 +97,7 @@ export const ContactInfo: React.FC = () => {
           title="Address"
           textColor={textColor}>
           <p className={textSecondary}>
-            1st floor, Capital pathlab
+            Capital pathlab
             <br />
             Bijoykumar Chowmuhani,
             <br />

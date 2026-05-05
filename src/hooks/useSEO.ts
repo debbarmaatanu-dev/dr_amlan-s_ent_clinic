@@ -225,7 +225,7 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
             'Expert ENT & Allergy clinic in Agartala, Tripura providing comprehensive ear, nose, throat, head & neck, and allergy treatments including sleep apnea diagnosis',
           address: {
             '@type': 'PostalAddress',
-            streetAddress: '1st Floor, Capital Pathlab, Bijoykumar Chowmuhani',
+            streetAddress: 'Capital Pathlab, Bijoykumar Chowmuhani',
             addressLocality: 'Agartala',
             addressRegion: 'Tripura',
             postalCode: '799001',
@@ -273,7 +273,7 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
           },
           address: {
             '@type': 'PostalAddress',
-            streetAddress: '1st Floor, Capital Pathlab, Bijoykumar Chowmuhani',
+            streetAddress: 'Capital Pathlab, Bijoykumar Chowmuhani',
             addressLocality: 'Agartala',
             addressRegion: 'Tripura',
             postalCode: '799001',

@@ -37,7 +37,7 @@ export const BookingReceipt: React.FC<BookingReceiptProps> = ({
         <p className="text-sm text-gray-600">MBBS, MS ENT</p>
         <p className="text-sm text-gray-600">Ex-Army Medical Corps</p>
         <p className="mt-2 text-xs text-gray-500">
-          1st floor, Capital pathlab, Bijoykumar Chowmuhani
+          Capital pathlab, Bijoykumar Chowmuhani
         </p>
         <p className="text-xs text-gray-500">Agartala, West Tripura - 799001</p>
         <p className="text-xs text-gray-500">Ph: +91 7085548785</p>

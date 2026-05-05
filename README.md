@@ -11,7 +11,7 @@ Canonical production host (from app SEO and `vercel.json`): [www.dr-major-amlan-
 
 ## Location & contact
 
-1st Floor, Capital Pathlab  
+Capital Pathlab  
 Bijoykumar Chowmuhani  
 Agartala, West Tripura — 799001
 
@@ -50,8 +50,8 @@ Production is deployed on **Vercel** with the above install/build commands.
 ## Architecture at a glance
 
 - **React SPA**: `index.html` + `src/main.tsx` → `App` → `AuthWrapper` → `Routing`.
-- **Firestore (browser)**: Reads `appointment_bookings` documents keyed by booking date (`DD-MM-YYYY`) to compute remaining **online** slots (default cap **10**/day); local 30s cache in `appointmentService.ts`. Writes for bookings happen on the backend after payment, not directly from arbitrary client writes in this flow.
-- **HTTP backend** (`import.meta.env.VITE_API_BACKEND_URL`): Creates PhonePe orders, checks payment/webhook status, clinic override status, appointment search, protected admin downloads and clinic toggles.
+- **HTTP backend** (`import.meta.env.VITE_API_BACKEND_URL`): All booking-critical reads/writes happen via the backend (slot availability, payment order creation, payment status, clinic status, appointment search, and protected admin operations). The frontend keeps a small **30s in-memory cache** for slot availability in `src/services/appointmentService.ts`.
+- **Firestore (browser)**: **Not used** for booking slots/availability in the current code paths (intentionally moved to backend Admin SDK so client Firestore rules can be tightened safely).
 - **Admin UI**: Firebase Google popup sign-in; only emails listed in env vars are treated as admins in the client (-navbar modals, download/control tools). Server-side authorization for APIs is enforced on the backend.
 - **`AuthWrapper`**: Syncs Firebase `onIdTokenChanged` into Zustand; initializes theme from cookie.
 - **`ProtectedRoute`** (wraps `/admin-login`): If an admin session already exists, user is redirected to **`/home`** so the login screen is only for unauthenticated visitors.
@@ -97,6 +97,8 @@ Never commit real secrets; keep them in local env files (gitignored) or Vercel.
 
 - `api/payment/webhook.js` — Proxies PhonePe webhooks to the real backend (`BACKEND_URL`, optional `WEBHOOK_ENDPOINT_PATH`) so webhook URLs can use the frontend-approved domain while processing stays on the backend.
 - `api/payment/webhook-test.js` — Test counterpart.
+
+**Note:** The webhook proxy currently has a fallback default backend URL in code if `BACKEND_URL` is not set. Prefer setting `BACKEND_URL` in Vercel env for correctness across Preview/Production.
 
 SPA routing, apex→www redirect, security headers (CSP covering Firebase, Google, PhonePe, Maps, backend host), and build/install commands are declared in **`vercel.json`**.
 

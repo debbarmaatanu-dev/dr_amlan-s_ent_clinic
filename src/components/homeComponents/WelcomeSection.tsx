@@ -73,8 +73,8 @@ export const WelcomeSection = () => {
                 Clinic Location
               </h3>
               <p>
-                Located on the 1st Floor, Capital Pathlab, Bijoykumar
-                Chowmuhani, Agartala, West Tripura.
+                Located at Capital Pathlab, Bijoykumar Chowmuhani, Agartala,
+                West Tripura.
               </p>
             </address>
 

@@ -119,7 +119,7 @@ export function Footer() {
                   <span className={`${getTextColor(actualTheme)}`}>
                     Address:
                   </span>{' '}
-                  1st floor, Capital pathlab
+                  Capital pathlab
                 </p>
                 <p>Bijoykumar Chowmuhani,</p>
                 <p>Agartala,</p>
