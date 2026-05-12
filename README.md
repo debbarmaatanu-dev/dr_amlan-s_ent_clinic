@@ -15,24 +15,24 @@ Capital Pathlab
 Bijoykumar Chowmuhani  
 Agartala, West Tripura — 799001
 
-- Phone: +91 7085548785  
-- WhatsApp: +91 6033521499  
-- Email: debbarmaamlan@gmail.com  
+- Phone: +91 6033521499
+- WhatsApp: +91 6033521499
+- Email: debbarmaamlan@gmail.com
 
 ## Technology stack (as in `package.json`)
 
-| Layer | Packages |
-|--------|-----------|
-| UI | React 19, TypeScript |
-| Build | Vite 8, `@vitejs/plugin-react`, production minify via **oxc** |
-| CSS | Tailwind CSS 4, `@tailwindcss/vite`, `tailwind.config.ts` (dark mode: `class`, custom breakpoints) |
-| Routing | `react-router-dom` 7 (lazy-loaded pages, `Suspense`) |
-| State | Zustand 5 + Immer (`src/appStore/*` slices) |
-| Auth & realtime data | Firebase 12 (Auth + Firestore client SDK) |
-| Integrations | Google sign-in (admin), PhonePe (**redirect** flow via backend), Google Maps / Places (via CSP allowlist), Cloudinary assets |
-| PDF / capture | `jspdf`, `html-to-image` |
-| Icons | Font Awesome subset loaded from `src/utils/icons.ts` |
-| Tooling | ESLint flat config (`eslint.config.ts`), Prettier, Bun for scripts |
+| Layer                | Packages                                                                                                                     |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| UI                   | React 19, TypeScript                                                                                                         |
+| Build                | Vite 8, `@vitejs/plugin-react`, production minify via **oxc**                                                                |
+| CSS                  | Tailwind CSS 4, `@tailwindcss/vite`, `tailwind.config.ts` (dark mode: `class`, custom breakpoints)                           |
+| Routing              | `react-router-dom` 7 (lazy-loaded pages, `Suspense`)                                                                         |
+| State                | Zustand 5 + Immer (`src/appStore/*` slices)                                                                                  |
+| Auth & realtime data | Firebase 12 (Auth + Firestore client SDK)                                                                                    |
+| Integrations         | Google sign-in (admin), PhonePe (**redirect** flow via backend), Google Maps / Places (via CSP allowlist), Cloudinary assets |
+| PDF / capture        | `jspdf`, `html-to-image`                                                                                                     |
+| Icons                | Font Awesome subset loaded from `src/utils/icons.ts`                                                                         |
+| Tooling              | ESLint flat config (`eslint.config.ts`), Prettier, Bun for scripts                                                           |
 
 **Lockfile:** this project uses **Bun** (`bun.lock`). Vercel is configured with `bun install --frozen-lockfile` and `bun run build` in `vercel.json`.
 
@@ -59,12 +59,12 @@ Production is deployed on **Vercel** with the above install/build commands.
 
 ## Routes
 
-| Path | Purpose |
-|------|---------|
-| `/`, `/home` | Landing |
-| `/about`, `/contact`, `/faq`, `/privacy-policy` | Static content |
-| `/appointment` | Slot check, booking form, PhonePe return handling, receipts, admin shortcuts when logged in |
-| `/admin-login` | Google admin login |
+| Path                                            | Purpose                                                                                     |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `/`, `/home`                                    | Landing                                                                                     |
+| `/about`, `/contact`, `/faq`, `/privacy-policy` | Static content                                                                              |
+| `/appointment`                                  | Slot check, booking form, PhonePe return handling, receipts, admin shortcuts when logged in |
+| `/admin-login`                                  | Google admin login                                                                          |
 
 Floating WhatsApp / “scroll to top” controls are hidden on `/admin-login` and paths that mimic a payment-return experience where noted in layout code.
 

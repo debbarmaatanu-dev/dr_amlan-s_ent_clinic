@@ -40,7 +40,7 @@ export const BookingReceipt: React.FC<BookingReceiptProps> = ({
           Capital pathlab, Bijoykumar Chowmuhani
         </p>
         <p className="text-xs text-gray-500">Agartala, West Tripura - 799001</p>
-        <p className="text-xs text-gray-500">Ph: +91 7085548785</p>
+        <p className="text-xs text-gray-500">Ph: +91 6033521499</p>
       </div>
 
       {/* Receipt Title */}
@@ -160,7 +160,7 @@ export const BookingReceipt: React.FC<BookingReceiptProps> = ({
             • Sunday: Allergy clinic from 10:30 AM to 1 :00 PM (Prior
             appointment required)
           </li>
-          <li>• For any queries, call: +91 7085548785</li>
+          <li>• For any queries, call: +91 6033521499</li>
         </ul>
       </div>
 

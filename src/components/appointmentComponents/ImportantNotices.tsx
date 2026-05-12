@@ -60,8 +60,8 @@ export const ImportantNotices = (): React.JSX.Element => {
             <ul className="mt-1 ml-4 list-disc">
               <li>
                 Call:{' '}
-                <a href="tel:+917085548785" className="underline">
-                  +91 7085548785
+                <a href="tel:+916033521499" className="underline">
+                  +91 6033521499
                 </a>
               </li>
               <li>

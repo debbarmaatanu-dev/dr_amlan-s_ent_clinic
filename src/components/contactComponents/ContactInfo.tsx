@@ -57,8 +57,8 @@ export const ContactInfo: React.FC = () => {
           iconBg="bg-blue-600"
           title="Phone"
           textColor={textColor}>
-          <a href="tel:+917085548785" className={`block ${textLinkColor}`}>
-            +91 7085548785
+          <a href="tel:+916033521499" className={`block ${textLinkColor}`}>
+            +91 6033521499
           </a>
         </ContactItem>
 

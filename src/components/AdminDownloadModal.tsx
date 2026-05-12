@@ -41,14 +41,16 @@ export const AdminDownloadModal: React.FC<AdminDownloadModalProps> = ({
 
   useModalState(isOpen);
 
-  const handleDateSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDateSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const date = e.target.value;
     setSelectedDate(date);
+    // Clear previous results when date changes — do NOT auto-fetch
+    setBookings([]);
+    setError(null);
+  };
 
-    if (!date) {
-      setBookings([]);
-      return;
-    }
+  const handleSearch = async () => {
+    if (!selectedDate) return;
 
     setLoading(true);
     setError(null);
@@ -67,7 +69,7 @@ export const AdminDownloadModal: React.FC<AdminDownloadModalProps> = ({
       const token = await user.getIdToken(true);
 
       const response = await fetch(
-        `${import.meta.env.VITE_API_BACKEND_URL}/api/protected/bookings/${date}`,
+        `${import.meta.env.VITE_API_BACKEND_URL}/api/protected/bookings/${selectedDate}`,
         {
           method: 'GET',
           headers: {
@@ -181,18 +183,26 @@ export const AdminDownloadModal: React.FC<AdminDownloadModalProps> = ({
                 </div>
               </div>
 
-              {/* Loading State */}
-              {loading && (
-                <div
-                  className="flex items-center justify-center py-8"
-                  role="status"
-                  aria-live="polite">
-                  <ClipLoader size={30} color="#3B82F6" />
-                  <span className={`ml-3 ${textSecondary}`}>
-                    Loading bookings...
-                  </span>
-                </div>
-              )}
+              {/* Search Button */}
+              <button
+                onClick={handleSearch}
+                disabled={loading || !selectedDate}
+                className="w-full cursor-pointer rounded-lg bg-green-600 px-6 py-3 font-medium text-white transition-colors hover:bg-green-700 focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                aria-label="Fetch bookings for selected date">
+                {loading ? (
+                  <div className="flex items-center justify-center space-x-2">
+                    <ClipLoader size={20} color="white" />
+                    <span>Loading bookings...</span>
+                  </div>
+                ) : (
+                  <>
+                    <i
+                      className="fa-solid fa-magnifying-glass mr-2"
+                      aria-hidden="true"></i>
+                    Fetch Bookings
+                  </>
+                )}
+              </button>
 
               {/* Error State */}
               {error && (

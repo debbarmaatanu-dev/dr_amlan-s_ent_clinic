@@ -101,7 +101,7 @@ export const FAQ = (): React.JSX.Element => {
             consultation hours. 10 additional offline slots available.
           </p>
           <p className="mb-2">
-            <strong>Contact:</strong> Call +91 7085548785 or WhatsApp +91
+            <strong>Contact:</strong> Call +91 6033521499 or WhatsApp +91
             6033521499 for assistance.
           </p>
           <p className="text-sm italic">
@@ -387,9 +387,9 @@ export const FAQ = (): React.JSX.Element => {
             <p className="mb-4">Still have questions?</p>
             <div className="flex flex-col items-center gap-2 sm:flex-row sm:justify-center">
               <a
-                href="tel:+917085548785"
+                href="tel:+916033521499"
                 className="font-semibold text-blue-600 hover:text-blue-800">
-                Call: +91 7085548785
+                Call: +91 6033521499
               </a>
               <span className="hidden sm:inline">|</span>
               <a

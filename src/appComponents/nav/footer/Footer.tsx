@@ -90,10 +90,10 @@ export function Footer() {
                 <div className="flex flex-col gap-1">
                   <a
                     className="cursor-pointer text-blue-600 hover:text-blue-800 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none"
-                    href="tel:+917085548785"
-                    aria-label="Call clinic at +91 7085548785">
+                    href="tel:+916033521499"
+                    aria-label="Call clinic at +91 6033521499">
                     <span className={`${getTextColor(actualTheme)}`}>PH:</span>{' '}
-                    +91 7085548785
+                    +91 6033521499
                   </a>
                   <a
                     className="cursor-pointer text-blue-600 hover:text-blue-800 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none"
