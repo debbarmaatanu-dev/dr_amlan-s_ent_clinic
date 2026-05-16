@@ -86,7 +86,7 @@ export const UpArrowIcon = () => {
         aria-label="Scroll to top">
         <div className="relative flex h-7 w-7 items-center justify-center">
           <i
-            className="fa-solid fa-arrow-up absolute text-lg font-medium text-white"
+            className="fa-solid fa-arrow-left rotate-90 text-lg text-white"
             aria-hidden="true"></i>
         </div>
       </button>
