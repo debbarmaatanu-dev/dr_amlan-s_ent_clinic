@@ -82,7 +82,7 @@ export const NavLinks = ({
             <button
               key={item.route}
               onClick={() => handleNavClick(item.route)}
-              className={`xxxs:text-base cursor-pointer text-sm font-medium ${linkClass(
+              className={`xxxs:text-base min-h-11 cursor-pointer px-1 text-sm font-medium ${linkClass(
                 item.path,
               )} transition-all hover:text-blue-600 hover:underline active:scale-95`}
               aria-label={`${item.label.toLowerCase()} nav-link`}>
@@ -96,7 +96,7 @@ export const NavLinks = ({
             <button
               key={item.route}
               onClick={() => handleNavClick(item.route)}
-              className={`cursor-pointer rounded-md px-2 py-2 text-white shadow-md transition-transform duration-180 active:scale-95 ${isActive ? 'bg-purple-700' : 'bg-blue-600'}`}
+              className={`min-h-11 cursor-pointer rounded-md px-2 py-2 text-white shadow-md transition-transform duration-180 active:scale-95 ${isActive ? 'bg-purple-700' : 'bg-blue-600'}`}
               aria-label={`${item.label.toLowerCase()} nav-link`}>
               <span className="text-md text-center font-medium md:text-base">
                 {item.label}

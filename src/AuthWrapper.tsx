@@ -59,6 +59,7 @@ export const AuthWrapper = ({
       } else {
         setUser(null);
       }
+      setAuthInitialized(true);
     });
 
     return () => unsubscribe();

@@ -1,5 +1,5 @@
 import type {ActualTheme} from '@/appStore/themeSlice';
-import {LogoSVG} from '@/assets/Logo_SVG';
+import {IMAGES} from '@/constants/images';
 
 type LogoSectionProps = {
   handleHomeClick: () => void;
@@ -25,7 +25,16 @@ export const LogoSection = ({
       aria-label="Go to home">
       <div
         className={`flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full p-1 shadow-md ${actualTheme === 'light' ? 'bg-blue-200/80' : 'bg-white'}`}>
-        <LogoSVG />
+        <img
+          src={IMAGES.LOGO_TOP}
+          alt="Dr. (Major) Amlan's ENT & Allergy Clinic Logo"
+          width="64"
+          height="64"
+          className="h-full w-full rounded-full object-cover"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+        />
       </div>
       <div className="flex flex-col">
         <span className="xxxxxs:text-xs xxxxxs:font-semibold xxxxs:text-xs xxxxs:font-semibold xxxs:text-sm xxxs:font-bold xs:text-base xs:font-bold leading-tight text-blue-600 md:text-lg md:font-bold">

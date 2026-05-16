@@ -220,7 +220,7 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
             width: 512,
             height: 512,
           },
-          image: IMAGES.DOCTOR_PHOTO,
+          image: IMAGES.DOCTOR_PHOTO_ORIGINAL,
           description:
             'Expert ENT & Allergy clinic in Agartala, Tripura providing comprehensive ear, nose, throat, head & neck, and allergy treatments including sleep apnea diagnosis',
           address: {
@@ -251,7 +251,7 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
           honorificPrefix: 'Dr.',
           honorificSuffix: 'MBBS, MS ENT (Gold Medalist)',
           url: 'https://www.dr-major-amlan-ent.in/about',
-          image: IMAGES.DOCTOR_PHOTO,
+          image: IMAGES.DOCTOR_PHOTO_ORIGINAL,
           jobTitle: 'ENT Surgeon',
           description:
             'MBBS, MS ENT (Gold Medalist), Ex-Army Medical Corps, Endoscopic and Microscopic ENT surgeon at Tripura Medical College',

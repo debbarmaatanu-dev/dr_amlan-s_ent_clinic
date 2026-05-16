@@ -6,10 +6,7 @@ export const FeaturesSection = () => {
   const textColor = actualTheme === 'light' ? 'text-gray-700' : 'text-white';
 
   return (
-    <section
-      className={`${bgColor} py-16`}
-      aria-labelledby="features-heading"
-      role="region">
+    <section className={`${bgColor} py-16`} aria-labelledby="features-heading">
       <div className="container mx-auto px-4">
         <header className="mb-12 text-center">
           <h2
@@ -22,9 +19,9 @@ export const FeaturesSection = () => {
           </p>
         </header>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3" role="list">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {/* Experienced ENT Specialist */}
-          <article className="text-center" role="listitem">
+          <article className="text-center">
             <header className="mb-4">
               <div
                 className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-cyan-100"
@@ -43,7 +40,7 @@ export const FeaturesSection = () => {
           </article>
 
           {/* Streamlined Appointments */}
-          <article className="text-center" role="listitem">
+          <article className="text-center">
             <header className="mb-4">
               <div
                 className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-lime-200"
@@ -61,7 +58,7 @@ export const FeaturesSection = () => {
           </article>
 
           {/* Flexible Timing */}
-          <article className="text-center" role="listitem">
+          <article className="text-center">
             <header className="mb-4">
               <div
                 className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-cyan-100"

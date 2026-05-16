@@ -6,8 +6,6 @@ export const loadFontAwesome = () => {
   const style = document.createElement('style');
   style.textContent = `
     /* Font Awesome subset - only icons we use */
-    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css');
-    
     /* Load only the icon fonts we need */
     @font-face {
       font-family: "Font Awesome 6 Free";

@@ -75,14 +75,45 @@
 
   <!-- Preconnect for performance -->
   <link rel="preconnect" href="https://res.cloudinary.com" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="dns-prefetch" href="https://apis.google.com" />
-  <link rel="dns-prefetch" href="https://firestore.googleapis.com" />
+  <!-- Firebase Auth origins -->
+  <link rel="preconnect" href="https://dr-amlan-s-ent-clinic.firebaseapp.com" crossorigin />
+  <link rel="preconnect" href="https://apis.google.com" crossorigin />
+  <!-- AdSense -->
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
   <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+  <!-- Google Maps (footer iframe — dns-prefetch only, full preconnect not needed) -->
+  <link rel="dns-prefetch" href="https://maps.googleapis.com" />
+  <link rel="dns-prefetch" href="https://maps.gstatic.com" />
 
-  <!-- Font Awesome loaded via custom subset in utils/icons.ts for better performance -->
+  <!-- Hero doctor photo (LCP element) —
+       URL must match IMAGES.DOCTOR_PHOTO in images.ts exactly for cache hit -->
+  <link
+    rel="preload"
+    as="image"
+    href="https://res.cloudinary.com/mobeet/image/upload/w_448,c_limit,q_auto,f_auto/WEBP/DOCTOR_PHOTO_zgnaz1.webp"
+    fetchpriority="high" />
+  <!-- Navbar logo (eagerly loaded, above the fold) —
+       URL must match IMAGES.LOGO_TOP in images.ts exactly for cache hit -->
+  <link
+    rel="preload"
+    as="image"
+    href="https://res.cloudinary.com/mobeet/image/upload/w_128,h_128,c_fill,q_auto,f_auto/WEBP/DrAmlanLogoTop_oxkvbz.webp" />
+
+  <!-- Preload Font Awesome woff2 fonts so they start downloading before JS injects the style tag -->
+  <link
+    rel="preload"
+    as="font"
+    type="font/woff2"
+    crossorigin
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2" />
+  <link
+    rel="preload"
+    as="font"
+    type="font/woff2"
+    crossorigin
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2" />
+
+  <!-- Font Awesome: custom subset injected via utils/icons.ts (@import removed — @font-face + icon defs are self-sufficient) -->
 
   <!-- Google AdSense (Auto ads / anchor — page exclusions in AdSense dashboard) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8497159140854759"

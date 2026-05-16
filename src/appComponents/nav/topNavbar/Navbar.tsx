@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {appStore} from '@/appStore/appStore';
 import {auth} from '@/services/firebase';
@@ -37,6 +37,10 @@ export const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [showLogoutModal, setShowLogoutModal] = useState<boolean>(false);
   const [now, setNow] = useState(new Date());
+
+  // Refs for clock hands — avoids document.querySelector forced reflow
+  const hourHandRef = useRef<HTMLDivElement>(null);
+  const minuteHandRef = useRef<HTMLDivElement>(null);
 
   // Use clinic status from global store
   const clinicStatus = appStore(state => state.clinicStatus);
@@ -83,25 +87,17 @@ export const NavBar = () => {
     }
   };
 
-  // 1) clock hand animation
+  // 1) clock hand animation — uses refs to avoid document.querySelector forced reflow
   useEffect(() => {
-    const hourHand = document.querySelector(
-      `.${styles.hourHand}`,
-    ) as HTMLElement;
-    const minuteHand = document.querySelector(
-      `.${styles.minuteHand}`,
-    ) as HTMLElement;
-
     const setClock = () => {
+      if (!hourHandRef.current || !minuteHandRef.current) return;
       const d = new Date();
       const hours = d.getHours() % 12;
       const minutes = d.getMinutes();
-
       const hourDeg = hours * 30 + minutes * 0.5;
       const minuteDeg = minutes * 6;
-
-      hourHand.style.transform = `translateX(-50%) rotate(${hourDeg}deg)`;
-      minuteHand.style.transform = `translateX(-50%) rotate(${minuteDeg}deg)`;
+      hourHandRef.current.style.transform = `translateX(-50%) rotate(${hourDeg}deg)`;
+      minuteHandRef.current.style.transform = `translateX(-50%) rotate(${minuteDeg}deg)`;
     };
 
     setClock();
@@ -195,8 +191,12 @@ export const NavBar = () => {
             </h2>
             <div className="flex items-center gap-2">
               <div className={styles.clockIcon} aria-hidden="true">
-                <div className={`${styles.hand} ${styles.hourHand}`}></div>
-                <div className={`${styles.hand} ${styles.minuteHand}`}></div>
+                <div
+                  ref={hourHandRef}
+                  className={`${styles.hand} ${styles.hourHand}`}></div>
+                <div
+                  ref={minuteHandRef}
+                  className={`${styles.hand} ${styles.minuteHand}`}></div>
               </div>
 
               {isManuallyOverridden ? (
@@ -281,7 +281,7 @@ export const NavBar = () => {
                 aria-label="Open navigation menu"
                 aria-expanded={menuOpen}
                 aria-controls="mobile-menu"
-                className={`${actualTheme === 'dark' ? 'text-gray-200' : 'text-gray-700'} transition-transform duration-180 ease-in-out focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none active:scale-95 md:hidden`}
+                className={`${actualTheme === 'dark' ? 'text-gray-200' : 'text-gray-700'} flex min-h-11 min-w-11 items-center justify-center transition-transform duration-180 ease-in-out focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none active:scale-95 md:hidden`}
                 onClick={() => {
                   setTimeout(() => {
                     setMenuOpen(true);

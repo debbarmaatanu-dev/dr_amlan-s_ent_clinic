@@ -36,7 +36,7 @@ export const Landing = (): React.JSX.Element => {
           <header className="grid grid-cols-1 md:grid-cols-2">
             {/* Left Box - Image */}
             <figure className="flex items-center justify-center">
-              <div className="relative h-full w-full max-w-md overflow-hidden rounded-3xl shadow-md">
+              <div className="relative aspect-2/3 w-full max-w-md overflow-hidden rounded-3xl shadow-md">
                 {loading && (
                   <div
                     className="absolute inset-0 flex items-center justify-center bg-gray-100"
@@ -47,12 +47,15 @@ export const Landing = (): React.JSX.Element => {
                 <img
                   src={landingImage}
                   alt="Dr. (Major) Amlan Debbarma, MS ENT - Leading ENT specialist and surgeon in Agartala, Tripura"
-                  className="h-full w-full object-cover"
+                  className={`h-full w-full object-cover transition-opacity duration-300 ${
+                    loading ? 'opacity-0' : 'opacity-100'
+                  }`}
                   onLoad={() => setLoading(false)}
-                  style={{display: loading ? 'none' : 'block'}}
                   loading="eager"
+                  fetchPriority="high"
                   width="400"
                   height="600"
+                  decoding="async"
                 />
               </div>
             </figure>

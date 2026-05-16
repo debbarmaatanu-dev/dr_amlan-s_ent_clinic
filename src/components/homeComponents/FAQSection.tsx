@@ -36,8 +36,7 @@ export const FAQSection = () => {
   return (
     <section
       className={`${bgColor} py-16`}
-      aria-labelledby="faq-section-heading"
-      role="region">
+      aria-labelledby="faq-section-heading">
       <div className="container mx-auto px-4">
         <header className="mb-12 text-center">
           <h2
@@ -50,12 +49,11 @@ export const FAQSection = () => {
           </p>
         </header>
 
-        <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3" role="list">
+        <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3">
           {quickFAQs.map((faq, index) => (
             <article
               key={index}
-              className={`${cardBg} rounded-lg p-6 shadow-md`}
-              role="listitem">
+              className={`${cardBg} rounded-lg p-6 shadow-md`}>
               <div className="mb-4 flex items-center">
                 <div
                   className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100"

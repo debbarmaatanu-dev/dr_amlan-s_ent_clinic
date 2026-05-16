@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import {ClipLoader} from 'react-spinners';
 import {useTheme} from '@/hooks/useTheme';
 import {useSEO} from '@/hooks/useSEO';
+import {IMAGES} from '@/constants/images';
 
-const landingImage =
-  'https://res.cloudinary.com/mobeet/image/upload/WEBP/DOCTOR_PHOTO_ABOUT_j3pbtx.webp';
+const aboutPhoto = IMAGES.DOCTOR_PHOTO_ABOUT;
 
 export const About = (): React.JSX.Element => {
   const [loading, setLoading] = useState(true);
@@ -42,18 +42,26 @@ export const About = (): React.JSX.Element => {
               className={`grid grid-cols-1 bg-linear-to-br ${gradient} md:grid-cols-2`}>
               {/* Left Box - Image */}
               <div className="flex items-center justify-center p-8 md:p-12 lg:p-16">
-                <div className="relative h-full w-full max-w-md overflow-hidden rounded-3xl shadow-2xl">
+                <div className="relative aspect-2/3 w-full max-w-md overflow-hidden rounded-3xl shadow-2xl">
                   {loading && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                    <div
+                      className="absolute inset-0 flex items-center justify-center bg-gray-100"
+                      aria-label="Loading doctor image">
                       <ClipLoader size={40} color="#3B82F6" loading={loading} />
                     </div>
                   )}
                   <img
-                    src={landingImage}
+                    src={aboutPhoto}
                     alt="Dr. (Major) Amlan Debbarma"
-                    className="h-full w-full object-cover"
+                    className={`h-full w-full object-cover transition-opacity duration-300 ${
+                      loading ? 'opacity-0' : 'opacity-100'
+                    }`}
                     onLoad={() => setLoading(false)}
-                    style={{display: loading ? 'none' : 'block'}}
+                    loading="eager"
+                    fetchPriority="high"
+                    width={400}
+                    height={600}
+                    decoding="async"
                   />
                 </div>
               </div>

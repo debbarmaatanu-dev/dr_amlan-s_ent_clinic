@@ -1,3 +1,5 @@
+import {useEffect, useRef, useState} from 'react';
+
 import type {ActualTheme} from '@/appStore/themeSlice';
 import {useTheme} from '@/hooks/useTheme';
 import {useNavigate} from 'react-router-dom';
@@ -25,6 +27,26 @@ const getTextColor = (actualTheme: ActualTheme) => {
 export function Footer() {
   const nanvigation = useNavigate();
   const {actualTheme} = useTheme();
+
+  // IntersectionObserver lazy mount — iframe is only inserted into the DOM
+  // when the footer scrolls into view. Prevents Maps JS (~350 KiB) from
+  // loading during the LCP window on every route.
+  const mapRef = useRef<HTMLDivElement>(null);
+  const [mapVisible, setMapVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setMapVisible(true);
+          observer.disconnect(); // load once, never unload
+        }
+      },
+      {rootMargin: '200px'}, // start loading 200px before it enters viewport
+    );
+    if (mapRef.current) observer.observe(mapRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   const handleNav = (url: string) => {
     setTimeout(() => {
@@ -174,17 +196,30 @@ export function Footer() {
               className={`mb-4 text-2xl font-semibold sm:text-lg ${getTextColor(actualTheme)}`}>
               Clinic Location
             </h2>
-            <div className="flex h-64 w-full items-center justify-center border-gray-600 bg-gray-700">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1824.7221673939662!2d91.27093479839479!3d23.838350600000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3753f5f9892cd077%3A0xfff222b42806a678!2sDr.%20(Major)%20Amlan&#39;s%20ENT%20clinic!5e0!3m2!1sen!2sin!4v1764597791497!5m2!1sen!2sin"
-                width="100%"
-                height="256"
-                style={{border: '0.5px solid #6a7282', borderRadius: '8px'}}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Dr. (Major) Amlan's ENT & Allergy Clinic location on Google Maps"
-                aria-label="Interactive map showing clinic location at Capital Pathlab, Bijoykumar Chowmuhani, Agartala"></iframe>
+            {/* mapRef container always rendered — preserves h-64 layout so no CLS */}
+            <div
+              ref={mapRef}
+              className="flex h-64 w-full items-center justify-center border-gray-600 bg-gray-700">
+              {mapVisible ? (
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1824.7221673939662!2d91.27093479839479!3d23.838350600000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3753f5f9892cd077%3A0xfff222b42806a678!2sDr.%20(Major)%20Amlan&#39;s%20ENT%20clinic!5e0!3m2!1sen!2sin!4v1764597791497!5m2!1sen!2sin"
+                  width="100%"
+                  height="256"
+                  style={{border: '0.5px solid #6a7282', borderRadius: '8px'}}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Dr. (Major) Amlan's ENT & Allergy Clinic location on Google Maps"
+                  aria-label="Interactive map showing clinic location at Capital Pathlab, Bijoykumar Chowmuhani, Agartala"
+                />
+              ) : (
+                // Placeholder shown before map loads — preserves layout, no CLS
+                <div
+                  className="flex h-full w-full items-center justify-center rounded-lg bg-gray-600"
+                  aria-label="Map loading placeholder">
+                  <span className="text-sm text-gray-300">Map loading...</span>
+                </div>
+              )}
             </div>
           </section>
         </div>
