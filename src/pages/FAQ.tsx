@@ -355,11 +355,14 @@ export const FAQ = (): React.JSX.Element => {
                   key={index}
                   className={`border-b ${borderColor} last:border-b-0`}>
                   <button
+                    type="button"
                     onClick={() => toggleFAQ(index)}
-                    className={`flex w-full items-center justify-between py-4 text-left ${hoverBg} transition-colors duration-200`}
+                    className={`flex w-full items-center justify-between rounded-md py-4 text-left ${hoverBg} transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:outline-none`}
                     aria-expanded={openIndex === index}
                     aria-controls={`faq-answer-${index}`}>
-                    <h2 className={`text-lg font-semibold ${textColor} pr-4`}>
+                    <h2
+                      id={`faq-question-${index}`}
+                      className={`text-lg font-semibold ${textColor} pr-4`}>
                       {faq.question}
                     </h2>
                     <i
@@ -370,7 +373,8 @@ export const FAQ = (): React.JSX.Element => {
                     <div
                       id={`faq-answer-${index}`}
                       className={`pb-4 ${textSecondary}`}
-                      role="region">
+                      role="region"
+                      aria-labelledby={`faq-question-${index}`}>
                       {typeof faq.answer === 'string' ? (
                         <p>{faq.answer}</p>
                       ) : (
@@ -388,7 +392,7 @@ export const FAQ = (): React.JSX.Element => {
             <div className="flex flex-col items-center gap-2 sm:flex-row sm:justify-center">
               <a
                 href="tel:+916033521499"
-                className="font-semibold text-blue-600 hover:text-blue-800">
+                className="rounded-md font-semibold text-blue-600 hover:text-blue-800 focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:outline-none">
                 Call: +91 6033521499
               </a>
               <span className="hidden sm:inline">|</span>
@@ -396,7 +400,7 @@ export const FAQ = (): React.JSX.Element => {
                 href="https://wa.me/916033521499"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold text-blue-600 hover:text-blue-800">
+                className="rounded-md font-semibold text-blue-600 hover:text-blue-800 focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:outline-none">
                 WhatsApp: +91 6033521499
               </a>
             </div>

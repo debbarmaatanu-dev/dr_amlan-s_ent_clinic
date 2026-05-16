@@ -86,9 +86,11 @@ export default function AdminLoginForm({
                 <p className="text-sm text-red-700">{error}</p>
               </div>
               <button
+                type="button"
                 onClick={() => setError(null)}
-                className="shrink-0 cursor-pointer text-red-400 transition-colors hover:text-red-600">
-                <i className="fa-solid fa-xmark"></i>
+                className="shrink-0 cursor-pointer rounded-md p-1 text-red-400 transition-colors hover:text-red-600 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:outline-none"
+                aria-label="Dismiss error message">
+                <i className="fa-solid fa-xmark" aria-hidden="true"></i>
               </button>
             </div>
           </div>

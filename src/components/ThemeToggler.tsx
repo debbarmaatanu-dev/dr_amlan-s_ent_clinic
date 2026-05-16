@@ -1,6 +1,9 @@
 import {useTheme} from '@/hooks/useTheme';
 import type {ThemeMode} from '@/appStore/themeSlice';
 
+const focusRing =
+  'focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:outline-none';
+
 export const ThemeToggler = () => {
   const {actualTheme, setThemeMode} = useTheme();
 
@@ -37,21 +40,26 @@ export const ThemeToggler = () => {
   };
 
   return (
-    <div className={`flex items-center gap-1 rounded-lg p-1 ${getBGColor()}`}>
-      {/* Light Mode Button */}
+    <div
+      role="group"
+      aria-label="Color theme"
+      className={`flex items-center gap-1 rounded-lg p-1 ${getBGColor()}`}>
       <button
+        type="button"
         onClick={() => handleThemeChange('light')}
-        className={`cursor-pointer rounded-md px-3 py-1.5 text-sm font-medium transition-all ${getButtonClass('light')}`}
+        className={`cursor-pointer rounded-md px-3 py-1.5 text-sm font-medium transition-all ${getButtonClass('light')} ${focusRing}`}
         aria-label="Light mode"
+        aria-pressed={actualTheme === 'light'}
         title="Light mode">
         <i className="fa-solid fa-sun" aria-hidden="true"></i>
       </button>
 
-      {/* Dark Mode Button */}
       <button
+        type="button"
         onClick={() => handleThemeChange('dark')}
-        className={`cursor-pointer rounded-md px-3 py-1.5 text-sm font-medium transition-all ${getButtonClass('dark')}`}
+        className={`cursor-pointer rounded-md px-3 py-1.5 text-sm font-medium transition-all ${getButtonClass('dark')} ${focusRing}`}
         aria-label="Dark mode"
+        aria-pressed={actualTheme === 'dark'}
         title="Dark mode">
         <i className="fa-solid fa-moon" aria-hidden="true"></i>
       </button>

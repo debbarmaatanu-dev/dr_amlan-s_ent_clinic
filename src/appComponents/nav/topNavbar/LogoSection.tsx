@@ -20,8 +20,9 @@ export const LogoSection = ({
 
   return (
     <button
+      type="button"
       onClick={handleHomeClick}
-      className="xxxs:space-x-3 flex cursor-pointer items-center space-x-2 transition-all hover:opacity-80 active:scale-95"
+      className="xxxs:space-x-3 flex cursor-pointer items-center space-x-2 rounded-md transition-all hover:opacity-80 focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-95"
       aria-label="Go to home">
       <div
         className={`flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full p-1 shadow-md ${actualTheme === 'light' ? 'bg-blue-200/80' : 'bg-white'}`}>

@@ -38,7 +38,7 @@ export const ServicesSection = (): React.JSX.Element => {
               <img
                 src={entImage}
                 alt="ENT Consultation icon - Comprehensive ear, nose, throat examination"
-                className="h-16 w-16 object-contain"
+                className="h-16 w-16 object-contain brightness-0 invert"
                 width="64"
                 height="64"
                 loading="lazy"

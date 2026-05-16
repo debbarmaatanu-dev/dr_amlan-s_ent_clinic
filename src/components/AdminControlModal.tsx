@@ -205,18 +205,26 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black p-4">
+    <div
+      className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="admin-control-modal-title">
       <div
         className={`w-full max-w-md rounded-2xl ${bgColor} p-6 shadow-2xl`}
         onClick={e => e.stopPropagation()}>
         <div className="mb-4 flex items-center justify-between">
-          <h2 className={`text-xl font-bold ${textColor}`}>
+          <h2
+            id="admin-control-modal-title"
+            className={`text-xl font-bold ${textColor}`}>
             Control Appointments
           </h2>
           <button
+            type="button"
             onClick={onClose}
-            className="cursor-pointer text-gray-500 hover:text-gray-700">
-            <i className="fa-solid fa-times text-xl"></i>
+            className="cursor-pointer rounded-md p-1 text-gray-500 hover:text-gray-700 focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:outline-none"
+            aria-label="Close modal">
+            <i className="fa-solid fa-times text-xl" aria-hidden="true"></i>
           </button>
         </div>
 
@@ -359,8 +367,9 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
 
         <div className="mt-4 text-center">
           <button
+            type="button"
             onClick={onClose}
-            className="cursor-pointer text-sm text-gray-500 hover:text-gray-700">
+            className="cursor-pointer rounded-md px-2 py-1 text-sm text-gray-500 hover:text-gray-700 focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:outline-none">
             Cancel
           </button>
         </div>

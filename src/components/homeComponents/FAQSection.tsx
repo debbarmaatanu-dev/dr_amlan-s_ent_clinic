@@ -75,7 +75,8 @@ export const FAQSection = () => {
         <div className="text-center">
           <button
             onClick={handleViewAllFAQs}
-            className="cursor-pointer rounded-lg bg-blue-600 px-8 py-3 font-semibold text-white shadow-md transition-colors duration-200 hover:bg-blue-700 hover:shadow-lg"
+            type="button"
+            className="cursor-pointer rounded-lg bg-blue-600 px-8 py-3 font-semibold text-white shadow-md transition-colors duration-200 hover:bg-blue-700 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:outline-none"
             aria-label="View all frequently asked questions">
             View All FAQs
             <i className="fa-solid fa-arrow-right ml-2" aria-hidden="true"></i>

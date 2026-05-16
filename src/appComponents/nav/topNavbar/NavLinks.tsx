@@ -44,6 +44,9 @@ const useActiveHelpers = (actualTheme: ActualTheme) => {
   return {pathname, active, linkClass};
 };
 
+const focusRing =
+  'focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:outline-none';
+
 // ---------- Types ----------
 type NavLinksProps = {
   handleNavClick: (routeName: string) => void;
@@ -77,27 +80,30 @@ export const NavLinks = ({
       {/* Theme Toggler */}
       <ThemeToggler />
       {NAV_ITEMS.filter(item => item.label !== 'Admin').map(item => {
+        const isCurrentPage = active(item.path);
         if (item.label !== 'Appointment') {
           return (
             <button
               key={item.route}
+              type="button"
               onClick={() => handleNavClick(item.route)}
               className={`xxxs:text-base min-h-11 cursor-pointer px-1 text-sm font-medium ${linkClass(
                 item.path,
-              )} transition-all hover:text-blue-600 hover:underline active:scale-95`}
-              aria-label={`${item.label.toLowerCase()} nav-link`}>
+              )} transition-all hover:text-blue-600 hover:underline active:scale-95 ${focusRing}`}
+              aria-label={`${item.label} navigation`}
+              aria-current={isCurrentPage ? 'page' : undefined}>
               {item.label}
             </button>
           );
         } else {
-          const isActive = active(item.path);
-
           return (
             <button
               key={item.route}
+              type="button"
               onClick={() => handleNavClick(item.route)}
-              className={`min-h-11 cursor-pointer rounded-md px-2 py-2 text-white shadow-md transition-transform duration-180 active:scale-95 ${isActive ? 'bg-purple-700' : 'bg-blue-600'}`}
-              aria-label={`${item.label.toLowerCase()} nav-link`}>
+              className={`min-h-11 cursor-pointer rounded-md px-2 py-2 text-white shadow-md transition-transform duration-180 active:scale-95 ${focusRing} ${isCurrentPage ? 'bg-purple-700' : 'bg-blue-600'}`}
+              aria-label={`${item.label} navigation`}
+              aria-current={isCurrentPage ? 'page' : undefined}>
               <span className="text-md text-center font-medium md:text-base">
                 {item.label}
               </span>
@@ -114,18 +120,21 @@ export const NavLinks = ({
         </div>
       ) : isAdmin ? (
         <button
+          type="button"
           onClick={() => setShowLogoutModal(true)}
-          className="xxxs:text-base cursor-pointer text-sm font-medium text-white transition-all hover:underline active:scale-95"
-          aria-label="Logout button">
+          className={`xxxs:text-base cursor-pointer text-sm font-medium text-white transition-all hover:underline active:scale-95 ${focusRing}`}
+          aria-label="Log out">
           <span className="rounded-md bg-orange-500 px-2 py-2.5">Logout</span>
         </button>
       ) : (
         <button
+          type="button"
           onClick={() => handleNavClick('admin-login')}
           className={`xxxs:text-base cursor-pointer text-sm font-medium ${linkClass(
             '/admin-login',
-          )} transition-all hover:text-blue-600 hover:underline active:scale-95`}
-          aria-label="admin-login nav-link">
+          )} transition-all hover:text-blue-600 hover:underline active:scale-95 ${focusRing}`}
+          aria-label="Admin login navigation"
+          aria-current={active('/admin-login') ? 'page' : undefined}>
           Admin
         </button>
       )}
@@ -161,15 +170,18 @@ export const MobileLinks = ({
         <ThemeToggler />
       </div>
       {NAV_ITEMS.map(item => {
+        const isCurrentPage = active(item.path);
         if (item.label === 'Appointment') {
-          const isActive = active(item.path);
           return (
             <button
               key={item.route}
+              type="button"
               onClick={() => handleMobileNavClick(item.route)}
-              className={`cursor-pointer border-b border-gray-400 py-3 pb-5 text-left text-lg font-medium text-white transition-transform duration-180 ease-in-out active:scale-95`}>
+              className={`cursor-pointer border-b border-gray-400 py-3 pb-5 text-left text-lg font-medium text-white transition-transform duration-180 ease-in-out active:scale-95 ${focusRing}`}
+              aria-label={`${item.label} navigation`}
+              aria-current={isCurrentPage ? 'page' : undefined}>
               <span
-                className={`rounded-md px-2 py-2 ${isActive ? 'bg-purple-700' : 'bg-blue-600'}`}>
+                className={`rounded-md px-2 py-2 ${isCurrentPage ? 'bg-purple-700' : 'bg-blue-600'}`}>
                 {item.label}
               </span>
             </button>
@@ -178,10 +190,13 @@ export const MobileLinks = ({
           return (
             <button
               key={item.route}
+              type="button"
               onClick={() => handleMobileNavClick(item.route)}
               className={`cursor-pointer border-b border-gray-400 py-3 text-left text-lg font-medium ${linkClass(
                 item.path,
-              )} transition-transform duration-180 ease-in-out active:scale-95`}>
+              )} transition-transform duration-180 ease-in-out active:scale-95 ${focusRing}`}
+              aria-label={`${item.label} navigation`}
+              aria-current={isCurrentPage ? 'page' : undefined}>
               {item.label}
             </button>
           );
@@ -197,16 +212,21 @@ export const MobileLinks = ({
         </div>
       ) : isAdmin ? (
         <button
+          type="button"
           onClick={handleMobileLogout}
-          className="cursor-pointer border-b border-gray-400 pt-3 pb-5 text-left text-lg font-medium text-white transition-transform duration-180 ease-in-out active:scale-95">
+          className={`cursor-pointer border-b border-gray-400 pt-3 pb-5 text-left text-lg font-medium text-white transition-transform duration-180 ease-in-out active:scale-95 ${focusRing}`}
+          aria-label="Log out">
           <span className="rounded-md bg-orange-500 px-2 py-2">Logout</span>
         </button>
       ) : (
         <button
+          type="button"
           onClick={() => handleMobileNavClick('admin-login')}
           className={`cursor-pointer border-b border-gray-400 py-3 text-left text-lg font-medium ${linkClass(
             '/admin-login',
-          )} transition-transform duration-180 ease-in-out active:scale-95`}>
+          )} transition-transform duration-180 ease-in-out active:scale-95 ${focusRing}`}
+          aria-label="Admin login navigation"
+          aria-current={active('/admin-login') ? 'page' : undefined}>
           Admin
         </button>
       )}
