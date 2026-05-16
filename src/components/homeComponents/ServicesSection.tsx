@@ -31,7 +31,7 @@ export const ServicesSection = (): React.JSX.Element => {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {/* ENT Consultation */}
           <article
-            className="rounded-xl bg-cyan-400 p-8 shadow-lg"
+            className="rounded-xl bg-cyan-700 p-8 shadow-lg"
             itemScope
             itemType="https://schema.org/MedicalProcedure">
             <figure className="mb-4">
@@ -55,7 +55,7 @@ export const ServicesSection = (): React.JSX.Element => {
 
           {/* Neurotology and Vertigo */}
           <article
-            className="rounded-xl bg-blue-400 p-8 shadow-lg"
+            className="rounded-xl bg-blue-700 p-8 shadow-lg"
             itemScope
             itemType="https://schema.org/MedicalProcedure">
             <figure className="mb-4">
@@ -102,7 +102,7 @@ export const ServicesSection = (): React.JSX.Element => {
 
           {/* Snoring & Sleep Apnea */}
           <article
-            className="rounded-xl bg-purple-500 p-8 shadow-lg"
+            className="rounded-xl bg-purple-800 p-8 shadow-lg"
             itemScope
             itemType="https://schema.org/MedicalProcedure">
             <figure className="mb-0">
@@ -119,7 +119,7 @@ export const ServicesSection = (): React.JSX.Element => {
                   href="https://www.vecteezy.com/free-vector/apnea"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-white opacity-70">
+                  className="text-xs text-purple-100">
                   Apnea Vectors by Vecteezy
                 </a>
               </figcaption>
