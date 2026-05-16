@@ -6,7 +6,7 @@ import {useNavigate} from 'react-router-dom';
 
 import {IMAGES} from '@/constants/images';
 
-const logo = IMAGES.CLINIC_LOGO;
+const logo = IMAGES.CLINIC_LOGO_FOOTER;
 
 const getBGColor = (actualTheme: ActualTheme) => {
   if (actualTheme === 'light') {
@@ -236,10 +236,8 @@ export function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Visit our Facebook page (opens in new tab)"
-            className={`${getTextColor(actualTheme)} hover:text-blue-600 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none`}>
-            <i
-              className="fa-brands fa-facebook h-6 w-6 text-lg"
-              aria-hidden="true"></i>
+            className={`inline-flex min-h-11 min-w-11 items-center justify-center ${getTextColor(actualTheme)} hover:text-blue-600 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none`}>
+            <i className="fa-brands fa-facebook text-xl" aria-hidden="true"></i>
           </a>
         </nav>
 
@@ -252,44 +250,49 @@ export function Footer() {
             <button
               onClick={() => handleNav('/privacy-policy')}
               aria-label="View Privacy Policy"
-              className="font-md cursor-pointer text-blue-600 underline hover:text-blue-800 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none">
+              className="font-md inline-flex min-h-11 cursor-pointer items-center px-2 text-blue-600 underline hover:text-blue-800 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none">
               Privacy Policy
             </button>
           </div>
           <div className="mt-4 flex flex-col items-center justify-center gap-2 text-center md:mt-0">
-            <div className="flex flex-row items-center">
+            <div className="flex flex-row flex-wrap items-center justify-center gap-x-1 gap-y-2">
               <span className={`text-sm ${getTextColor(actualTheme)}`}>
-                Created by:&nbsp;
+                Created by:
               </span>
-              <a
-                href="https://github.com/AtanuDebbarma"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Visit creator's GitHub profile (opens in new tab)"
-                className={`text-sm ${getTextColor(actualTheme)} hover:text-blue-600 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none`}>
-                <i className="fa-brands fa-github" aria-hidden="true"></i>
-                &nbsp;
-              </a>
-              <a
-                href="https://www.facebook.com/atanuDebbarma001"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Visit creator's Facebook profile (opens in new tab)"
-                className={`text-sm ${getTextColor(actualTheme)} hover:text-blue-600 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none`}>
-                <i className="fa-brands fa-facebook" aria-hidden="true"></i>
-                &nbsp;
-              </a>
-              <a
-                href="https://www.linkedin.com/in/atanu-debbarma"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Visit creator's LinkedIn profile (opens in new tab)"
-                className={`text-sm ${getTextColor(actualTheme)} hover:text-blue-600 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none`}>
-                <i className="fa-brands fa-linkedin" aria-hidden="true"></i>
-                &nbsp;
-              </a>
+              <div className="flex items-center gap-1">
+                <a
+                  href="https://github.com/AtanuDebbarma"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Visit creator's GitHub profile (opens in new tab)"
+                  className={`inline-flex min-h-11 min-w-11 items-center justify-center ${getTextColor(actualTheme)} hover:text-blue-600 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none`}>
+                  <i
+                    className="fa-brands fa-github text-xl"
+                    aria-hidden="true"></i>
+                </a>
+                <a
+                  href="https://www.facebook.com/atanuDebbarma001"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Visit creator's Facebook profile (opens in new tab)"
+                  className={`inline-flex min-h-11 min-w-11 items-center justify-center ${getTextColor(actualTheme)} hover:text-blue-600 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none`}>
+                  <i
+                    className="fa-brands fa-facebook text-xl"
+                    aria-hidden="true"></i>
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/atanu-debbarma"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Visit creator's LinkedIn profile (opens in new tab)"
+                  className={`inline-flex min-h-11 min-w-11 items-center justify-center ${getTextColor(actualTheme)} hover:text-blue-600 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none`}>
+                  <i
+                    className="fa-brands fa-linkedin text-xl"
+                    aria-hidden="true"></i>
+                </a>
+              </div>
               <span className={`text-sm ${getTextColor(actualTheme)}`}>
-                &nbsp; Atanu Debbarma
+                Atanu Debbarma
               </span>
             </div>
           </div>

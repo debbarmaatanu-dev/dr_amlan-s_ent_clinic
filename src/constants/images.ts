@@ -7,6 +7,10 @@ export const IMAGES = {
   CLINIC_LOGO:
     'https://res.cloudinary.com/mobeet/image/upload/WEBP/DrAmlanLogo_2_spt68s.webp',
 
+  /** Footer clinic column only — 72×72 display, 2× retina; OG/meta keep CLINIC_LOGO untransformed */
+  CLINIC_LOGO_FOOTER:
+    'https://res.cloudinary.com/mobeet/image/upload/w_144,h_144,c_fill,q_auto,f_auto/WEBP/DrAmlanLogo_2_spt68s.webp',
+
   // Doctor hero photo — max-w-md (448px) display width, c_limit prevents upscaling
   DOCTOR_PHOTO:
     'https://res.cloudinary.com/mobeet/image/upload/w_448,c_limit,q_auto,f_auto/WEBP/DOCTOR_PHOTO_zgnaz1.webp',
