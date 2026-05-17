@@ -177,12 +177,16 @@ export function Footer() {
               <ul className="space-y-2" role="list">
                 {usefulLinks.map((link, index) => (
                   <li key={index} role="listitem">
-                    <button
-                      onClick={() => handleNav(link.path)}
+                    <a
+                      href={link.path}
+                      onClick={e => {
+                        e.preventDefault();
+                        handleNav(link.path);
+                      }}
                       aria-label={link.ariaLabel}
-                      className={`block cursor-pointer text-lg sm:text-[16px] ${actualTheme === 'light' ? 'text-gray-500' : 'text-gray-300'} duration-180 ease-in-out hover:text-blue-300 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none active:scale-95`}>
+                      className={`block cursor-pointer text-lg sm:text-[16px] ${actualTheme === 'light' ? 'text-blue-500 decoration-blue-400 hover:text-blue-700 hover:decoration-blue-600' : 'text-blue-400 decoration-blue-500 hover:text-blue-300 hover:decoration-blue-300'} duration-180 ease-in-out focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none active:scale-95`}>
                       {link.label}
-                    </button>
+                    </a>
                   </li>
                 ))}
               </ul>

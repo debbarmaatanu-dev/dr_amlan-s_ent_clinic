@@ -92,6 +92,7 @@ export const loadFontAwesome = () => {
     .fa-circle-xmark:before { content: "\\f057"; }
     .fa-credit-card:before { content: "\\f09d"; }
     .fa-users:before { content: "\\f0c0"; }
+    .fa-bars:before { content: "\\f0c9"; }
     
     /* Brand icons */
     .fa-whatsapp:before { content: "\\f232"; }
