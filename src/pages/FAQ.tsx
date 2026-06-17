@@ -3,6 +3,10 @@ import {useTheme} from '@/hooks/useTheme';
 import {useSEO} from '@/hooks/useSEO';
 
 import {IMAGES} from '@/constants/images';
+import {
+  CLINIC_HOURS_EVENING,
+  CLINIC_HOURS_SUNDAY,
+} from '@/constants/clinicSchedule';
 
 const logo = IMAGES.CLINIC_LOGO;
 
@@ -75,14 +79,16 @@ export const FAQ = (): React.JSX.Element => {
       answer: (
         <div>
           <p className="mb-2">
-            <strong>Clinic Hours:</strong> 6:00 PM - 8:30 PM
+            <strong>Evening clinic:</strong> {CLINIC_HOURS_EVENING} (Monday,
+            Tuesday, Thursday, Friday, and Saturdays except 2nd &amp; 4th)
           </p>
           <p className="mb-2">
-            <strong>Days:</strong> Monday to Saturday
+            <strong>Sunday:</strong> {CLINIC_HOURS_SUNDAY} (online booking
+            available)
           </p>
           <p className="mb-2">
-            <strong>Sunday:</strong> Allergy clinic from 10:30 AM to 1:00 PM
-            (Prior appointment required) (Offline Only)
+            <strong>Closed:</strong> Every Wednesday; 2nd &amp; 4th Saturday of
+            each month
           </p>
         </div>
       ),

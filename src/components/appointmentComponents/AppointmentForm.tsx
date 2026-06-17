@@ -2,6 +2,7 @@ import React, {useState, useCallback} from 'react';
 import {ClipLoader} from 'react-spinners';
 import {useTheme} from '@/hooks/useTheme';
 import {useClinicStatus} from '@/hooks/useClinicStatus';
+import {ClinicScheduleSummaryText} from '@/components/ClinicScheduleSummaryText';
 
 interface FieldError {
   field: string;
@@ -261,7 +262,8 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
           </p>
         )}
         <p id="date-help" className={`mt-1 text-xs ${textTertiary}`}>
-          Bookings available up to 10 days in advance
+          <ClinicScheduleSummaryText /> Bookings available up to 10 days in
+          advance.
         </p>
       </fieldset>
 

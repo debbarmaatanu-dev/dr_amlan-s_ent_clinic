@@ -3,6 +3,7 @@ import {ClipLoader} from 'react-spinners';
 import {useTheme} from '@/hooks/useTheme';
 import {appStore} from '@/appStore/appStore';
 import {logger} from '@/utils/logger';
+import {CLINIC_SCHEDULE_SUMMARY} from '@/constants/clinicSchedule';
 
 interface AdminControlModalProps {
   isOpen: boolean;
@@ -250,8 +251,7 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
               </div>
             ) : (
               <p className="text-sm text-blue-500">
-                Following default schedule (6:00 PM - 8:30 PM, Monday to
-                Saturday)
+                Following default schedule: {CLINIC_SCHEDULE_SUMMARY}
               </p>
             )}
           </div>

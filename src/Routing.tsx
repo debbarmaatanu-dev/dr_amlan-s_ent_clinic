@@ -5,7 +5,10 @@ import {
   Routes,
   useLocation,
 } from 'react-router-dom';
-import {WhatsAppIcon, UpArrowIcon} from './appComponents/bottomFloatingIcons';
+import {
+  WhatsAppIcon,
+  UpArrowIcon,
+} from './appComponents/bottomFloatingIcons/bottomFloatingIcons';
 import {NavBar} from './appComponents/nav/topNavbar/Navbar';
 import {Footer} from './appComponents/nav/footer/Footer';
 import {ProtectedRoute} from './appComponents/ProtectedRoute';

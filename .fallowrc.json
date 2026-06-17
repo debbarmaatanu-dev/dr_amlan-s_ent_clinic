@@ -1,0 +1,66 @@
+{
+  "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
+  "entry": ["src/main.{ts,tsx,js,jsx}"],
+  "ignoreDependencies": [
+    "immer",
+    "eslint-config-prettier",
+    "eslint-plugin-import",
+    "eslint-import-resolver-typescript",
+    "eslint-plugin-node",
+    "@typescript-eslint/eslint-plugin",
+    "@typescript-eslint/parser",
+    "@testing-library/jest-native",
+    "@testing-library/react-native",
+    "vite-tsconfig-paths",
+    "@types/jest",
+    "jest",
+    "cross-env",
+    "src/assets/*",
+    "globals"
+  ],
+  "ignorePatterns": [
+    "src/features/**/tests/**",
+    "src/shared/**/tests/**",
+    "src/tests/**",
+    "**/tests/**",
+    "**/__tests__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "jest.config.js",
+    "jest.setup.js",
+    "api/payment/webhook-test.js",
+    "api/payment/webhook.js"
+  ],
+  "duplicates": {
+    "minOccurrences": 3,
+    "ignore": [
+      "**/lib/**",
+      "**/dist/**",
+      "**/node_modules/**",
+      "**/docs/**",
+      "src/features/**/tests/**",
+      "src/shared/**/tests/**",
+      "src/tests/**",
+      "**/tests/**",
+      "**/*.test.ts",
+      "**/*.test.tsx",
+      "src/appStore/*"
+    ],
+    "mode": "mild"
+  },
+  "health": {
+    "ignore": [
+      "src/features/**/tests/**",
+      "src/shared/**/tests/**",
+      "src/tests/**",
+      "**/tests/**",
+      "**/*.test.ts",
+      "**/*.test.tsx"
+    ]
+  },
+  "rules": {
+    "circular-dependencies": "error"
+  }
+}

@@ -4,6 +4,7 @@ import type {
   BookingAvailabilityResult,
   PaymentInitiationResponse,
 } from '../types/types';
+import {validateBookingDate} from '../constants/clinicSchedule';
 import {logger} from '../utils/logger';
 
 // Re-export types for backward compatibility
@@ -110,61 +111,12 @@ export const checkAvailableSlots = async (
 };
 
 /**
- * Validate date constraints (not in past, not Sunday, within 10 days, not after 8 PM for today)
+ * Validate date constraints (schedule, advance window, same-day cutoffs)
  */
 export const validateDateConstraints = (
   dateString: string,
 ): DateValidationResult => {
-  const selectedDate = new Date(dateString + 'T00:00:00');
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  // Check if date is in the past
-  if (selectedDate < today) {
-    return {
-      isValid: false,
-      error:
-        'Cannot book appointments for past dates. Please select today or a future date.',
-    };
-  }
-
-  // Check if date is more than 10 days in advance
-  const maxDate = new Date(today);
-  maxDate.setDate(maxDate.getDate() + 10);
-
-  if (selectedDate > maxDate) {
-    return {
-      isValid: false,
-      error:
-        'Appointments can only be booked up to 10 days in advance. Please select an earlier date.',
-    };
-  }
-
-  // Check if selected date is Sunday (day 0)
-  if (selectedDate.getDay() === 0) {
-    return {
-      isValid: false,
-      error: 'Clinic is closed on Sundays. Please select another date.',
-    };
-  }
-
-  // Check if booking for today after 7 PM
-  const now = new Date();
-  const currentHour = now.getHours();
-  const isToday =
-    selectedDate.getDate() === now.getDate() &&
-    selectedDate.getMonth() === now.getMonth() &&
-    selectedDate.getFullYear() === now.getFullYear();
-
-  if (isToday && currentHour >= 19) {
-    return {
-      isValid: false,
-      error:
-        'Bookings for today are closed after 7 PM. Please select a future date.',
-    };
-  }
-
-  return {isValid: true};
+  return validateBookingDate(dateString);
 };
 
 /**

@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react';
+import {Fragment, useEffect, useRef, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {appStore} from '@/appStore/appStore';
 import {auth} from '@/services/firebase';
@@ -10,6 +10,10 @@ import styles from './clock.module.css';
 import {useTheme} from '@/hooks/useTheme';
 import {logger} from '@/utils/logger';
 import type {ActualTheme} from '@/appStore/themeSlice';
+import {
+  getNavbarScheduleStatus,
+  shouldPinClosedStatusBanner,
+} from '@/constants/clinicSchedule';
 
 const getBGColor = (actualTheme: ActualTheme) => {
   if (actualTheme === 'light') {
@@ -134,174 +138,193 @@ export const NavBar = () => {
     };
   }, [clinicStatusLoaded]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const currentMinutes = now.getHours() * 60 + now.getMinutes();
-  const isSunday = now.getDay() === 0;
+  const scheduleStatus = getNavbarScheduleStatus(now);
 
-  // Sunday allergy clinic: 10:30 AM = 630 minutes, 1:00 PM = 780 minutes
-  const isSundayAllergyClinicOpen =
-    isSunday && currentMinutes >= 630 && currentMinutes <= 780;
-
-  // Determine clinic status
+  // Determine clinic status banner (admin override takes priority)
   let isManuallyOverridden = false;
-  let isSundayAllergyOpen = false;
   let isOpen = false;
 
   if (clinicStatus?.isManuallyOverridden) {
-    // Admin has manually overridden the schedule
     isManuallyOverridden = true;
-  } else if (isSundayAllergyClinicOpen) {
-    // Sunday allergy clinic is open
-    isSundayAllergyOpen = true;
-    isOpen = true;
-  } else if (!isSunday) {
-    // Default schedule: 6:00pm = 1080, 8:30pm = 1230
-    isOpen = currentMinutes >= 1080 && currentMinutes <= 1230;
+  } else {
+    isOpen =
+      scheduleStatus === 'open-sunday' || scheduleStatus === 'open-evening';
   }
 
   const bgColor = isManuallyOverridden
     ? `bg-red-500/90`
-    : isSundayAllergyOpen || isOpen
+    : isOpen
       ? `bg-[#22B0E6]`
       : `bg-orange-500/90`;
 
+  const pinClosedBanner = shouldPinClosedStatusBanner(
+    scheduleStatus,
+    isManuallyOverridden,
+  );
+  const NavShell = pinClosedBanner ? 'div' : Fragment;
+  const navShellProps = pinClosedBanner
+    ? {
+        className: 'sticky top-0 z-50 w-full max-w-screen overflow-x-hidden',
+      }
+    : {};
+  const navClassName = pinClosedBanner
+    ? `w-full max-w-screen overflow-x-hidden ${getBGColor(actualTheme)}`
+    : `sticky top-0 z-50 w-full max-w-screen overflow-x-hidden ${getBGColor(actualTheme)}`;
+
   return (
     <>
-      {/* Top Information Banner */}
-      <header className={`text-md ${bgColor} py-2 text-white`} role="banner">
-        <div className="container mx-auto flex flex-col flex-wrap items-center justify-between gap-2 px-4 text-sm sm:flex-row sm:gap-0">
-          <section aria-labelledby="contact-info">
-            <h2 id="contact-info" className="sr-only">
-              Contact Information
-            </h2>
-            <div className="flex items-center gap-4">
-              <a
-                href="tel:+916033521499"
-                className="flex items-center gap-2 transition-opacity hover:opacity-80 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 focus:outline-none"
-                aria-label="Call us at +91 6033521499">
-                <i className="fa-solid fa-phone h-3 w-3" aria-hidden="true"></i>
-                <span className="xs:inline hidden">Call:</span>
-                <span className="font-semibold">+91 6033521499</span>
-              </a>
-            </div>
-          </section>
-
-          <section aria-labelledby="clinic-hours">
-            <h2 id="clinic-hours" className="sr-only">
-              Clinic Hours and Status
-            </h2>
-            <div className="flex items-center gap-2">
-              <div className={styles.clockIcon} aria-hidden="true">
-                <div
-                  ref={hourHandRef}
-                  className={`${styles.hand} ${styles.hourHand}`}></div>
-                <div
-                  ref={minuteHandRef}
-                  className={`${styles.hand} ${styles.minuteHand}`}></div>
+      <NavShell {...navShellProps}>
+        {/* Top Information Banner */}
+        <header className={`text-md ${bgColor} py-2 text-white`} role="banner">
+          <div className="container mx-auto flex flex-col flex-wrap items-center justify-between gap-2 px-4 text-sm sm:flex-row sm:gap-0">
+            <section aria-labelledby="contact-info">
+              <h2 id="contact-info" className="sr-only">
+                Contact Information
+              </h2>
+              <div className="flex items-center gap-4">
+                <a
+                  href="tel:+916033521499"
+                  className="flex items-center gap-2 transition-opacity hover:opacity-80 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 focus:outline-none"
+                  aria-label="Call us at +91 6033521499">
+                  <i
+                    className="fa-solid fa-phone h-3 w-3"
+                    aria-hidden="true"></i>
+                  <span className="xs:inline hidden">Call:</span>
+                  <span className="font-semibold">+91 6033521499</span>
+                </a>
               </div>
+            </section>
 
-              {isManuallyOverridden ? (
-                <div className="flex flex-col items-center gap-1 sm:flex-row sm:gap-2">
+            <section aria-labelledby="clinic-hours">
+              <h2 id="clinic-hours" className="sr-only">
+                Clinic Hours and Status
+              </h2>
+              <div className="flex items-center gap-2">
+                <div className={styles.clockIcon} aria-hidden="true">
+                  <div
+                    ref={hourHandRef}
+                    className={`${styles.hand} ${styles.hourHand}`}></div>
+                  <div
+                    ref={minuteHandRef}
+                    className={`${styles.hand} ${styles.minuteHand}`}></div>
+                </div>
+
+                {isManuallyOverridden ? (
+                  <div className="flex flex-col items-center gap-1 sm:flex-row sm:gap-2">
+                    <span
+                      className="text-md font-bold"
+                      role="status"
+                      aria-live="polite">
+                      <i
+                        className="fa-solid fa-ban mr-1"
+                        aria-hidden="true"></i>
+                      Temporarily Closed
+                    </span>
+                    {clinicStatus?.closedTill ? (
+                      <span className="text-xs font-medium">
+                        Until{' '}
+                        {new Date(
+                          clinicStatus.closedTill + 'T00:00:00',
+                        ).toLocaleDateString('en-IN', {
+                          day: 'numeric',
+                          month: 'short',
+                        })}
+                      </span>
+                    ) : (
+                      <span className="text-xs font-medium">
+                        Until further notice
+                      </span>
+                    )}
+                  </div>
+                ) : scheduleStatus === 'open-sunday' ? (
+                  <div role="status" aria-live="polite">
+                    <span className="text-md font-semibold">Open:</span>
+                    <span className="font-semibold">10:30am - 1:00pm</span>
+                    <span className="ml-2 text-xs font-medium">(Sunday)</span>
+                  </div>
+                ) : scheduleStatus === 'open-evening' ? (
+                  <div role="status" aria-live="polite">
+                    <span className="text-md font-semibold">Open:</span>
+                    <span className="font-semibold">6:00pm - 8:30pm</span>
+                  </div>
+                ) : scheduleStatus === 'closed-wednesday' ? (
                   <span
                     className="text-md font-bold"
                     role="status"
                     aria-live="polite">
-                    <i className="fa-solid fa-ban mr-1" aria-hidden="true"></i>
-                    Temporarily Closed
+                    Closed on Wednesdays
                   </span>
-                  {clinicStatus?.closedTill ? (
-                    <span className="text-xs font-medium">
-                      Until{' '}
-                      {new Date(
-                        clinicStatus.closedTill + 'T00:00:00',
-                      ).toLocaleDateString('en-IN', {
-                        day: 'numeric',
-                        month: 'short',
-                      })}
+                ) : scheduleStatus === 'closed-second-fourth-saturday' ? (
+                  <span
+                    className="text-md font-bold"
+                    role="status"
+                    aria-live="polite">
+                    Closed today (2nd / 4th Saturday)
+                  </span>
+                ) : scheduleStatus === 'closed-sunday-off-hours' ? (
+                  <div role="status" aria-live="polite">
+                    <span className="text-md font-bold">
+                      Closed right now. Opens:
                     </span>
-                  ) : (
-                    <span className="text-xs font-medium">
-                      Until further notice
+                    <span className="font-semibold"> 10:30am</span>
+                    <span className="ml-1 text-xs font-medium">(Sunday)</span>
+                  </div>
+                ) : (
+                  <div role="status" aria-live="polite">
+                    <span className="text-md font-bold">
+                      Closed right now. Opens:
                     </span>
-                  )}
-                </div>
-              ) : isSundayAllergyOpen ? (
-                <div role="status" aria-live="polite">
-                  <span className="text-md font-semibold">
-                    <i
-                      className="fa-solid fa-flask-vial mr-1"
-                      aria-hidden="true"></i>
-                    Allergy clinic:
-                  </span>
-                  <span className="font-semibold">10:30am - 1:00pm</span>
-                  <span className="ml-2 text-xs font-medium">
-                    (Prior appointment required)
-                  </span>
-                </div>
-              ) : isSunday ? (
-                <span
-                  className="text-md font-bold"
-                  role="status"
-                  aria-live="polite">
-                  Closed on Sundays
-                </span>
-              ) : isOpen ? (
-                <div role="status" aria-live="polite">
-                  <span className="text-md font-semibold">Open:</span>
-                  <span className="font-semibold">6:00pm - 8:30pm</span>
-                </div>
-              ) : (
-                <div role="status" aria-live="polite">
-                  <span className="text-md font-bold">
-                    Closed Right now. Opens:
-                  </span>
-                  <span className="font-semibold"> 6:00pm</span>
-                </div>
-              )}
-            </div>
-          </section>
-        </div>
-      </header>
+                    <span className="font-semibold"> 6:00pm</span>
+                  </div>
+                )}
+              </div>
+            </section>
+          </div>
+        </header>
 
-      <nav
-        className={`sticky top-0 z-50 w-full max-w-screen overflow-x-hidden ${getBGColor(actualTheme)}`}
-        role="navigation"
-        aria-label="Main navigation">
-        {/* Navigation Container */}
-        <div className="xxxs:px-6 mx-auto w-full max-w-7xl px-6 py-1 lg:px-0">
-          <div className="xxxs:h-20 flex h-18 items-center justify-between">
-            <LogoSection
-              handleHomeClick={handleHomeClick}
-              actualTheme={actualTheme}
-            />
-
-            {/* Desktop Theme Toggler & Mobile Menu Button */}
-            <div className="flex items-center gap-4">
-              {/* Mobile Menu Button */}
-              <button
-                aria-label="Open navigation menu"
-                aria-expanded={menuOpen}
-                aria-controls="mobile-menu"
-                className={`${actualTheme === 'dark' ? 'text-gray-200' : 'text-gray-700'} flex min-h-11 min-w-11 items-center justify-center transition-transform duration-180 ease-in-out focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none active:scale-95 md:hidden`}
-                onClick={() => {
-                  setTimeout(() => {
-                    setMenuOpen(true);
-                  }, 200);
-                }}>
-                <i className="fa-solid fa-bars text-xl" aria-hidden="true"></i>
-              </button>
-
-              {/* Desktop Nav Links */}
-              <NavLinks
-                handleNavClick={handleNavClick}
-                isAdmin={isAdmin}
-                authInitialized={authInitialized}
-                setShowLogoutModal={setShowLogoutModal}
+        <nav
+          className={navClassName}
+          role="navigation"
+          aria-label="Main navigation">
+          {/* Navigation Container */}
+          <div className="xxxs:px-6 mx-auto w-full max-w-7xl px-6 py-1 lg:px-0">
+            <div className="xxxs:h-20 flex h-18 items-center justify-between">
+              <LogoSection
+                handleHomeClick={handleHomeClick}
                 actualTheme={actualTheme}
               />
+
+              {/* Desktop Theme Toggler & Mobile Menu Button */}
+              <div className="flex items-center gap-4">
+                {/* Mobile Menu Button */}
+                <button
+                  aria-label="Open navigation menu"
+                  aria-expanded={menuOpen}
+                  aria-controls="mobile-menu"
+                  className={`${actualTheme === 'dark' ? 'text-gray-200' : 'text-gray-700'} flex min-h-11 min-w-11 items-center justify-center transition-transform duration-180 ease-in-out focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none active:scale-95 md:hidden`}
+                  onClick={() => {
+                    setTimeout(() => {
+                      setMenuOpen(true);
+                    }, 200);
+                  }}>
+                  <i
+                    className="fa-solid fa-bars text-xl"
+                    aria-hidden="true"></i>
+                </button>
+
+                {/* Desktop Nav Links */}
+                <NavLinks
+                  handleNavClick={handleNavClick}
+                  isAdmin={isAdmin}
+                  authInitialized={authInitialized}
+                  setShowLogoutModal={setShowLogoutModal}
+                  actualTheme={actualTheme}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </NavShell>
 
       {/* Mobile Menu */}
       {menuOpen && (

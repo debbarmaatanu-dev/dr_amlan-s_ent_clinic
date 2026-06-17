@@ -1,5 +1,6 @@
 import React from 'react';
 import {useTheme} from '@/hooks/useTheme';
+import {CLINIC_SCHEDULE_SUMMARY} from '@/constants/clinicSchedule';
 
 interface ContactItemProps {
   icon: string;
@@ -113,13 +114,7 @@ export const ContactInfo: React.FC = () => {
           iconBg="bg-blue-600"
           title="Clinic Hours"
           textColor={textColor}>
-          <p className={textSecondary}>
-            Monday - Saturday: 6:00 PM - 8:30 PM
-            <br />
-            Sunday: Closed. Allergy clinic from 10:30 AM to 1 :00 PM
-            <br />
-            (Prior appointment required) (Offline appointment only)
-          </p>
+          <p className={textSecondary}>{CLINIC_SCHEDULE_SUMMARY}</p>
         </ContactItem>
       </div>
     </article>

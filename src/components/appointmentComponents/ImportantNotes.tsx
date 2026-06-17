@@ -1,5 +1,6 @@
 import React from 'react';
 import {useTheme} from '@/hooks/useTheme';
+import {CLINIC_SCHEDULE_BULLET_LINES} from '@/constants/clinicSchedule';
 
 export const ImportantNotes: React.FC = () => {
   const {actualTheme} = useTheme();
@@ -30,10 +31,12 @@ export const ImportantNotes: React.FC = () => {
               <i className="fa-solid fa-clock mr-2 text-green-600"></i>
               Clinic Hours
             </h3>
-            <p className={textSecondary}>
-              Monday to Saturday: 6:00 PM - 8:30 PM
-            </p>
-            <p className="text-sm text-red-600">Closed on Sundays</p>
+            <ul
+              className={`list-inside list-disc space-y-1 text-sm ${textSecondary}`}>
+              {CLINIC_SCHEDULE_BULLET_LINES.map(line => (
+                <li key={line}>{line}</li>
+              ))}
+            </ul>
           </div>
 
           {/* Booking Policy */}
@@ -47,7 +50,10 @@ export const ImportantNotes: React.FC = () => {
               <li>Online bookings: 10 slots per day</li>
               <li>Offline booking (at Clinic): 10 slots per day</li>
               <li>Advance booking: Up to 10 days</li>
-              <li>Booking closes at 7:00 PM for same day</li>
+              <li>
+                Same-day booking closes at 7:00 PM (evening days) or 12:00 PM
+                (Sundays)
+              </li>
             </ul>
           </div>
 

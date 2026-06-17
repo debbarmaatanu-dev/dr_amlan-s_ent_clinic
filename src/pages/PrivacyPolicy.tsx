@@ -1,4 +1,5 @@
 import React from 'react';
+import {CLINIC_SCHEDULE_SUMMARY} from '@/constants/clinicSchedule';
 import {useTheme} from '@/hooks/useTheme';
 import {useSEO} from '@/hooks/useSEO';
 
@@ -409,12 +410,7 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                     </a>
                   </p>
                   <p>
-                    <strong>Clinic Hours:</strong> Monday - Saturday (6:00 PM -
-                    8:30 PM)
-                  </p>
-                  <p>
-                    <strong>Sunday:</strong> Allergy clinic from 10:30 AM to
-                    1:00 PM (Prior appointment required) (Offline Only)
+                    <strong>Clinic Hours:</strong> {CLINIC_SCHEDULE_SUMMARY}
                   </p>
                 </div>
               </section>

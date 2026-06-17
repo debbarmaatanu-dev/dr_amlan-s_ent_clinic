@@ -1,6 +1,36 @@
 import React from 'react';
 import {useTheme} from '@/hooks/useTheme';
 import {appStore} from '@/appStore/appStore';
+import {
+  CLINIC_HOURS_EVENING,
+  CLINIC_HOURS_SUNDAY,
+} from '@/constants/clinicSchedule';
+
+interface NoticeRowProps {
+  icon: string;
+  label: string;
+  iconClassName?: string;
+  rowClassName?: string;
+  children: React.ReactNode;
+}
+
+const NoticeRow = ({
+  icon,
+  label,
+  iconClassName = '',
+  rowClassName = '',
+  children,
+}: NoticeRowProps) => (
+  <div className={`flex items-start gap-2 ${rowClassName}`}>
+    <dt className="sr-only">{label}</dt>
+    <span
+      className={`flex w-5 shrink-0 justify-center pt-0.5 ${iconClassName}`}
+      aria-hidden="true">
+      <i className={`fa-solid ${icon}`} />
+    </span>
+    <dd className="min-w-0 flex-1">{children}</dd>
+  </div>
+);
 
 export const ImportantNotices = (): React.JSX.Element => {
   const {actualTheme} = useTheme();
@@ -87,54 +117,37 @@ export const ImportantNotices = (): React.JSX.Element => {
         <header>
           <h3
             id="appointment-info-heading"
-            className={`mb-3 font-semibold ${textBlue}`}>
+            className={`mb-3 text-lg font-bold ${textBlue}`}>
             <i className="fa-solid fa-circle-info mr-2" aria-hidden="true"></i>
             Appointment Information
           </h3>
         </header>
         <dl className={`space-y-2 text-sm ${textBlueSecondary}`}>
-          <div>
-            <dt className="inline">
-              <i className="fa-solid fa-clock mr-2" aria-hidden="true"></i>
-              <strong>Clinic Hours:</strong>
-            </dt>
-            <dd className="ml-1 inline">6:00 PM - 8:30 PM (Mon to Sat)</dd>
-          </div>
-          <div>
-            <dt className="inline">
-              <i className="fa-solid fa-clock mr-2" aria-hidden="true"></i>
-              <strong>Sunday:</strong>
-            </dt>
-            <dd className="ml-1 inline">
-              Allergy clinic from 10:30 AM to 1 :00 PM (Prior appointment
-              required) (Offline Only)
-            </dd>
-          </div>
-          <div>
-            <dt className="inline">
-              <i
-                className="fa-solid fa-indian-rupee-sign mr-2"
-                aria-hidden="true"></i>
-              <strong>Consultation Fee:</strong>
-            </dt>
-            <dd className="ml-1 inline">₹400 (Fixed)</dd>
-          </div>
-          <div>
-            <dt className="inline">
-              <i
-                className="fa-solid fa-calendar-check mr-2"
-                aria-hidden="true"></i>
-              <strong>Online Booking Slots per Day:</strong>
-            </dt>
-            <dd className="ml-1 inline">10</dd>
-          </div>
-          <div>
-            <dt className="inline">
-              <i className="fa-solid fa-users mr-2" aria-hidden="true"></i>
-              <strong>Offline Booking Slots (at clinic):</strong>
-            </dt>
-            <dd className="ml-1 inline">10 additional slots available</dd>
-          </div>
+          <NoticeRow icon="fa-clock" label="Evening clinic">
+            <strong>Evening clinic:</strong> {CLINIC_HOURS_EVENING} (Mon, Tue,
+            Thu, Fri &amp; Sat except 2nd &amp; 4th)
+          </NoticeRow>
+          <NoticeRow icon="fa-clock" label="Sunday">
+            <strong>Sunday:</strong> {CLINIC_HOURS_SUNDAY}
+          </NoticeRow>
+          <NoticeRow
+            icon="fa-calendar-xmark"
+            label="Closed days"
+            iconClassName="text-red-500"
+            rowClassName="text-red-500">
+            <strong>Closed:</strong> Every Wednesday; 2nd &amp; 4th Saturday of
+            each month
+          </NoticeRow>
+          <NoticeRow icon="fa-indian-rupee-sign" label="Consultation fee">
+            <strong>Consultation Fee:</strong> ₹400 (Fixed)
+          </NoticeRow>
+          <NoticeRow icon="fa-calendar-check" label="Online booking slots">
+            <strong>Online Booking Slots per Day:</strong> 10
+          </NoticeRow>
+          <NoticeRow icon="fa-users" label="Offline booking slots">
+            <strong>Offline Booking Slots (at clinic):</strong> 10 additional
+            slots available
+          </NoticeRow>
         </dl>
       </article>
 
@@ -146,7 +159,7 @@ export const ImportantNotices = (): React.JSX.Element => {
         <header>
           <h3
             id="armed-forces-heading"
-            className={`mb-2 font-semibold ${textGreen}`}>
+            className={`mb-2 text-lg font-bold ${textGreen}`}>
             <i
               className="fa-solid fa-shield-halved mr-2"
               aria-hidden="true"></i>
@@ -157,7 +170,9 @@ export const ImportantNotices = (): React.JSX.Element => {
           Armed Forces personnel (Army, Navy, Air Force) and their dependents
           are exepmted from appointment fees. A valid Service/ESM/Dependent ID
           must be presented.{' '}
-          <strong>Available only offline at clinic location.</strong>
+          <span className="font-semibold">
+            Available only offline at clinic location.
+          </span>
         </p>
       </article>
 
@@ -169,7 +184,7 @@ export const ImportantNotices = (): React.JSX.Element => {
         <header>
           <h3
             id="followup-heading"
-            className={`mb-2 font-semibold ${textAmber}`}>
+            className={`mb-2 text-lg font-bold ${textAmber}`}>
             <i
               className="fa-solid fa-calendar-plus mr-2"
               aria-hidden="true"></i>
@@ -178,10 +193,10 @@ export const ImportantNotices = (): React.JSX.Element => {
         </header>
         <p className={`text-sm ${textAmberSecondary}`}>
           First (1st) Follow-up appointments within 2 weeks are free of charge.{' '}
-          <strong className={textAmber}>
+          <span className={`${textAmber} font-semibold`}>
             Follow-ups must be booked offline by calling or visiting at the
             clinic location.
-          </strong>
+          </span>
         </p>
       </article>
     </section>

@@ -1,6 +1,7 @@
 import React from 'react';
 import {useTheme} from '@/hooks/useTheme';
 import {appStore} from '@/appStore/appStore';
+import {CLINIC_SCHEDULE_SUMMARY} from '@/constants/clinicSchedule';
 
 export const AppointmentHeader: React.FC = () => {
   const {actualTheme} = useTheme();
@@ -24,12 +25,7 @@ export const AppointmentHeader: React.FC = () => {
         Schedule your visit with Dr. (Major) Amlan Debbarma
       </p>
       <p className={`text-center text-sm ${textTertiary}`}>
-        Clinic Hours: 6:00 PM - 8:30 PM (Monday to Saturday)
-      </p>
-
-      <p className={`text-center text-sm ${textTertiary} mt-1`}>
-        Sunday: Allergy clinic from 10:30 AM to 1 :00 PM (Prior appointment
-        required)
+        {CLINIC_SCHEDULE_SUMMARY}
       </p>
 
       {/* Manual Clinic Status Override */}

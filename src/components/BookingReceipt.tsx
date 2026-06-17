@@ -1,5 +1,9 @@
 import React from 'react';
 import type {PaymentBookingData} from '../types/types';
+import {
+  CLINIC_SCHEDULE_SUMMARY,
+  getConsultationHoursLabelForDate,
+} from '@/constants/clinicSchedule';
 
 interface BookingReceiptProps {
   bookingData: PaymentBookingData;
@@ -77,7 +81,7 @@ export const BookingReceipt: React.FC<BookingReceiptProps> = ({
           <div className="flex justify-between">
             <span className="text-gray-600">Time:</span>
             <span className="font-semibold text-gray-800">
-              6:00 PM - 8:30 PM
+              {getConsultationHoursLabelForDate(bookingData.date)}
             </span>
           </div>
         </div>
@@ -155,11 +159,7 @@ export const BookingReceipt: React.FC<BookingReceiptProps> = ({
         <ul className="space-y-1 text-sm text-yellow-700">
           <li>• Please arrive 10 minutes before your scheduled time</li>
           <li className="font-bold">• Bring this E-Receipt for verification</li>
-          <li>• Clinic hours: 6:00 PM - 8:30 PM (Closed on Sundays)</li>
-          <li>
-            • Sunday: Allergy clinic from 10:30 AM to 1 :00 PM (Prior
-            appointment required)
-          </li>
+          <li>• Clinic schedule: {CLINIC_SCHEDULE_SUMMARY}</li>
           <li>• For any queries, call: +91 6033521499</li>
         </ul>
       </div>

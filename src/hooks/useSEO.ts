@@ -1,6 +1,7 @@
 import {useEffect} from 'react';
 import {useLocation} from 'react-router-dom';
 import {IMAGES} from '@/constants/images';
+import {CLINIC_SCHEDULE_SUMMARY} from '@/constants/clinicSchedule';
 
 interface SEOData {
   title: string;
@@ -15,9 +16,11 @@ interface SEOData {
 const defaultSEO: SEOData = {
   title: 'Dr. (Major) Amlan Debbarma - ENT Specialist in Agartala, Tripura',
   description:
-    'Expert ENT specialist in Agartala, Tripura. Specialist in sinus surgery, vertigo treatment, asthma management, allergy testing, sleep apnea diagnosis, flexible sleep endoscopy, endoscopic procedures. Book appointment online.',
+    'Expert ENT specialist in Agartala, Tripura. Specialist in sinus surgery, vertigo treatment, asthma management, allergy testing, sleep apnea diagnosis, flexible sleep endoscopy, endoscopic procedures. ' +
+    CLINIC_SCHEDULE_SUMMARY +
+    ' Book appointment online.',
   keywords:
-    'ENT doctor Agartala, ENT specialist Tripura, otolaryngologist Agartala, Dr Amlan Debbarma, ENT surgeon Tripura Medical College, asthma treatment, allergy management, sleep apnea treatment, flexible sleep endoscopy, snoring treatment, best ENT doctor, leading ENT specialist',
+    'ENT doctor Agartala, ENT specialist Tripura, otolaryngologist Agartala, Dr Amlan Debbarma, ENT surgeon Tripura Medical College, asthma treatment, allergy management, sleep apnea treatment, flexible sleep endoscopy, snoring treatment, Sunday ENT clinic Agartala, Wednesday closed, best ENT doctor, leading ENT specialist',
   ogImage: IMAGES.CLINIC_LOGO,
 };
 
@@ -26,18 +29,20 @@ const seoPages: Record<string, SEOData> = {
     title:
       'Dr. (Major) Amlan Debbarma - ENT Specialist in Agartala, Tripura | Online Appointment',
     description:
-      'Book appointment with Dr. (Major) Amlan Debbarma, expert ENT specialist in Agartala, Tripura. MBBS, MS ENT (Gold Medalist), Ex-Army Medical Corps. Specialist in sinus surgery, vertigo treatment, asthma management, allergy testing, sleep apnea diagnosis.',
+      'Book appointment with Dr. (Major) Amlan Debbarma, expert ENT specialist in Agartala, Tripura. MBBS, MS ENT (Gold Medalist), Ex-Army Medical Corps. Specialist in sinus surgery, vertigo treatment, asthma management, allergy testing, sleep apnea diagnosis. ' +
+      CLINIC_SCHEDULE_SUMMARY,
     keywords:
-      'ENT doctor Agartala, book ENT appointment Tripura, Dr Amlan Debbarma ENT, otolaryngologist Agartala, ENT specialist Tripura Medical College, sinus doctor Agartala, vertigo treatment Tripura, asthma treatment, allergy management, sleep apnea treatment, flexible sleep endoscopy, snoring doctor, best ENT doctor, leading ENT specialist, MS ENT Gold Medalist',
+      'ENT doctor Agartala, book ENT appointment Tripura, Dr Amlan Debbarma ENT, otolaryngologist Agartala, ENT specialist Tripura Medical College, sinus doctor Agartala, vertigo treatment Tripura, asthma treatment, allergy management, sleep apnea treatment, flexible sleep endoscopy, snoring doctor, Sunday ENT clinic Agartala, Wednesday closed, best ENT doctor, leading ENT specialist, MS ENT Gold Medalist',
     canonicalUrl: 'https://www.dr-major-amlan-ent.in/',
   },
   '/home': {
     title:
       'Dr. (Major) Amlan Debbarma - ENT Specialist in Agartala, Tripura | Online Appointment',
     description:
-      'Book appointment with Dr. (Major) Amlan Debbarma, expert ENT specialist in Agartala, Tripura. MBBS, MS ENT (Gold Medalist), Ex-Army Medical Corps. Specialist in sinus surgery, vertigo treatment, asthma management, allergy testing, sleep apnea diagnosis.',
+      'Book appointment with Dr. (Major) Amlan Debbarma, expert ENT specialist in Agartala, Tripura. MBBS, MS ENT (Gold Medalist), Ex-Army Medical Corps. Specialist in sinus surgery, vertigo treatment, asthma management, allergy testing, sleep apnea diagnosis. ' +
+      CLINIC_SCHEDULE_SUMMARY,
     keywords:
-      'ENT doctor Agartala, book ENT appointment Tripura, Dr Amlan Debbarma ENT, otolaryngologist Agartala, ENT specialist Tripura Medical College, sinus doctor Agartala, vertigo treatment Tripura, asthma treatment, allergy management, sleep apnea treatment, flexible sleep endoscopy, snoring doctor, best ENT doctor, leading ENT specialist, MS ENT Gold Medalist',
+      'ENT doctor Agartala, book ENT appointment Tripura, Dr Amlan Debbarma ENT, otolaryngologist Agartala, ENT specialist Tripura Medical College, sinus doctor Agartala, vertigo treatment Tripura, asthma treatment, allergy management, sleep apnea treatment, flexible sleep endoscopy, snoring doctor, Sunday ENT clinic Agartala, Wednesday closed, best ENT doctor, leading ENT specialist, MS ENT Gold Medalist',
     canonicalUrl: 'https://www.dr-major-amlan-ent.in/', // Same canonical as / - tells Google this is duplicate
   },
   '/about': {
@@ -53,36 +58,42 @@ const seoPages: Record<string, SEOData> = {
     title:
       'Contact Dr. (Major) Amlan Debbarma ENT & Allergy Clinic Agartala | Book Appointment Tripura',
     description:
-      'Contact Dr. (Major) Amlan Debbarma ENT & Allergy Clinic in Agartala, Tripura. Located at Capital Pathlab, Bijoykumar Chowmuhani. Call +91 6033521499 for appointments.',
+      'Contact Dr. (Major) Amlan Debbarma ENT & Allergy Clinic in Agartala, Tripura. Located at Capital Pathlab, Bijoykumar Chowmuhani. Call +91 6033521499 for appointments. ' +
+      CLINIC_SCHEDULE_SUMMARY,
     keywords:
-      'ENT clinic Agartala contact, Dr Amlan Debbarma phone number, ENT appointment Tripura, Capital Pathlab ENT clinic, Bijoykumar Chowmuhani ENT doctor',
+      'ENT clinic Agartala contact, Dr Amlan Debbarma phone number, ENT appointment Tripura, Capital Pathlab ENT clinic, Bijoykumar Chowmuhani ENT doctor, clinic timings Agartala, Sunday ENT clinic, Wednesday closed',
     canonicalUrl: 'https://www.dr-major-amlan-ent.in/contact',
   },
   '/appointment': {
     title:
       'Book ENT Appointment Online - Dr. (Major) Amlan Debbarma Agartala | ₹400 Consultation',
     description:
-      'Book online appointment with Dr. (Major) Amlan Debbarma, expert ENT specialist in Agartala, Tripura. ₹400 consultation fee. Available Mon-Sat 6-8:30 PM. Sunday allergy clinic 10:30 AM-1 PM. Secure online payment.',
+      'Book online appointment with Dr. (Major) Amlan Debbarma, expert ENT specialist in Agartala, Tripura. ₹400 consultation fee. ' +
+      CLINIC_SCHEDULE_SUMMARY +
+      ' Secure online payment.',
     keywords:
-      'book ENT appointment online Agartala, ENT consultation fee Tripura, Dr Amlan Debbarma appointment, online ENT booking Agartala, ENT doctor appointment Tripura, allergy clinic Agartala, best ENT appointment booking, leading ENT consultation',
+      'book ENT appointment online Agartala, ENT consultation fee Tripura, Dr Amlan Debbarma appointment, online ENT booking Agartala, ENT doctor appointment Tripura, Sunday ENT clinic Agartala, best ENT appointment booking, leading ENT consultation',
     canonicalUrl: 'https://www.dr-major-amlan-ent.in/appointment',
   },
   '/privacy-policy': {
     title:
       'Privacy Policy & Terms - Dr. (Major) Amlan Debbarma ENT & Allergy Clinic Agartala',
     description:
-      'Privacy policy, terms & conditions, and refund policy for Dr. (Major) Amlan Debbarma ENT & Allergy Clinic, Agartala, Tripura. Patient data protection and appointment policies.',
+      'Privacy policy, terms & conditions, and refund policy for Dr. (Major) Amlan Debbarma ENT & Allergy Clinic, Agartala, Tripura. Patient data protection and appointment policies. Clinic hours: ' +
+      CLINIC_SCHEDULE_SUMMARY,
     keywords:
-      'ENT clinic privacy policy Agartala, Dr Amlan Debbarma terms conditions, patient data protection Tripura, ENT appointment refund policy',
+      'ENT clinic privacy policy Agartala, Dr Amlan Debbarma terms conditions, patient data protection Tripura, ENT appointment refund policy, clinic timings Agartala, Sunday ENT clinic, Wednesday closed',
     canonicalUrl: 'https://www.dr-major-amlan-ent.in/privacy-policy',
   },
   '/faq': {
     title:
       'FAQ - Dr. (Major) Amlan Debbarma ENT & Allergy Clinic Agartala | Common Questions Answered',
     description:
-      'Frequently asked questions about Dr. (Major) Amlan Debbarma ENT & Allergy Clinic in Agartala, Tripura. Find answers about consultation fees, clinic timings (Mon-Sat 6-8:30 PM, Sunday allergy clinic 10:30 AM-1 PM), booking appointments, payment methods, and ENT treatments.',
+      'Frequently asked questions about Dr. (Major) Amlan Debbarma ENT & Allergy Clinic in Agartala, Tripura. Find answers about consultation fees, clinic timings (' +
+      CLINIC_SCHEDULE_SUMMARY +
+      '), booking appointments, payment methods, and ENT treatments.',
     keywords:
-      'ENT clinic FAQ Agartala, Dr Amlan Debbarma questions, ENT consultation fees Tripura, clinic timings Agartala, allergy clinic Sunday, ENT appointment booking, ENT treatment questions',
+      'ENT clinic FAQ Agartala, Dr Amlan Debbarma questions, ENT consultation fees Tripura, clinic timings Agartala, Sunday ENT clinic, Wednesday closed, ENT appointment booking, ENT treatment questions',
     canonicalUrl: 'https://www.dr-major-amlan-ent.in/faq',
   },
 };
@@ -238,7 +249,34 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
           },
           telephone: '+91-6033521499',
           email: 'debbarmaamlan@gmail.com',
-          openingHours: ['Mo-Sa 18:00-20:30', 'Su 10:30-13:00'],
+          openingHours: [
+            'Mo 18:00-20:30',
+            'Tu 18:00-20:30',
+            'Th 18:00-20:30',
+            'Fr 18:00-20:30',
+            'Sa 18:00-20:30',
+            'Su 10:30-13:00',
+          ],
+          openingHoursSpecification: [
+            {
+              '@type': 'OpeningHoursSpecification',
+              dayOfWeek: [
+                'Monday',
+                'Tuesday',
+                'Thursday',
+                'Friday',
+                'Saturday',
+              ],
+              opens: '18:00',
+              closes: '20:30',
+            },
+            {
+              '@type': 'OpeningHoursSpecification',
+              dayOfWeek: 'Sunday',
+              opens: '10:30',
+              closes: '13:00',
+            },
+          ],
           medicalSpecialty: 'Otolaryngology',
           priceRange: '₹₹',
         },
@@ -314,7 +352,9 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
           name: 'What are the clinic timings?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Clinic hours are 6:00 PM - 8:30 PM, Monday to Saturday. Sunday: Allergy clinic from 10:30 AM to 1:00 PM (Prior appointment required, Offline only).',
+            text:
+              CLINIC_SCHEDULE_SUMMARY +
+              ' Online booking available on open days.',
           },
         },
         {

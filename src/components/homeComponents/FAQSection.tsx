@@ -1,5 +1,7 @@
+import type {ReactNode} from 'react';
 import {useTheme} from '@/hooks/useTheme';
 import {useNavigate} from 'react-router-dom';
+import {ClinicScheduleSummaryText} from '@/components/ClinicScheduleSummaryText';
 
 export const FAQSection = () => {
   const {actualTheme} = useTheme();
@@ -9,11 +11,14 @@ export const FAQSection = () => {
   const textColor = actualTheme === 'light' ? 'text-gray-700' : 'text-white';
   const cardBg = actualTheme === 'light' ? 'bg-white' : 'bg-gray-600';
 
-  const quickFAQs = [
+  const quickFAQs: Array<{
+    question: string;
+    answer: ReactNode;
+    icon: string;
+  }> = [
     {
       question: 'What are the clinic timings?',
-      answer:
-        '6:00 PM - 8:30 PM (Mon-Sat).\nSunday: Allergy clinic from 10:30 AM to 1:00 PM.',
+      answer: <ClinicScheduleSummaryText />,
       icon: 'fa-clock',
     },
     {
