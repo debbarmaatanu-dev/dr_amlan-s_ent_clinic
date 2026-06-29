@@ -1,4 +1,4 @@
-import React, {useEffect, useState, Suspense, lazy} from 'react';
+import React, {useEffect, useRef, useState, Suspense, lazy} from 'react';
 import {
   Route,
   BrowserRouter as Router,
@@ -8,6 +8,7 @@ import {
 import {
   WhatsAppIcon,
   UpArrowIcon,
+  FacebookIcon,
 } from './appComponents/bottomFloatingIcons/bottomFloatingIcons';
 import {NavBar} from './appComponents/nav/topNavbar/Navbar';
 import {Footer} from './appComponents/nav/footer/Footer';
@@ -74,6 +75,26 @@ const RoutesWrapper = ({
   setFloatingIconVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const location = useLocation();
+  const footerRef = useRef<HTMLDivElement>(null);
+  const [footerVisible, setFooterVisible] = useState(false);
+
+  // Hide Facebook + WhatsApp icons as soon as any part of the footer
+  // enters the viewport — footer already has those links so they'd duplicate.
+  // Reappears the moment the user scrolls even slightly back up.
+  useEffect(() => {
+    const node = footerRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setFooterVisible(entry.isIntersecting);
+      },
+      {threshold: 0},
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   // Check if the current path is "/pdf-viewer"
   const hiddenRoutes = ['/admin-login', '/payment-confirmation'];
@@ -121,10 +142,13 @@ const RoutesWrapper = ({
           </Routes>
         </Suspense>
       </main>
-      <Footer />
+      <div ref={footerRef}>
+        <Footer />
+      </div>
 
       {/* Conditionally render floating icons */}
-      {floatingIconVisible && <WhatsAppIcon />}
+      {floatingIconVisible && !footerVisible && <FacebookIcon />}
+      {floatingIconVisible && !footerVisible && <WhatsAppIcon />}
       {floatingIconVisible && <UpArrowIcon />}
     </div>
   );

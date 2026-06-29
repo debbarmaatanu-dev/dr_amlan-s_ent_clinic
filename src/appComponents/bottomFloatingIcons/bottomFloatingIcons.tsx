@@ -24,7 +24,8 @@ export const WhatsAppIcon = () => {
       {/* Multiple animated rings with different delays */}
       <div
         className="absolute h-15 w-15 animate-ping rounded-full bg-green-500 opacity-50"
-        style={{animationDelay: '1.8s', animationDuration: '2s'}}></div>
+        style={{animationDelay: '1.8s', animationDuration: '2s'}}
+        aria-hidden="true"></div>
 
       {/* WhatsApp button */}
       <a
@@ -35,6 +36,46 @@ export const WhatsAppIcon = () => {
         aria-label="Chat on WhatsApp">
         <div className="relative flex h-7 w-7 items-center justify-center">
           <i className="fa-brands fa-whatsapp fa-2x absolute text-white"></i>
+        </div>
+      </a>
+    </div>
+  );
+};
+
+export const FacebookIcon = () => {
+  const [showButton, setShowButton] = useState(false);
+  const mobileNavOpen = appStore(state => state.mobileNavOpen);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (mobileNavOpen) {
+        setShowButton(false);
+        return;
+      }
+      setShowButton(true);
+    }, 50);
+    return () => clearTimeout(timer);
+  }, [mobileNavOpen]);
+
+  if (!showButton) return null;
+
+  return (
+    <div className="fixed bottom-24 left-6 z-50 flex items-center justify-center sm:bottom-44 lg:bottom-24">
+      {/* Animated ping ring */}
+      <div
+        className="absolute h-15 w-15 animate-ping rounded-full bg-blue-500 opacity-50"
+        style={{animationDelay: '1.8s', animationDuration: '2s'}}
+        aria-hidden="true"></div>
+
+      {/* Facebook button */}
+      <a
+        href="https://www.facebook.com/profile.php?id=61583047875410"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="relative flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg transition-all duration-150 ease-in-out hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-90"
+        aria-label="Visit our Facebook page">
+        <div className="relative flex h-7 w-7 items-center justify-center">
+          <i className="fa-brands fa-facebook fa-2x absolute text-white"></i>
         </div>
       </a>
     </div>

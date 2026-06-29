@@ -41,11 +41,6 @@ export const ImportantNotices = (): React.JSX.Element => {
   const textBlue = actualTheme === 'light' ? 'text-blue-900' : 'text-blue-100';
   const textBlueSecondary =
     actualTheme === 'light' ? 'text-blue-800' : 'text-blue-200';
-  const bgGreen = actualTheme === 'light' ? 'bg-green-50' : 'bg-green-900';
-  const textGreen =
-    actualTheme === 'light' ? 'text-green-900' : 'text-green-100';
-  const textGreenSecondary =
-    actualTheme === 'light' ? 'text-green-800' : 'text-green-200';
   const bgAmber = actualTheme === 'light' ? 'bg-amber-50' : 'bg-amber-900';
   const textAmber =
     actualTheme === 'light' ? 'text-amber-900' : 'text-amber-100';
@@ -149,31 +144,6 @@ export const ImportantNotices = (): React.JSX.Element => {
             slots available
           </NoticeRow>
         </dl>
-      </article>
-
-      {/* Armed Forces Personnel Box */}
-      <article
-        className={`rounded-lg ${bgGreen} p-4`}
-        role="region"
-        aria-labelledby="armed-forces-heading">
-        <header>
-          <h3
-            id="armed-forces-heading"
-            className={`mb-2 text-lg font-bold ${textGreen}`}>
-            <i
-              className="fa-solid fa-shield-halved mr-2"
-              aria-hidden="true"></i>
-            For Armed Forces Personnel
-          </h3>
-        </header>
-        <p className={`text-sm ${textGreenSecondary}`}>
-          Armed Forces personnel (Army, Navy, Air Force) and their dependents
-          are exepmted from appointment fees. A valid Service/ESM/Dependent ID
-          must be presented.{' '}
-          <span className="font-semibold">
-            Available only offline at clinic location.
-          </span>
-        </p>
       </article>
 
       {/* Follow-up Appointments Box */}

@@ -61,15 +61,6 @@ export const FAQ = (): React.JSX.Element => {
             <strong>Payment Methods:</strong> Online payment via PhonePe (UPI,
             Credit/Debit Cards, Net Banking)
           </p>
-          <p className="mb-2">
-            <strong>Special Exemptions:</strong> Armed Forces personnel (Army,
-            Navy, Air Force) and their dependents are exempted from fees. Valid
-            Service/ESM/Dependent ID required. Available only offline at clinic.
-          </p>
-          <p>
-            <strong>Follow-ups:</strong> First follow-up within 2 weeks is free
-            (offline only at clinic).
-          </p>
         </div>
       ),
       category: 'Fees',
@@ -109,10 +100,6 @@ export const FAQ = (): React.JSX.Element => {
           <p className="mb-2">
             <strong>Contact:</strong> Call +91 6033521499 or WhatsApp +91
             6033521499 for assistance.
-          </p>
-          <p className="text-sm italic">
-            Note: Armed Forces exemptions and follow-ups are only available
-            offline at the clinic.
           </p>
         </div>
       ),

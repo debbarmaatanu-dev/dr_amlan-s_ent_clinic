@@ -344,7 +344,7 @@ const updateStructuredData = (seo: SEOData, currentPath: string) => {
           name: 'What are the consultation fees and payment options?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Consultation fee is ₹400 (Fixed). We accept online payment via PhonePe including UPI, Credit/Debit Cards, and Net Banking. Armed Forces personnel and their dependents are exempted from fees with valid ID (offline only). First follow-up within 2 weeks is free (offline only).',
+            text: 'Consultation fee is ₹400 (Fixed). We accept online payment via PhonePe including UPI, Credit/Debit Cards, and Net Banking.First follow-up within 2 weeks is free (offline only).',
           },
         },
         {

@@ -7,7 +7,30 @@ Canonical production host (from app SEO and `vercel.json`): [www.dr-major-amlan-
 ## About the clinic
 
 - Comprehensive ENT consultations, allergy testing and immunotherapy, endoscopic/microscopic procedures, serum-specific IgE testing.
-- Consultation fees are exempt for serving and retired Armed Forces personnel (and dependants with valid ID), per clinic policy reflected on the site.
+- Consultation fee: ₹400 per visit.
+
+## Clinic schedule & online booking rules
+
+Schedule copy and client-side date validation live in **`src/constants/clinicSchedule.ts`**. Keep this file in sync with the backend mirror (`clinicSchedule.ts` in the backend repo).
+
+| Rule                 | Detail                                                                           |
+| -------------------- | -------------------------------------------------------------------------------- |
+| **Evening clinic**   | Mon, Tue, Thu, Fri, and most Sat — **6:00 PM – 8:30 PM**                         |
+| **Sunday clinic**    | **10:30 AM – 1:00 PM** (online booking allowed)                                  |
+| **Closed**           | Every **Wednesday**; **2nd & 4th Saturday** of each month                        |
+| **Advance window**   | Up to **10 days** ahead                                                          |
+| **Same-day cutoffs** | **7:00 PM** (evening days); **12:00 PM** (Sundays)                               |
+| **Admin override**   | Manual closure via backend `clinic_control` (banner + booking block when active) |
+
+**Where it is enforced in the frontend**
+
+- **Booking form:** `appointmentService.validateDateConstraints()` → `validateBookingDate()` before slot check / payment.
+- **Navbar banner:** `getNavbarScheduleStatus()` — open/closed messaging and colors (orange = scheduled/off-hours closed, red = admin override, blue = open).
+- **Sticky header:** On **Wednesday**, **2nd/4th Saturday**, and **admin override**, the top info banner stays pinned with the nav while scrolling; on other days only the main nav is sticky.
+- **Patient copy:** `CLINIC_SCHEDULE_SUMMARY` (plain text) and `ClinicScheduleSummaryText` (styled JSX for appointment help + home FAQ).
+- **SEO:** `useSEO.ts` meta + JSON-LD; static fallback in `index.html`; `public/sitemap.xml` lastmod on content pages.
+
+Server-side enforcement on payment order creation is on the **backend**; the frontend rules improve UX and catch invalid dates early.
 
 ## Location & contact
 
@@ -21,18 +44,18 @@ Agartala, West Tripura — 799001
 
 ## Technology stack (as in `package.json`)
 
-| Layer                | Packages                                                                                                                     |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| UI                   | React 19, TypeScript                                                                                                         |
-| Build                | Vite 8, `@vitejs/plugin-react`, production minify via **oxc**                                                                |
-| CSS                  | Tailwind CSS 4, `@tailwindcss/vite`, `tailwind.config.ts` (dark mode: `class`, custom breakpoints)                           |
-| Routing              | `react-router-dom` 7 (lazy-loaded pages, `Suspense`)                                                                         |
-| State                | Zustand 5 + Immer (`src/appStore/*` slices)                                                                                  |
-| Auth & realtime data | Firebase 12 (Auth + Firestore client SDK)                                                                                    |
-| Integrations         | Google sign-in (admin), PhonePe (**redirect** flow via backend), Google Maps / Places (via CSP allowlist), Cloudinary assets |
-| PDF / capture        | `jspdf`, `html-to-image`                                                                                                     |
-| Icons                | Font Awesome subset loaded from `src/utils/icons.ts`                                                                         |
-| Tooling              | ESLint flat config (`eslint.config.ts`), Prettier, Bun for scripts                                                           |
+| Layer                | Packages                                                                                                                                  |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| UI                   | React 19, TypeScript                                                                                                                      |
+| Build                | Vite 8, `@vitejs/plugin-react`, production minify via **oxc**                                                                             |
+| CSS                  | Tailwind CSS 4 (`tailwindcss`, `@tailwindcss/vite` in **devDependencies**), `tailwind.config.ts` (dark mode: `class`, custom breakpoints) |
+| Routing              | `react-router-dom` 7 (lazy-loaded pages, `Suspense`)                                                                                      |
+| State                | Zustand 5 + Immer (`src/appStore/*` slices)                                                                                               |
+| Auth & realtime data | Firebase 12 (Auth + Firestore client SDK)                                                                                                 |
+| Integrations         | Google sign-in (admin), PhonePe (**redirect** flow via backend), Google Maps / Places (via CSP allowlist), Cloudinary assets              |
+| PDF / capture        | `jspdf`, `html-to-image`                                                                                                                  |
+| Icons                | Font Awesome subset loaded from `src/utils/icons.ts`                                                                                      |
+| Tooling              | ESLint flat config (`eslint.config.ts`), Prettier, Bun for scripts, [Fallow](https://fallow.tools) dead-code / health (`.fallowrc.json`)  |
 
 **Lockfile:** this project uses **Bun** (`bun.lock`). Vercel is configured with `bun install --frozen-lockfile` and `bun run build` in `vercel.json`.
 
@@ -55,7 +78,7 @@ Production is deployed on **Vercel** with the above install/build commands.
 - **Admin UI**: Firebase Google popup sign-in; only emails listed in env vars are treated as admins in the client (-navbar modals, download/control tools). Server-side authorization for APIs is enforced on the backend.
 - **`AuthWrapper`**: Syncs Firebase `onIdTokenChanged` into Zustand; initializes theme from cookie.
 - **`ProtectedRoute`** (wraps `/admin-login`): If an admin session already exists, user is redirected to **`/home`** so the login screen is only for unauthenticated visitors.
-- **`useSEO`**: Per-route `<title>`, meta, and canonical URLs (defaults align with production domain).
+- **`useSEO`**: Per-route `<title>`, meta, canonical URLs, and structured data (including `openingHours`; Wednesday omitted — 2nd/4th Sat not expressible in JSON-LD). Defaults align with production domain; `index.html` provides a no-JS fallback description.
 
 ## Routes
 
@@ -107,14 +130,18 @@ SPA routing, apex→www redirect, security headers (CSP covering Firebase, Googl
 ```
 dr_amlan-s_ent_clinic/
 ├── .github/workflows/        # e.g. Security Audit (audit.yml)
+├── .fallowrc.json            # Fallow config (dead-code, dupes, health)
 ├── api/                      # Vercel Node handlers (webhook proxy)
 ├── public/                   # Static assets (favicons, robots.txt, sitemap, manifest)
 ├── src/
 │   ├── appComponents/        # Navbar, Footer, ProtectedRoute, loading/floating UI
+│   │   └── bottomFloatingIcons/   # WhatsApp, scroll-to-top
 │   ├── appStore/             # Zustand slices (admin, button, theme, clinic)
 │   ├── assets/
 │   ├── components/           # Pages sections + modals + appointment UI
+│   │   └── ClinicScheduleSummaryText.tsx   # Styled schedule copy (semibold highlights)
 │   ├── constants/
+│   │   └── clinicSchedule.ts # Schedule rules, validation, navbar status, display strings
 │   ├── hooks/                # SEO, theme, clinic status, modals, etc.
 │   ├── pages/                # Route-level screens
 │   ├── services/             # firebase.ts, appointmentService.ts, googleLoginHelper.ts
@@ -152,6 +179,8 @@ bun run lint                # ESLint
 bun run format              # Prettier (src)
 bun run tsc                 # typecheck only
 bun run allow-scripts       # Lavamoat allow-scripts (dependency postinstall policy)
+bunx fallow                 # optional: dead-code, duplication, complexity health
+bun audit                   # dependency security audit (also run in CI)
 ```
 
 ## Repository

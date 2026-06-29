@@ -77,17 +77,6 @@ export const WelcomeSection = () => {
                 West Tripura.
               </p>
             </address>
-
-            <aside className="mb-4" aria-labelledby="military-discount">
-              <h3 id="military-discount" className="sr-only">
-                Military Personnel Discount
-              </h3>
-              <p className="font-bold">
-                Consultation fees are exempt for serving and retired Armed
-                Forces personnel (Army, Navy, Air Force) and their dependants. A
-                valid Service/ESM/Dependant ID must be presented.
-              </p>
-            </aside>
           </div>
         </article>
       </div>

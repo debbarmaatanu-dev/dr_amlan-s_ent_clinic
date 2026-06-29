@@ -167,7 +167,7 @@ export function Footer() {
           {/* Middle Column - Navigation Links */}
           <nav
             aria-labelledby="footer-nav-heading"
-            className="flex flex-col items-start justify-start text-justify sm:items-center">
+            className="flex flex-col items-center justify-center text-center sm:items-center sm:justify-start sm:text-justify">
             <div className="space-y-4">
               <h2
                 id="footer-nav-heading"
@@ -197,7 +197,7 @@ export function Footer() {
           <section aria-labelledby="location-heading">
             <h2
               id="location-heading"
-              className={`mb-4 text-2xl font-semibold sm:text-lg ${getTextColor(actualTheme)}`}>
+              className={`mb-4 text-center text-2xl font-semibold sm:text-lg ${getTextColor(actualTheme)}`}>
               Clinic Location
             </h2>
             {/* mapRef container always rendered — preserves h-64 layout so no CLS */}
@@ -231,17 +231,39 @@ export function Footer() {
         {/* Social Media Links */}
         <nav
           aria-labelledby="social-media-heading"
-          className="mt-8 flex items-center justify-center space-x-6 text-justify">
+          className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <h2 id="social-media-heading" className="sr-only">
             Social Media Links
           </h2>
+
+          {/* Facebook */}
           <a
             href="https://www.facebook.com/profile.php?id=61583047875410"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Visit our Facebook page (opens in new tab)"
-            className={`inline-flex min-h-11 min-w-11 items-center justify-center ${getTextColor(actualTheme)} hover:text-blue-600 focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none`}>
-            <i className="fa-brands fa-facebook text-xl" aria-hidden="true"></i>
+            className={`inline-flex min-h-11 items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-150 ${
+              actualTheme === 'light'
+                ? 'bg-blue-50 text-blue-700 hover:bg-blue-100'
+                : 'bg-blue-900/40 text-blue-300 hover:bg-blue-900/70'
+            } focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none active:scale-95`}>
+            <i className="fa-brands fa-facebook text-lg" aria-hidden="true"></i>
+            <span>Facebook</span>
+          </a>
+
+          {/* WhatsApp */}
+          <a
+            href="https://wa.me/916033521499"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Chat with us on WhatsApp (opens in new tab)"
+            className={`inline-flex min-h-11 items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-150 ${
+              actualTheme === 'light'
+                ? 'bg-green-50 text-green-700 hover:bg-green-100'
+                : 'bg-green-900/40 text-green-300 hover:bg-green-900/70'
+            } focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:outline-none active:scale-95`}>
+            <i className="fa-brands fa-whatsapp text-lg" aria-hidden="true"></i>
+            <span>WhatsApp</span>
           </a>
         </nav>
 
