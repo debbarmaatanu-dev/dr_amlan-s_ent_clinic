@@ -9,15 +9,22 @@ import type {PaymentBookingData} from '@/types/types';
 import {AlertModal} from '@/components/AlertModal';
 import {SuccessModal} from '@/components/SuccessModal';
 import {useSEO} from '@/hooks/useSEO';
+import {useTheme} from '@/hooks/useTheme';
+import {useClinicStatus} from '@/hooks/useClinicStatus';
 
 import {AppointmentHeader} from '@/components/appointmentComponents/AppointmentHeader';
 import {SlotAvailability} from '@/components/appointmentComponents/SlotAvailability';
 import {AppointmentForm} from '@/components/appointmentComponents/AppointmentForm';
 import {logger} from '@/utils/logger';
 import {PaymentNote} from '@/components/appointmentComponents/PaymentNote';
-import {appStore} from '@/appStore/appStore';
+import {useAppStore} from '@/appStore/appStore';
 import {PrivacyPolicyLink} from '@/components/appointmentComponents/PrivacyPolicyLink';
 import {ImportantNotices} from '@/components/appointmentComponents/ImportantNotices';
+import {
+  clearPaymentCallbackSearchParams,
+  readPaymentCallbackIdFromUrl,
+  resolvePaymentCallbackOnce,
+} from '@/utils/paymentCallbackSession';
 // Lazy load heavy components (only loaded when needed)
 const SearchAppointmentModal = lazy(() =>
   import('@/components/SearchAppointmentModal').then(module => ({
@@ -34,23 +41,27 @@ const AdminControlModal = lazy(() =>
     default: module.AdminControlModal,
   })),
 );
-import {useTheme} from '@/hooks/useTheme';
-import {useClinicStatus} from '@/hooks/useClinicStatus';
-
 export const Appointment = (): React.JSX.Element => {
+  // Read-only capture — no history mutation here (Strict Mode may re-run this).
+  const [paymentCallbackId] = useState<string | null>(() =>
+    readPaymentCallbackIdFromUrl(),
+  );
+
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [gender, setGender] = useState<string>('');
   const [age, setAge] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(
+    () => paymentCallbackId !== null,
+  );
   const [availableOnlineSlots, setAvailableOnlineSlots] = useState<number>(10);
   const [message, setMessage] = useState<{
     type: 'success' | 'error';
     text: string;
   } | null>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const setMobileNavOpen = appStore(state => state.setMobileNavOpen);
+  const setMobileNavOpen = useAppStore(state => state.setMobileNavOpen);
   const [modalContent, setModalContent] = useState<{
     title: string;
     message: string;
@@ -68,7 +79,7 @@ export const Appointment = (): React.JSX.Element => {
   useSEO();
 
   // Get user from store for admin check
-  const user = appStore(state => state.user);
+  const user = useAppStore(state => state.user);
 
   // Get clinic status (fetched by Navbar - always mounted)
   const {isClinicClosed} = useClinicStatus();
@@ -97,164 +108,61 @@ export const Appointment = (): React.JSX.Element => {
     [],
   );
 
-  // Handle PhonePe payment callback
-  const handlePaymentCallback = useCallback(
-    async (transactionId: string) => {
-      setLoading(true);
+  // PhonePe return URL: clear query in an effect; single-flight resolve survives
+  // Strict Mode setup → cleanup → setup without a second backend call or lost result.
+  useEffect(() => {
+    if (!paymentCallbackId) return;
 
-      try {
-        // First check if webhook already processed this transaction (faster)
-        const webhookResponse = await fetch(
-          `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/webhook-status/${transactionId}`,
-          {
-            method: 'GET',
-            headers: {'Content-Type': 'application/json'},
-          },
-        );
+    clearPaymentCallbackSearchParams();
 
-        const webhookData = await webhookResponse.json();
+    let active = true;
+    void resolvePaymentCallbackOnce(paymentCallbackId).then(async result => {
+      if (!active) return;
 
-        // If webhook processed, use that result (real-time)
-        if (webhookData.success && webhookData.webhookProcessed) {
-          if (webhookData.eventType === 'CHECKOUT_ORDER_COMPLETED') {
-            // Webhook confirmed success - get booking details
-            const response = await fetch(
-              `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/status-by-transaction/${transactionId}`,
-              {
-                method: 'GET',
-                headers: {'Content-Type': 'application/json'},
-              },
-            );
-
-            const data = await response.json();
-            if (data.success && data.status === 'SUCCESS') {
-              const bookingData: PaymentBookingData = {
-                slotNumber: data.slotNumber,
-                date: data.date,
-                name: data.name,
-                gender: data.bookingData.gender,
-                age: data.bookingData.age,
-                phone: data.bookingData.phone,
-                amount: 400,
-                paymentId: transactionId,
-                orderId: transactionId,
-              };
-
-              setBookingData(bookingData);
-              setShowSuccessModal(true);
-              await fetchAvailableSlots(data.date, true);
-              setLoading(false);
-              return;
-            }
-          } else if (webhookData.eventType === 'CHECKOUT_ORDER_FAILED') {
-            // Webhook confirmed failure
-            setModalContent({
-              title: 'Payment Failed',
-              message: 'Payment was not successful. Please try again.',
-              type: 'error',
-            });
-            setShowModal(true);
-            setLoading(false);
-            return;
-          }
-        }
-
-        // Fallback to API status check if webhook not processed yet
-        const response = await fetch(
-          `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/status-by-transaction/${transactionId}`,
-          {
-            method: 'GET',
-            headers: {'Content-Type': 'application/json'},
-          },
-        );
-
-        const data = await response.json();
-
-        if (data.success && data.status === 'SUCCESS') {
-          // Payment successful - create booking data for receipt display
-          const bookingData: PaymentBookingData = {
-            slotNumber: data.slotNumber,
-            date: data.date,
-            name: data.name,
-            gender: data.bookingData.gender,
-            age: data.bookingData.age,
-            phone: data.bookingData.phone,
-            amount: 400,
-            paymentId: transactionId,
-            orderId: transactionId,
-          };
-
-          setBookingData(bookingData);
-          setShowSuccessModal(true);
-
-          // Refresh slots for the booking date
-          await fetchAvailableSlots(data.date, true);
-        } else {
-          // Payment failed
-          setModalContent({
-            title: 'Payment Failed',
-            message:
-              data.error || 'Payment was not successful. Please try again.',
-            type: 'error',
-          });
-          setShowModal(true);
-        }
-      } catch (error) {
-        logger.error('Error checking payment callback:', error);
+      if (result.ok) {
+        setBookingData(result.booking);
+        setShowSuccessModal(true);
+        await fetchAvailableSlots(result.booking.date, true);
+      } else {
         setModalContent({
-          title: 'Payment Error',
-          message:
-            'Unable to verify payment status. Please contact support if money was deducted.',
+          title: result.title,
+          message: result.message,
           type: 'error',
         });
         setShowModal(true);
-      } finally {
+      }
+
+      if (active) {
         setLoading(false);
       }
-    },
-    [fetchAvailableSlots],
-  );
+    });
 
-  // Check for payment callback on page load
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const paymentStatus = urlParams.get('payment');
-    const transactionId = urlParams.get('transaction_id');
+    return () => {
+      active = false;
+    };
+  }, [paymentCallbackId, fetchAvailableSlots]);
 
-    if (paymentStatus === 'callback' && transactionId) {
-      // Handle PhonePe callback
-      void handlePaymentCallback(transactionId);
-
-      // Clean up URL
-      window.history.replaceState({}, document.title, window.location.pathname);
+  const handleDateChange = (date: string) => {
+    if (!date) {
+      setSelectedDate('');
+      return;
     }
-  }, [handlePaymentCallback]);
 
-  // URL parameter handling is done in useEffect above for redirect flow
-
-  // Validate and check available slots when date changes
-  useEffect(() => {
-    if (selectedDate) {
-      // Validate date constraints first
-      const dateValidation = validateDateConstraints(selectedDate);
-      if (!dateValidation.isValid) {
-        // Show error modal
-        setModalContent({
-          title: 'Invalid Date',
-          message: dateValidation.error || 'Please select a valid date.',
-          type: 'error',
-        });
-        setShowModal(true);
-
-        // Clear the selected date
-        setSelectedDate('');
-        return;
-      }
-
-      // If valid, fetch available slots
-      void fetchAvailableSlots(selectedDate);
+    const dateValidation = validateDateConstraints(date);
+    if (!dateValidation.isValid) {
+      setModalContent({
+        title: 'Invalid Date',
+        message: dateValidation.error || 'Please select a valid date.',
+        type: 'error',
+      });
+      setShowModal(true);
+      setSelectedDate('');
+      return;
     }
-  }, [selectedDate, fetchAvailableSlots]);
+
+    setSelectedDate(date);
+    void fetchAvailableSlots(date);
+  };
 
   useEffect(() => {
     if (showModal || showSuccessModal) {
@@ -262,8 +170,7 @@ export const Appointment = (): React.JSX.Element => {
     } else {
       setMobileNavOpen(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showModal, showSuccessModal]);
+  }, [showModal, showSuccessModal, setMobileNavOpen]);
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -445,7 +352,7 @@ export const Appointment = (): React.JSX.Element => {
               {/* Appointment Form */}
               <AppointmentForm
                 selectedDate={selectedDate}
-                setSelectedDate={setSelectedDate}
+                setSelectedDate={handleDateChange}
                 name={name}
                 setName={setName}
                 gender={gender}

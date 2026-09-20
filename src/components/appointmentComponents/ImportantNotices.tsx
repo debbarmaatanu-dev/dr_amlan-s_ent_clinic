@@ -1,6 +1,6 @@
 import React from 'react';
 import {useTheme} from '@/hooks/useTheme';
-import {appStore} from '@/appStore/appStore';
+import {useAppStore} from '@/appStore/appStore';
 import {
   CLINIC_HOURS_EVENING,
   CLINIC_HOURS_SUNDAY,
@@ -34,7 +34,7 @@ const NoticeRow = ({
 
 export const ImportantNotices = (): React.JSX.Element => {
   const {actualTheme} = useTheme();
-  const clinicStatus = appStore(state => state.clinicStatus);
+  const clinicStatus = useAppStore(state => state.clinicStatus);
   // Clinic status is fetched by Navbar (always mounted)
 
   const bgBlue = actualTheme === 'light' ? 'bg-blue-50' : 'bg-blue-900';

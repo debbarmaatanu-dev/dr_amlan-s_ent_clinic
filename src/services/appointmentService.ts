@@ -3,9 +3,11 @@ import type {
   DateValidationResult,
   BookingAvailabilityResult,
   PaymentInitiationResponse,
+  PaymentBookingData,
 } from '../types/types';
 import {validateBookingDate} from '../constants/clinicSchedule';
 import {logger} from '../utils/logger';
+import {redirectTo} from '../utils/redirect';
 
 // Re-export types for backward compatibility
 export type {PaymentBookingData, BookingData} from '../types/types';
@@ -208,12 +210,112 @@ export const initiatePayment = async (
 
     // Step 2: Redirect to PhonePe payment page
     logger.log('Redirecting to PhonePe:', data.redirectUrl);
-    window.location.href = data.redirectUrl;
+    redirectTo(data.redirectUrl);
 
     // This won't be reached due to redirect, but needed for TypeScript
     return {success: true};
   } catch (error) {
     logger.error('Payment initiation error:', error);
     return {success: false, error: 'Failed to initiate payment'};
+  }
+};
+
+export type PaymentCallbackResult =
+  | {ok: true; booking: PaymentBookingData}
+  | {ok: false; title: string; message: string};
+
+/**
+ * Resolve a PhonePe payment callback transaction into booking data or an error.
+ */
+export const resolvePaymentCallback = async (
+  transactionId: string,
+): Promise<PaymentCallbackResult> => {
+  try {
+    const webhookResponse = await fetch(
+      `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/webhook-status/${transactionId}`,
+      {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      },
+    );
+
+    const webhookData = await webhookResponse.json();
+
+    if (webhookData.success && webhookData.webhookProcessed) {
+      if (webhookData.eventType === 'CHECKOUT_ORDER_COMPLETED') {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/status-by-transaction/${transactionId}`,
+          {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+          },
+        );
+
+        const data = await response.json();
+        if (data.success && data.status === 'SUCCESS') {
+          return {
+            ok: true,
+            booking: {
+              slotNumber: data.slotNumber,
+              date: data.date,
+              name: data.name,
+              gender: data.bookingData.gender,
+              age: data.bookingData.age,
+              phone: data.bookingData.phone,
+              amount: 400,
+              paymentId: transactionId,
+              orderId: transactionId,
+            },
+          };
+        }
+      } else if (webhookData.eventType === 'CHECKOUT_ORDER_FAILED') {
+        return {
+          ok: false,
+          title: 'Payment Failed',
+          message: 'Payment was not successful. Please try again.',
+        };
+      }
+    }
+
+    const response = await fetch(
+      `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/status-by-transaction/${transactionId}`,
+      {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      },
+    );
+
+    const data = await response.json();
+
+    if (data.success && data.status === 'SUCCESS') {
+      return {
+        ok: true,
+        booking: {
+          slotNumber: data.slotNumber,
+          date: data.date,
+          name: data.name,
+          gender: data.bookingData.gender,
+          age: data.bookingData.age,
+          phone: data.bookingData.phone,
+          amount: 400,
+          paymentId: transactionId,
+          orderId: transactionId,
+        },
+      };
+    }
+
+    return {
+      ok: false,
+      title: 'Payment Failed',
+      message: data.error || 'Payment was not successful. Please try again.',
+    };
+  } catch (error) {
+    logger.error('Error checking payment callback:', error);
+    return {
+      ok: false,
+      title: 'Payment Error',
+      message:
+        'Unable to verify payment status. Please contact support if money was deducted.',
+    };
   }
 };

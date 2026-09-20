@@ -4,13 +4,13 @@ import {ReceiptView} from './shared/ReceiptView';
 import {useModalTheme} from '@/hooks/useModalTheme';
 import {useModalState} from '@/hooks/useModalState';
 import {
-  handleGeoRestrictionError,
   validatePhoneNumber,
   createModalCloseHandler,
 } from '@/utils/modalHelpers';
+import {toPaymentBookingData} from '@/utils/bookingMappers';
+import {searchAppointments} from '@/services/appointmentSearchApi';
 import type {PaymentBookingData} from '../types/types';
 import type {BookingTableData} from '../types/booking';
-import {logger} from '@/utils/logger';
 
 interface SearchAppointmentModalProps {
   isOpen: boolean;
@@ -66,54 +66,25 @@ export const SearchAppointmentModal: React.FC<SearchAppointmentModalProps> = ({
     setMultipleBookings([]);
     setIsMultiple(false);
 
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BACKEND_URL}/api/appointment/search`,
-        {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({phone, date}),
-        },
-      );
+    const result = await searchAppointments(phone, date);
 
-      const data = await response.json();
-
-      if (data.success) {
-        if (data.multiple) {
-          // Multiple bookings - show table
-          setMultipleBookings(data.bookings);
-          setIsMultiple(true);
-        } else {
-          // Single booking - show receipt directly
-          setBookingData(data.booking);
-          setIsMultiple(false);
-        }
+    if (result.ok) {
+      if (result.multiple) {
+        setMultipleBookings(result.bookings);
+        setIsMultiple(true);
       } else {
-        // Handle geolocation restriction specifically
-        setError(handleGeoRestrictionError(data));
+        setBookingData(result.booking);
+        setIsMultiple(false);
       }
-    } catch (error) {
-      logger.error('Error searching appointment:', error);
-      setError('Failed to search appointment. Please try again.');
-    } finally {
-      setLoading(false);
+    } else {
+      setError(result.error);
     }
+
+    setLoading(false);
   };
 
   const handleViewReceipt = (booking: BookingTableData) => {
-    const receiptData: PaymentBookingData = {
-      slotNumber: booking.slotNumber,
-      date: booking.date,
-      name: booking.name,
-      gender: booking.gender,
-      age: booking.age,
-      phone: booking.phone,
-      amount: booking.amount,
-      paymentId: booking.paymentId,
-      orderId: booking.orderId,
-      paymentMethod: booking.paymentMethod,
-    };
-    setBookingData(receiptData);
+    setBookingData(toPaymentBookingData(booking));
     setIsMultiple(false);
   };
 

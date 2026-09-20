@@ -26,11 +26,13 @@ export const PrivacyPolicy = (): React.JSX.Element => {
         <section className="w-full max-w-5xl">
           <header className="flex flex-col items-center justify-center py-5">
             <div
-              className={`mb-6 flex shrink-0 items-center justify-center rounded-full bg-white p-3 shadow-lg`}>
+              className={`mb-6 flex shrink-0 items-center justify-center rounded-2xl bg-white p-3 shadow-lg`}>
               <img
                 src={logo}
-                alt="Dr (Major) Amlan's ENT & Allergy Clinic Logo"
-                className="h-32 w-32 rounded-full object-cover"
+                alt="Major Amlan's ENT & Allergy Clinic Logo"
+                className="h-40 w-40 object-contain"
+                width="160"
+                height="160"
                 loading="lazy"
               />
             </div>
@@ -59,8 +61,9 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                   </p>
                   <p>
                     The Platform is owned by Dr. (Major) Amlan Debbarma, with
-                    its registered office at Capital Pathlab, Bijoykumar
-                    Chowmuhani, Agartala, West Tripura - 799001.
+                    its registered office at Capital pathlab, in between Sankar
+                    Chowmuhani and Bijoykumar Chowmuhani, near Lenskart,
+                    Agartala, West Tripura - 799001.
                   </p>
                   <p>
                     By accessing, browsing or otherwise using the Platform, you
@@ -104,9 +107,10 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                 </h2>
                 <div className={`space-y-4 ${textSecondary}`}>
                   <p>
-                    This Privacy Policy describes how Dr. (Major) Amlan Debbarma
-                    collects, uses, shares, protects or otherwise processes your
-                    information/personal data through our website.
+                    This Privacy Policy describes how Major Amlan&apos;s ENT
+                    &amp; Allergy Clinic collects, uses, shares, protects or
+                    otherwise processes your information/personal data through
+                    our website.
                   </p>
 
                   <h3 className={`mt-6 text-xl font-semibold ${textColor}`}>
@@ -178,7 +182,7 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                         <strong>No Financial Data Storage:</strong> We do not
                         store any credit card, debit card, or bank account
                         information on our servers. All payment details are
-                        handled securely by PhonePe's encrypted systems.
+                        handled securely by PhonePe&apos;s encrypted systems.
                       </p>
                       <p>
                         <strong>Real-time Security:</strong> Payment
@@ -333,7 +337,7 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                       Important Notice:
                     </p>
                     <p className="mt-2 text-red-700">
-                      Dr. (Major) Amlan's ENT &amp; Allergy Clinic operates on a
+                      Major Amlan&apos;s ENT &amp; Allergy Clinic operates on a
                       NO REFUND and NO CANCELLATION policy for all appointments
                       and services unless geniune circumstances arise.
                     </p>
@@ -386,13 +390,13 @@ export const PrivacyPolicy = (): React.JSX.Element => {
                 </h2>
                 <div className={`space-y-2 ${textSecondary}`}>
                   <p>
-                    <strong>
-                      Dr. (Major) Amlan's ENT &amp; Allergy Clinic
-                    </strong>
+                    <strong>Major Amlan&apos;s ENT &amp; Allergy Clinic</strong>
                   </p>
-                  <p>Capital Pathlab</p>
-                  <p>Bijoykumar Chowmuhani, Agartala</p>
-                  <p>West Tripura - 799001</p>
+                  <p>
+                    Capital pathlab, in between Sankar Chowmuhani and Bijoykumar
+                    Chowmuhani, near Lenskart
+                  </p>
+                  <p>Agartala, West Tripura - 799001</p>
                   <p className="mt-4">
                     <strong>Phone:</strong>{' '}
                     <a

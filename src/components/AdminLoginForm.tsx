@@ -1,4 +1,4 @@
-import {appStore} from '@/appStore/appStore';
+import {useAppStore} from '@/appStore/appStore';
 import {handleAdminGoogleLogin} from '@/services/googleLoginHelper';
 import {type MouseEvent} from 'react';
 import {useTheme} from '@/hooks/useTheme';
@@ -22,7 +22,7 @@ export default function AdminLoginForm({
   error,
   setError,
 }: AdminLoginFormProps): React.JSX.Element {
-  const setAdmin = appStore(state => state.setUser);
+  const setAdmin = useAppStore(state => state.setUser);
   const {actualTheme} = useTheme();
 
   const allowedAdminEmails: string[] = [

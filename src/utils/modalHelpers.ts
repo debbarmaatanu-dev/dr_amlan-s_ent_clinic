@@ -2,10 +2,17 @@
  * Utility functions for modal operations
  */
 
+type GeoRestrictionPayload = {
+  code?: string;
+  error?: string;
+};
+
 /**
  * Handles geolocation restriction errors consistently across modals
  */
-export const handleGeoRestrictionError = (data: any): string => {
+export const handleGeoRestrictionError = (
+  data: GeoRestrictionPayload,
+): string => {
   if (data.code === 'GEO_RESTRICTED') {
     return 'This service is only available in India. Please contact us if you believe this is an error.';
   }
@@ -24,7 +31,7 @@ export const validatePhoneNumber = (phone: string): boolean => {
  * Common modal close handler that resets all states
  */
 export const createModalCloseHandler = (
-  resetFunctions: Array<() => void>,
+  resetFunctions: (() => void)[],
   onClose: () => void,
 ) => {
   return () => {

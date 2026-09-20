@@ -3,13 +3,11 @@ import {ClipLoader} from 'react-spinners';
 import {ReceiptView} from './shared/ReceiptView';
 import {useModalTheme} from '@/hooks/useModalTheme';
 import {useModalState} from '@/hooks/useModalState';
-import {
-  handleGeoRestrictionError,
-  createModalCloseHandler,
-} from '@/utils/modalHelpers';
+import {createModalCloseHandler} from '@/utils/modalHelpers';
+import {toPaymentBookingData} from '@/utils/bookingMappers';
+import {fetchAdminBookings} from '@/services/adminBookingsApi';
 import type {PaymentBookingData} from '../types/types';
 import type {BookingTableData} from '../types/booking';
-import {logger} from '@/utils/logger';
 
 interface AdminDownloadModalProps {
   isOpen: boolean;
@@ -56,61 +54,18 @@ export const AdminDownloadModal: React.FC<AdminDownloadModalProps> = ({
     setError(null);
     setBookings([]);
 
-    try {
-      // Get Firebase auth token
-      const {auth} = await import('@/services/firebase');
-      const user = auth.currentUser;
-      if (!user) {
-        setError('Authentication required. Please log in again.');
-        return;
-      }
-
-      // Force token refresh to ensure it's valid
-      const token = await user.getIdToken(true);
-
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BACKEND_URL}/api/protected/bookings/${selectedDate}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      const data = await response.json();
-
-      if (data.success && data.bookings) {
-        setBookings(data.bookings);
-      } else {
-        // Handle geolocation restriction specifically
-        setError(handleGeoRestrictionError(data));
-      }
-    } catch (error) {
-      logger.error('Error fetching bookings:', error);
-      setError('Failed to fetch bookings. Please try again.');
-    } finally {
-      setLoading(false);
+    const result = await fetchAdminBookings(selectedDate);
+    if (result.ok) {
+      setBookings(result.bookings);
+    } else {
+      setError(result.error);
     }
+
+    setLoading(false);
   };
 
   const handleViewReceipt = (booking: BookingTableData) => {
-    const receiptData: PaymentBookingData = {
-      slotNumber: booking.slotNumber,
-      date: booking.date,
-      name: booking.name,
-      gender: booking.gender,
-      age: booking.age,
-      phone: booking.phone,
-      amount: booking.amount,
-      paymentId: booking.paymentId,
-      orderId: booking.orderId,
-      paymentMethod: booking.paymentMethod,
-      paymentStatus: booking.paymentStatus,
-      refundInfo: booking.refundInfo,
-    };
-    setSelectedBooking(receiptData);
+    setSelectedBooking(toPaymentBookingData(booking));
   };
 
   const handleClose = createModalCloseHandler(

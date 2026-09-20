@@ -1,5 +1,5 @@
 /**
- * Frontend Types for Dr. (Major) Amlan's ENT Clinic
+ * Frontend Types for Major Amlan's ENT & Allergy Clinic
  * Centralized type definitions to ensure consistency
  */
 

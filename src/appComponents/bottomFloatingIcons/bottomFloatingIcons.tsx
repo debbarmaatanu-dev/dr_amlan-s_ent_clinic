@@ -1,9 +1,9 @@
-import {appStore} from '@/appStore/appStore';
+import {useAppStore} from '@/appStore/appStore';
 import {useEffect, useState} from 'react';
 
 export const WhatsAppIcon = () => {
   const [showButton, setShowButton] = useState(false);
-  const mobileNavOpen = appStore(state => state.mobileNavOpen);
+  const mobileNavOpen = useAppStore(state => state.mobileNavOpen);
 
   // Add a slight delay before showing the button for a smoother experience
   useEffect(() => {
@@ -44,7 +44,7 @@ export const WhatsAppIcon = () => {
 
 export const FacebookIcon = () => {
   const [showButton, setShowButton] = useState(false);
-  const mobileNavOpen = appStore(state => state.mobileNavOpen);
+  const mobileNavOpen = useAppStore(state => state.mobileNavOpen);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -84,7 +84,7 @@ export const FacebookIcon = () => {
 
 export const UpArrowIcon = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const mobileNavOpen = appStore(state => state.mobileNavOpen);
+  const mobileNavOpen = useAppStore(state => state.mobileNavOpen);
 
   // Function to handle scrolling to top
   const scrollToTop = () => {

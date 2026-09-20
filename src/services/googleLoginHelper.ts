@@ -1,17 +1,10 @@
 import {GoogleAuthProvider, signInWithPopup, type User} from 'firebase/auth';
 import type {Dispatch, MouseEvent, SetStateAction} from 'react';
 import {auth} from './firebase';
+import {isAllowedAdminEmail} from './authHelpers';
 
 /**
  * Handle admin Google login.
- *
- * @param {MouseEvent<HTMLButtonElement>} e - Event triggered on clicking the Google login button
- * @param {string[]} allowedAdminEmails - Array of registered admin email addresses
- * @param {Dispatch<SetStateAction<string | null>>} setError - Function to set error message
- * @param {Dispatch<SetStateAction<boolean>>} setLoading - Function to set loading state
- * @param {Dispatch<SetStateAction<boolean>>} setSuccess - Function to set success state
- * @param {Dispatch<SetStateAction<string>>} setSuccessMessage - Function to set success message
- * @param {(user: User | null) => void} setAdmin - Function to set admin user
  */
 export const handleAdminGoogleLogin = async (
   e: MouseEvent<HTMLButtonElement>,
@@ -30,6 +23,7 @@ export const handleAdminGoogleLogin = async (
     const result = await signInWithPopup(auth, provider);
 
     if (!result) {
+      setLoading(false);
       setError('❌ Error fetching data!');
       setSuccessMessage('');
       return;
@@ -37,7 +31,8 @@ export const handleAdminGoogleLogin = async (
 
     const userEmail = result.user.email;
 
-    if (!userEmail || !allowedAdminEmails.includes(userEmail)) {
+    if (!isAllowedAdminEmail(userEmail, allowedAdminEmails)) {
+      setLoading(false);
       setError('❌ Not a registered admin!');
       setSuccessMessage('');
       return;
@@ -56,7 +51,6 @@ export const handleAdminGoogleLogin = async (
     }, 2000);
   } catch (error: unknown) {
     setLoading(false);
-
-    setError('❌ Google login failed: ' + (error as any).message);
+    setError('❌ Google login failed: ' + (error as Error).message);
   }
 };

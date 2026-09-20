@@ -78,6 +78,7 @@ export const loadFontAwesome = () => {
     .fa-moon:before { content: "\\f186"; }
     .fa-spinner:before { content: "\\f110"; }
     .fa-vial-circle-check:before { content: "\\e596"; }
+    .fa-briefcase-medical:before { content: "\\f469"; }
     .fa-microscope:before { content: "\\f610"; }
     .fa-calendar-plus:before { content: "\\f271"; }
     .fa-user-md:before { content: "\\f0f0"; }

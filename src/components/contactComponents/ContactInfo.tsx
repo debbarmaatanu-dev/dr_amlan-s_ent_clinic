@@ -98,9 +98,8 @@ export const ContactInfo: React.FC = () => {
           title="Address"
           textColor={textColor}>
           <p className={textSecondary}>
-            Capital pathlab
-            <br />
-            Bijoykumar Chowmuhani,
+            Capital pathlab, in between Sankar Chowmuhani and Bijoykumar
+            Chowmuhani, near Lenskart
             <br />
             Agartala, West Tripura
             <br />

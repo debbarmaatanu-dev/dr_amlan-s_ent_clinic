@@ -16,7 +16,7 @@ export const WelcomeSection = () => {
             <h2
               id="welcome-heading"
               className={`text-foreground ${textHeader} xxxs:text-2xl xs:text-2xl xs:mb-4 mb-3 text-xl font-bold sm:text-3xl md:text-4xl`}>
-              Welcome to Dr (Major) Amlan's ENT &amp; Allergy Clinic
+              Welcome to Major Amlan&apos;s ENT &amp; Allergy Clinic
             </h2>
 
             <p className="text-muted-foreground xs:text-base mb-4 text-sm text-blue-600 sm:mb-5 md:mb-6">
@@ -55,14 +55,14 @@ export const WelcomeSection = () => {
               </p>
             </section>
 
-            <section className="mb-4" aria-labelledby="sleep-apnea-treatment">
-              <h3 id="sleep-apnea-treatment" className="sr-only">
-                Sleep Apnea Treatment
+            <section className="mb-4" aria-labelledby="coblation-surgeries">
+              <h3 id="coblation-surgeries" className="sr-only">
+                Advanced Coblation Surgeries
               </h3>
               <p className="font-bold">
-                Sleep Apnea & Snoring: Flexible sleep endoscopy helps identify
-                areas of airway collapse during sleep, enabling targeted
-                treatment for sleep-related breathing disorders.
+                Advanced Coblation surgeries: Bloodless Tonsil removal, Adenoid
+                removal, Turbinate reduction, nasal polyp removal, Sleep apnea
+                surgeries.
               </p>
             </section>
 
@@ -73,8 +73,8 @@ export const WelcomeSection = () => {
                 Clinic Location
               </h3>
               <p>
-                Located at Capital Pathlab, Bijoykumar Chowmuhani, Agartala,
-                West Tripura.
+                Located at Capital pathlab, in between Sankar Chowmuhani and
+                Bijoykumar Chowmuhani, near Lenskart, Agartala, West Tripura.
               </p>
             </address>
           </div>

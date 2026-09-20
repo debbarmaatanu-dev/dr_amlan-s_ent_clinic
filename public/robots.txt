@@ -1,4 +1,4 @@
-# Robots.txt for Dr. (Major) Amlan Debbarma ENT Clinic
+# Robots.txt for Major Amlan's ENT & Allergy Clinic
 # https://www.dr-major-amlan-ent.in/
 
 User-agent: *

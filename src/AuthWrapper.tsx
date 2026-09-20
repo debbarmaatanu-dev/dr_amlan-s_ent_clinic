@@ -1,17 +1,17 @@
 import {auth} from '@/services/firebase';
-import React from 'react';
-import {type ReactNode, useEffect} from 'react';
-import {appStore} from './appStore/appStore';
+import React, {type ReactNode, useEffect} from 'react';
+import {useAppStore} from './appStore/appStore';
 import {onIdTokenChanged, type User} from 'firebase/auth';
+import {resolveAdminUser} from '@/services/authHelpers';
 
 export const AuthWrapper = ({
   children,
 }: {
   children: ReactNode;
-}): React.JSX.Element => {
-  const setUser = appStore(state => state.setUser);
-  const setAuthInitialized = appStore(state => state.setAuthInitialized);
-  const initializeTheme = appStore(state => state.initializeTheme);
+}): React.ReactNode => {
+  const setUser = useAppStore(state => state.setUser);
+  const setAuthInitialized = useAppStore(state => state.setAuthInitialized);
+  const initializeTheme = useAppStore(state => state.initializeTheme);
 
   // Initialize theme from cookie on app load (synchronous)
   useEffect(() => {
@@ -22,21 +22,7 @@ export const AuthWrapper = ({
   useEffect(() => {
     // Check if there's already a current user (for existing sessions)
     const checkCurrentUser = async () => {
-      const currentUser = auth.currentUser;
-      if (currentUser) {
-        const adminEmails = [
-          import.meta.env.VITE_FIREBASE_ADMIN_EMAIL1,
-          import.meta.env.VITE_FIREBASE_ADMIN_EMAIL2,
-        ];
-
-        if (adminEmails.includes(currentUser.email || '')) {
-          setUser(currentUser);
-        } else {
-          setUser(null);
-        }
-      } else {
-        setUser(null);
-      }
+      setUser(resolveAdminUser(auth.currentUser));
     };
 
     // Check immediately for existing user
@@ -44,21 +30,7 @@ export const AuthWrapper = ({
 
     // Set up listener for auth state changes
     const unsubscribe = onIdTokenChanged(auth, async (user: User | null) => {
-      if (user) {
-        // Check if user is admin (frontend check for UI only)
-        const adminEmails = [
-          import.meta.env.VITE_FIREBASE_ADMIN_EMAIL1,
-          import.meta.env.VITE_FIREBASE_ADMIN_EMAIL2,
-        ];
-
-        if (adminEmails.includes(user.email || '')) {
-          setUser(user);
-        } else {
-          setUser(null);
-        }
-      } else {
-        setUser(null);
-      }
+      setUser(resolveAdminUser(user));
       setAuthInitialized(true);
     });
 
@@ -66,6 +38,5 @@ export const AuthWrapper = ({
   }, [setUser, setAuthInitialized]);
 
   // Render immediately without waiting for auth check
-  // eslint-disable-next-line react/jsx-no-useless-fragment
-  return <React.Fragment>{children}</React.Fragment>;
+  return children;
 };

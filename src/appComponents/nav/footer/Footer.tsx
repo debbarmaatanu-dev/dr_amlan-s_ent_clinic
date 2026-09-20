@@ -62,7 +62,11 @@ export function Footer() {
       path: '/appointment',
       ariaLabel: 'Book an appointment',
     },
-    {label: 'About', path: '/about', ariaLabel: 'Learn about Dr. Amlan'},
+    {
+      label: 'About',
+      path: '/about',
+      ariaLabel: 'Learn about Major Amlan Debbarma',
+    },
     {label: 'Contact', path: '/contact', ariaLabel: 'Contact information'},
     {label: 'FAQ', path: '/faq', ariaLabel: 'Frequently asked questions'},
     {label: 'Admin', path: '/admin-login', ariaLabel: 'Admin login portal'},
@@ -79,8 +83,8 @@ export function Footer() {
             <header className="flex items-center space-x-4">
               <img
                 src={logo}
-                alt="Dr.(Major) Amlan's ENT & Allergy Clinic Logo"
-                className="h-18 w-18 object-cover"
+                alt="Major Amlan's ENT & Allergy Clinic Logo"
+                className="h-18 w-18 object-contain"
                 width="72"
                 height="72"
                 loading="lazy"
@@ -89,7 +93,7 @@ export function Footer() {
                 <h2
                   id="clinic-info-heading"
                   className="text-xl font-bold text-blue-600">
-                  Dr. (Major) Amlan's ENT &amp; Allergy Clinic
+                  Major Amlan&apos;s ENT &amp; Allergy Clinic
                 </h2>
                 <p
                   className={`text-md sm:text-sm ${getTextColor(actualTheme)}`}>
@@ -97,7 +101,7 @@ export function Footer() {
                 </p>
                 <p
                   className={`text-md sm:text-sm ${getTextColor(actualTheme)}`}>
-                  Ex-Army Medical Corps
+                  Army Medical Corps (Retd.)
                   <br />
                   Endoscopic and Microscopic ENT surgeon
                 </p>
@@ -132,20 +136,17 @@ export function Footer() {
               </section>
 
               <address
-                className={`${actualTheme === 'light' ? 'text-gray-500' : 'text-gray-300'} text-md not-italic sm:text-sm`}
+                className={`${actualTheme === 'light' ? 'text-gray-500' : 'text-gray-300'} text-md max-w-62 not-italic leading-snug sm:text-sm`}
                 aria-labelledby="clinic-address">
                 <h3 id="clinic-address" className="sr-only">
                   Clinic Address
                 </h3>
-                <p className="mb-1">
-                  <span className={`${getTextColor(actualTheme)}`}>
-                    Address:
-                  </span>{' '}
-                  Capital pathlab
-                </p>
-                <p>Bijoykumar Chowmuhani,</p>
-                <p>Agartala,</p>
-                <p>West Tripura,</p>
+                <p className={`${getTextColor(actualTheme)} mb-1`}>Address:</p>
+                <p>Capital pathlab,</p>
+                <p>in between Sankar Chowmuhani</p>
+                <p>and Bijoykumar Chowmuhani,</p>
+                <p>near Lenskart</p>
+                <p>Agartala, West Tripura</p>
                 <p>Pin - 799001</p>
               </address>
 
@@ -213,8 +214,8 @@ export function Footer() {
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Dr. (Major) Amlan's ENT & Allergy Clinic location on Google Maps"
-                  aria-label="Interactive map showing clinic location at Capital Pathlab, Bijoykumar Chowmuhani, Agartala"
+                  title="Major Amlan's ENT & Allergy Clinic location on Google Maps"
+                  aria-label="Interactive map showing clinic location at Capital pathlab, in between Sankar Chowmuhani and Bijoykumar Chowmuhani, near Lenskart, Agartala"
                 />
               ) : (
                 // Placeholder shown before map loads — preserves layout, no CLS
@@ -271,7 +272,7 @@ export function Footer() {
         <div
           className={`text-md mt-8 flex flex-col items-center justify-between border-t sm:text-sm ${getTextColor(actualTheme)} pt-6 text-sm text-gray-600 md:flex-row`}>
           <div className="flex flex-col items-center justify-center gap-2 text-center sm:items-start sm:justify-start sm:text-start">
-            <p>© 2025 Dr. (Major) Amlan's ENT &amp; Allergy Clinic</p>
+            <p>© 2026 Major Amlan&apos;s ENT &amp; Allergy Clinic</p>
             <p>All Rights Reserved.</p>
             <button
               onClick={() => handleNav('/privacy-policy')}

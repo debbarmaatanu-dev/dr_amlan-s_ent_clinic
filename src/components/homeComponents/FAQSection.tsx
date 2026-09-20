@@ -11,11 +11,11 @@ export const FAQSection = () => {
   const textColor = actualTheme === 'light' ? 'text-gray-700' : 'text-white';
   const cardBg = actualTheme === 'light' ? 'bg-white' : 'bg-gray-600';
 
-  const quickFAQs: Array<{
+  const quickFAQs: {
     question: string;
     answer: ReactNode;
     icon: string;
-  }> = [
+  }[] = [
     {
       question: 'What are the clinic timings?',
       answer: <ClinicScheduleSummaryText />,

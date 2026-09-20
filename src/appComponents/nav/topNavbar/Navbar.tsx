@@ -1,6 +1,6 @@
 import {Fragment, useEffect, useRef, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {appStore} from '@/appStore/appStore';
+import {useAppStore} from '@/appStore/appStore';
 import {auth} from '@/services/firebase';
 import {LogoSection} from './LogoSection';
 import {NavLinks} from './NavLinks';
@@ -25,9 +25,9 @@ const getBGColor = (actualTheme: ActualTheme) => {
 
 export const NavBar = () => {
   const navigation = useNavigate();
-  const user = appStore(state => state.user);
-  const authInitialized = appStore(state => state.authInitialized);
-  const setMobileNavOpen = appStore(state => state.setMobileNavOpen);
+  const user = useAppStore(state => state.user);
+  const authInitialized = useAppStore(state => state.authInitialized);
+  const setMobileNavOpen = useAppStore(state => state.setMobileNavOpen);
   const {actualTheme} = useTheme();
 
   const allowedAdminEmails: string[] = [
@@ -47,9 +47,9 @@ export const NavBar = () => {
   const minuteHandRef = useRef<HTMLDivElement>(null);
 
   // Use clinic status from global store
-  const clinicStatus = appStore(state => state.clinicStatus);
-  const clinicStatusLoaded = appStore(state => state.clinicStatusLoaded);
-  const fetchClinicStatus = appStore(state => state.fetchClinicStatus);
+  const clinicStatus = useAppStore(state => state.clinicStatus);
+  const clinicStatusLoaded = useAppStore(state => state.clinicStatusLoaded);
+  const fetchClinicStatus = useAppStore(state => state.fetchClinicStatus);
 
   useEffect(() => {
     if (menuOpen) {
@@ -57,8 +57,7 @@ export const NavBar = () => {
     } else {
       setMobileNavOpen(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [menuOpen]);
+  }, [menuOpen, setMobileNavOpen]);
 
   const handleHomeClick = () => {
     if (
@@ -136,7 +135,7 @@ export const NavBar = () => {
     return () => {
       clearInterval(statusInterval);
     };
-  }, [clinicStatusLoaded]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [clinicStatusLoaded, fetchClinicStatus]);
 
   const scheduleStatus = getNavbarScheduleStatus(now);
 

@@ -1,8 +1,13 @@
-# Dr. (Major) Amlan's ENT Clinic — Frontend
+# Major Amlan's ENT & Allergy Clinic — Frontend
 
-Official marketing and **online appointment** site for Dr. (Major) Amlan's ENT Clinic (Agartala, West Tripura). This repository is the **SPA only**. Business logic for payments and protected APIs lives in a **separate backend** repository, deployed as its own Vercel project. The frontend still ships a tiny **Vercel serverless** proxy under `api/` for PhonePe webhooks (see below).
+Official marketing and **online appointment** site for Major Amlan's ENT & Allergy Clinic (Agartala, West Tripura). This repository is the **SPA only**. Business logic for payments and protected APIs lives in a **separate backend** repository, deployed as its own Vercel project. The frontend still ships a tiny **Vercel serverless** proxy under `api/` for PhonePe webhooks (see below).
 
 Canonical production host (from app SEO and `vercel.json`): [www.dr-major-amlan-ent.in](https://www.dr-major-amlan-ent.in/)
+
+## Developer documentation
+
+- [Frontend architecture and folder structure](docs/ARCHITECTURE.md)
+- [User flows and backend API](docs/FLOWS_AND_API.md)
 
 ## About the clinic
 
@@ -34,8 +39,7 @@ Server-side enforcement on payment order creation is on the **backend**; the fro
 
 ## Location & contact
 
-Capital Pathlab  
-Bijoykumar Chowmuhani  
+Capital pathlab, in between Sankar Chowmuhani and Bijoykumar Chowmuhani, near Lenskart  
 Agartala, West Tripura — 799001
 
 - Phone: +91 6033521499
@@ -44,31 +48,33 @@ Agartala, West Tripura — 799001
 
 ## Technology stack (as in `package.json`)
 
-| Layer                | Packages                                                                                                                                  |
-| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| UI                   | React 19, TypeScript                                                                                                                      |
-| Build                | Vite 8, `@vitejs/plugin-react`, production minify via **oxc**                                                                             |
-| CSS                  | Tailwind CSS 4 (`tailwindcss`, `@tailwindcss/vite` in **devDependencies**), `tailwind.config.ts` (dark mode: `class`, custom breakpoints) |
-| Routing              | `react-router-dom` 7 (lazy-loaded pages, `Suspense`)                                                                                      |
-| State                | Zustand 5 + Immer (`src/appStore/*` slices)                                                                                               |
-| Auth & realtime data | Firebase 12 (Auth + Firestore client SDK)                                                                                                 |
-| Integrations         | Google sign-in (admin), PhonePe (**redirect** flow via backend), Google Maps / Places (via CSP allowlist), Cloudinary assets              |
-| PDF / capture        | `jspdf`, `html-to-image`                                                                                                                  |
-| Icons                | Font Awesome subset loaded from `src/utils/icons.ts`                                                                                      |
-| Tooling              | ESLint flat config (`eslint.config.ts`), Prettier, Bun for scripts, [Fallow](https://fallow.tools) dead-code / health (`.fallowrc.json`)  |
+| Layer         | Packages                                                                                                                                  |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| UI            | React 19, TypeScript 7                                                                                                                    |
+| Build         | Vite 8 (Rolldown + Oxc minify), `@vitejs/plugin-react` with **React Compiler** (`oxc-transform-react`)                                    |
+| CSS           | Tailwind CSS 4 (`tailwindcss`, `@tailwindcss/vite` in **devDependencies**), `tailwind.config.ts` (dark mode: `class`, custom breakpoints) |
+| Routing       | `react-router-dom` 7 (lazy-loaded pages, `Suspense`)                                                                                      |
+| State         | Zustand 5 + Immer (`src/appStore/*` slices)                                                                                               |
+| Auth          | Firebase 12 browser SDK for Google sign-in and ID tokens; booking data comes from the backend                                             |
+| Integrations  | Google sign-in (admin), PhonePe (**redirect** flow via backend), Google Maps / Places (via CSP allowlist), Cloudinary assets              |
+| PDF / capture | `jspdf`, `html-to-image`                                                                                                                  |
+| Icons         | Font Awesome subset loaded from `src/utils/icons.ts`                                                                                      |
+| Lint / format | oxlint (type-aware) + oxfmt (no ESLint/Prettier)                                                                                          |
+| Tests         | Jest + Testing Library — co-located `src/**/*.test.ts(x)` for services, helpers, and selected components                                  |
+| Dead code     | [Fallow](https://fallow.tools) (`.fallowrc.json`)                                                                                         |
 
-**Lockfile:** this project uses **Bun** (`bun.lock`). Vercel is configured with `bun install --frozen-lockfile` and `bun run build` in `vercel.json`.
+**Lockfile:** this project uses **Bun** (`bun.lock`). Check the Vercel project settings for its install and build commands; `vercel.json` does not set either command.
 
 ## Security, supply chain, and CI
 
-- **Dependency versions:** Runtime and most tooling use **exact** versions in `package.json` (a few dev deps may still use semver ranges; adjust if you require full pinning).
-- **Install policy:** `bun install --frozen-lockfile` on **Vercel** and in **GitHub Actions** so deploys and CI match `bun.lock`.
-- **Build:** Vite production **`minify: 'oxc'`** (`vite.config.ts`) — OXC minifier (faster builds vs typical SWC-only setups, smaller attack surface than ad-hoc minifier churn).
-- **Postinstall scripts:** `@lavamoat/allow-scripts` with `package.json` script `bun run allow-scripts` (`allow-scripts auto`), **`lavamoat.allowScripts`** + Bun **`trustedDependencies`** aligned to only the packages that need lifecycle scripts (e.g. `esbuild`, `protobufjs`, `core-js`, `unrs-resolver`).
-- **GitHub Actions:** [`.github/workflows/audit.yml`](.github/workflows/audit.yml) runs on pushes/PRs that touch `package.json` or `bun.lock`: `bun install --frozen-lockfile`, `bun audit`, and a check that no unexpected `node_modules` install scripts appear beyond the same allowlist.
+- **Dependency versions:** Runtime and tooling use **exact** versions in `package.json`. `bunfig.toml` sets `exact = true`, `ignoreScripts = true`, and a 3-day `minimumReleaseAge`.
+- **Install policy:** GitHub Actions runs `bun install --frozen-lockfile` then `bun run allow-scripts`. For Vercel, confirm the install-command override in project settings before relying on the same sequence.
+- **Build:** Vite 8 uses **Rolldown**; production **`minify: 'oxc'`** (`vite.config.ts`).
+- **Postinstall scripts:** `@lavamoat/allow-scripts` with `package.json` script `bun run allow-scripts`, **`lavamoat.allowScripts`** + Bun **`trustedDependencies`** aligned to only the packages that need lifecycle scripts (e.g. `esbuild`, `protobufjs`, `core-js`, `unrs-resolver`). `bun run check-install-scripts` fails if a top-level package grows an unexpected install script.
+- **GitHub Actions:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs verify (oxlint, oxfmt check, `tsc`, Jest, Fallow dead-code) plus a non-blocking `bun audit` summary.
 - **Socket.dev:** The **Socket.dev** GitHub app is installed on this repository for ongoing dependency/supply-chain visibility (complements `bun audit` and the workflow).
 
-Production is deployed on **Vercel** with the above install/build commands.
+Production is deployed on **Vercel**; the repository does not record the Vercel project's install/build command overrides.
 
 ## Architecture at a glance
 
@@ -123,16 +129,21 @@ Never commit real secrets; keep them in local env files (gitignored) or Vercel.
 
 **Note:** The webhook proxy currently has a fallback default backend URL in code if `BACKEND_URL` is not set. Prefer setting `BACKEND_URL` in Vercel env for correctness across Preview/Production.
 
-SPA routing, apex→www redirect, security headers (CSP covering Firebase, Google, PhonePe, Maps, backend host), and build/install commands are declared in **`vercel.json`**.
+SPA routing, apex→www redirect, and security headers (CSP covering Firebase, Google, PhonePe, Maps, backend host) are declared in **`vercel.json`**.
 
 ## Project layout
 
 ```
 dr_amlan-s_ent_clinic/
-├── .github/workflows/        # e.g. Security Audit (audit.yml)
+├── .github/workflows/        # CI verify + audit (ci.yml)
 ├── .fallowrc.json            # Fallow config (dead-code, dupes, health)
+├── .oxlintrc.json            # oxlint (type-aware)
+├── .oxfmtrc.json             # oxfmt
 ├── api/                      # Vercel Node handlers (webhook proxy)
+├── docs/                     # Architecture and backend flow documentation
 ├── public/                   # Static assets (favicons, robots.txt, sitemap, manifest)
+├── scripts/                  # install-script allowlist checker
+├── tests/__mocks__/          # Jest CSS/asset stubs
 ├── src/
 │   ├── appComponents/        # Navbar, Footer, ProtectedRoute, loading/floating UI
 │   │   └── bottomFloatingIcons/   # WhatsApp, scroll-to-top
@@ -152,9 +163,10 @@ dr_amlan-s_ent_clinic/
 │   ├── main.tsx
 │   ├── Routing.tsx
 │   └── index.css
-├── eslint.config.ts
+├── babel.jest.cjs / jest.config.cjs / jest.setup.cjs
+├── bunfig.toml
 ├── tailwind.config.ts
-├── tsconfig*.json
+├── tsconfig*.json            # including tsconfig.no-tests.json
 ├── vite.config.ts            # `@` → ./src (path alias mirrors tsconfig paths)
 ├── vercel.json
 ├── package.json
@@ -171,17 +183,24 @@ Path alias: **`@/`** → **`src/`** (see `tsconfig.app.json` and `vite.config.ts
 ## Scripts
 
 ```bash
-bun install                 # install dependencies (uses bun.lock)
+bun install                 # install dependencies (uses bun.lock; skips lifecycle scripts)
+bun run allow-scripts       # run allow-listed package install scripts
 bun run dev                 # Vite dev server
-bun run build               # tsc project build + vite production build
+bun run build               # app typecheck + vite production build
 bun run preview             # preview production build locally
-bun run lint                # ESLint
-bun run format              # Prettier (src)
-bun run tsc                 # typecheck only
-bun run allow-scripts       # Lavamoat allow-scripts (dependency postinstall policy)
-bunx fallow                 # optional: dead-code, duplication, complexity health
+bun run lint                # oxlint
+bun run format              # oxfmt
+bun run format:check        # oxfmt check (no writes)
+bun run tsc                 # typecheck (project references)
+bun run tsc:app             # typecheck app sources, excluding tests
+bun run test                # Jest (co-located src/**/*.test.ts)
+bun verify                  # lint + format:check + tsc + tsc:app + test + fallow dead-code
+bun run fallow:dead         # Fallow dead-code
+bun run check-install-scripts
 bun audit                   # dependency security audit (also run in CI)
 ```
+
+Tests live next to the code they cover (e.g. `src/services/appointmentService.test.ts`). They are excluded from `tsconfig.app.json` / production `build` and ignored by Fallow; Vite never bundles them because nothing in the app entry imports them.
 
 ## Repository
 
@@ -199,4 +218,4 @@ This software is confidential and owned by Dr. (Major) Amlan Debbarma. Unauthori
 
 ---
 
-© 2026 Dr. (Major) Amlan's ENT Clinic. All rights reserved.
+© 2026 Major Amlan's ENT & Allergy Clinic. All rights reserved.

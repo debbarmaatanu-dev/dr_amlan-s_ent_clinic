@@ -1,20 +1,22 @@
 import React, {useState, useEffect} from 'react';
 import {ClipLoader} from 'react-spinners';
 import {useTheme} from '@/hooks/useTheme';
-import {appStore} from '@/appStore/appStore';
-import {logger} from '@/utils/logger';
+import {useAppStore} from '@/appStore/appStore';
 import {CLINIC_SCHEDULE_SUMMARY} from '@/constants/clinicSchedule';
+import {
+  controlClinicClosure,
+  fetchProtectedClinicStatus,
+  turnOnClinicBookings,
+  type ProtectedClinicStatus,
+} from '@/services/adminClinicApi';
+import {
+  isManuallyClosedOnDate,
+  validateClinicClosureDates,
+} from '@/utils/clinicControlHelpers';
 
 interface AdminControlModalProps {
   isOpen: boolean;
   onClose: () => void;
-}
-
-interface ClinicStatus {
-  isManuallyOverridden: boolean;
-  closedFrom?: string;
-  closedTill?: string;
-  message?: string;
 }
 
 export const AdminControlModal: React.FC<AdminControlModalProps> = ({
@@ -26,18 +28,18 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [currentStatus, setCurrentStatus] = useState<ClinicStatus | null>(null);
+  const [currentStatus, setCurrentStatus] =
+    useState<ProtectedClinicStatus | null>(null);
 
   const {actualTheme} = useTheme();
-  const setMobileNavOpen = appStore(state => state.setMobileNavOpen);
+  const setMobileNavOpen = useAppStore(state => state.setMobileNavOpen);
 
   // Hide floating icons when modal is open
   useEffect(() => {
-    if (isOpen) {
-      setMobileNavOpen(true);
-    } else {
+    setMobileNavOpen(isOpen);
+    return () => {
       setMobileNavOpen(false);
-    }
+    };
   }, [isOpen, setMobileNavOpen]);
 
   // Get today's date in YYYY-MM-DD format
@@ -55,44 +57,38 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
     actualTheme === 'light' ? 'border-gray-300' : 'border-gray-600';
   const inputText = actualTheme === 'light' ? 'text-gray-900' : 'text-white';
 
-  const fetchClinicStatus = async () => {
-    try {
-      const {auth} = await import('@/services/firebase');
-      const user = auth.currentUser;
-      if (!user) return;
-
-      const token = await user.getIdToken(true);
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BACKEND_URL}/api/protected/clinic-status`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      const data = await response.json();
-      if (data.success) {
-        setCurrentStatus(data.status);
-        if (data.status.closedFrom) {
-          setClosedFrom(data.status.closedFrom);
-        }
-        if (data.status.closedTill) {
-          setClosedTill(data.status.closedTill);
-        }
-      }
-    } catch (error) {
-      logger.error('Error fetching clinic status:', error);
+  const loadClinicStatus = async () => {
+    const result = await fetchProtectedClinicStatus();
+    if (!result.ok) return;
+    setCurrentStatus(result.status);
+    if (result.status.closedFrom) {
+      setClosedFrom(result.status.closedFrom);
+    }
+    if (result.status.closedTill) {
+      setClosedTill(result.status.closedTill);
     }
   };
 
-  // Fetch current clinic status
+  // Fetch current clinic status when the modal opens (external API sync).
   useEffect(() => {
-    if (isOpen) {
-      void fetchClinicStatus();
-    }
+    if (!isOpen) return;
+
+    let cancelled = false;
+    void (async () => {
+      const result = await fetchProtectedClinicStatus();
+      if (cancelled || !result.ok) return;
+      setCurrentStatus(result.status);
+      if (result.status.closedFrom) {
+        setClosedFrom(result.status.closedFrom);
+      }
+      if (result.status.closedTill) {
+        setClosedTill(result.status.closedTill);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, [isOpen]);
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -101,62 +97,23 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
     setError(null);
     setSuccess(null);
 
-    if (!closedFrom) {
-      setError('Please select a "Closed From" date');
+    const validationError = validateClinicClosureDates(closedFrom, closedTill);
+    if (validationError) {
+      setError(validationError);
       setLoading(false);
       return;
     }
 
-    // Validate dates
-    if (closedTill && closedFrom > closedTill) {
-      setError('"Closed Till" date must be after "Closed From" date');
-      setLoading(false);
-      return;
+    const result = await controlClinicClosure(closedFrom, closedTill || null);
+
+    if (result.ok) {
+      setSuccess(result.message);
+      await loadClinicStatus();
+    } else {
+      setError(result.error);
     }
 
-    try {
-      const {auth} = await import('@/services/firebase');
-      const user = auth.currentUser;
-      if (!user) {
-        setError('Authentication required');
-        setLoading(false);
-        return;
-      }
-
-      const token = await user.getIdToken(true);
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BACKEND_URL}/api/protected/control-clinic`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            closedFrom,
-            closedTill: closedTill || null,
-          }),
-        },
-      );
-
-      const data = await response.json();
-
-      if (data.success) {
-        setSuccess(
-          closedTill
-            ? `Clinic bookings closed from ${closedFrom} to ${closedTill}`
-            : `Clinic bookings closed from ${closedFrom} until manually reopened`,
-        );
-        await fetchClinicStatus(); // Refresh status
-      } else {
-        setError(data.error || 'Failed to update clinic status');
-      }
-    } catch (error) {
-      logger.error('Error updating clinic status:', error);
-      setError('Failed to update clinic status. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+    setLoading(false);
   };
 
   const handleTurnOnToday = async () => {
@@ -164,44 +121,21 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
     setError(null);
     setSuccess(null);
 
-    try {
-      const {auth} = await import('@/services/firebase');
-      const user = auth.currentUser;
-      if (!user) {
-        setError('Authentication required');
-        setLoading(false);
-        return;
-      }
+    const result = await turnOnClinicBookings();
 
-      const token = await user.getIdToken(true);
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BACKEND_URL}/api/protected/turn-on-clinic`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      const data = await response.json();
-
-      if (data.success) {
-        setSuccess('Clinic bookings turned on for today');
-        setClosedFrom('');
-        setClosedTill('');
-        await fetchClinicStatus(); // Refresh status
-      } else {
-        setError(data.error || 'Failed to turn on clinic');
-      }
-    } catch (error) {
-      logger.error('Error turning on clinic:', error);
-      setError('Failed to turn on clinic. Please try again.');
-    } finally {
-      setLoading(false);
+    if (result.ok) {
+      setSuccess(result.message);
+      setClosedFrom('');
+      setClosedTill('');
+      await loadClinicStatus();
+    } else {
+      setError(result.error);
     }
+
+    setLoading(false);
   };
+
+  const showTurnOnToday = isManuallyClosedOnDate(currentStatus, today);
 
   if (!isOpen) return null;
 
@@ -276,26 +210,23 @@ export const AdminControlModal: React.FC<AdminControlModalProps> = ({
         </div>
 
         {/* Turn On Today Button (if currently closed) */}
-        {currentStatus?.isManuallyOverridden &&
-          currentStatus.closedFrom &&
-          currentStatus.closedFrom <= today &&
-          (!currentStatus.closedTill || currentStatus.closedTill >= today) && (
-            <div className="mb-4">
-              <button
-                onClick={handleTurnOnToday}
-                disabled={loading}
-                className="w-full cursor-pointer rounded-lg bg-green-600 px-4 py-2 font-medium text-white transition-colors hover:bg-green-700 disabled:opacity-50">
-                {loading ? (
-                  <ClipLoader size={16} color="white" />
-                ) : (
-                  <>
-                    <i className="fa-solid fa-power-off mr-2"></i>
-                    Turn On Bookings for Today
-                  </>
-                )}
-              </button>
-            </div>
-          )}
+        {showTurnOnToday && (
+          <div className="mb-4">
+            <button
+              onClick={handleTurnOnToday}
+              disabled={loading}
+              className="w-full cursor-pointer rounded-lg bg-green-600 px-4 py-2 font-medium text-white transition-colors hover:bg-green-700 disabled:opacity-50">
+              {loading ? (
+                <ClipLoader size={16} color="white" />
+              ) : (
+                <>
+                  <i className="fa-solid fa-power-off mr-2"></i>
+                  Turn On Bookings for Today
+                </>
+              )}
+            </button>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           {/* Closed From Date */}

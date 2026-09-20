@@ -52,7 +52,7 @@ export const About = (): React.JSX.Element => {
                   )}
                   <img
                     src={aboutPhoto}
-                    alt="Dr. (Major) Amlan Debbarma"
+                    alt="Major Amlan Debbarma"
                     className={`h-full w-full object-cover transition-opacity duration-300 ${
                       loading ? 'opacity-0' : 'opacity-100'
                     }`}
@@ -70,23 +70,24 @@ export const About = (): React.JSX.Element => {
               <div className="flex flex-col justify-center p-8 md:p-12 lg:p-16">
                 <h1
                   className={`mb-3 cursor-text text-2xl font-bold ${textColor} md:text-3xl lg:text-4xl`}>
-                  Dr. (Major) Amlan Debbarma,{' '}
-                  <span className="block">
+                  Major Amlan Debbarma
+                  <span className="mt-1 block">Army Medical Corps (Retd.)</span>
+                  <span className="mt-1 block">
                     ENT, Head &amp; Neck Surgeon and Allergy Specialist
                   </span>
                 </h1>
                 <p className="text-md mb-3 cursor-text font-semibold text-blue-600 md:text-lg">
-                  MBBS, MS ENT (Gold Medalist), Ex-Army Medical Corps,
-                  Endoscopic and Microscopic ENT surgeon. Regn no: 00811 (TSMC)
+                  MBBS, MS ENT (Gold Medalist), Endoscopic and Microscopic ENT
+                  surgeon. Regn no: 00811 (TSMC)
                 </p>
                 <p
                   className={`mb-6 cursor-text text-base ${textSecondary} md:text-lg`}>
                   Dr. Debbarma is an otolaryngologist specializing in sinus
                   disorders, endoscopic nasal surgery, adenotonsillectomy, head
                   and neck surgeries, endoscopic and microscopic ear surgeries,
-                  vertigo, allergy treatment, and sleep apnea management. With a
-                  wide range of clinical experience, service was rendered in the
-                  Army Medical Corps, including combat duties during
+                  vertigo, allergy treatment, and advanced coblation surgeries.
+                  With a wide range of clinical experience, service was rendered
+                  in the Army Medical Corps, including combat duties during
                   counter-terrorism operations in Jammu and Kashmir, along with
                   medical care provided to troops to keep them fighting fit in
                   the Siachen Glacier, the highest battlefield in the world.

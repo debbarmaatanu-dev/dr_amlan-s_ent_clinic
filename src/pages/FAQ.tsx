@@ -41,7 +41,10 @@ export const FAQ = (): React.JSX.Element => {
             <li>Ear infections, hearing loss, tinnitus, and vertigo</li>
             <li>Nasal congestion, sinusitis, and allergies</li>
             <li>Throat infections, tonsillitis, and voice disorders</li>
-            <li>Sleep apnea and snoring disorders</li>
+            <li>
+              Advanced Coblation surgeries (tonsil, adenoid, turbinate, polyp,
+              sleep apnea surgeries)
+            </li>
             <li>Asthma management and respiratory ENT conditions</li>
             <li>Endoscopic sinus surgery and microscopic ear procedures</li>
             <li>Allergy testing and immunotherapy treatment</li>
@@ -197,40 +200,12 @@ export const FAQ = (): React.JSX.Element => {
       category: 'General',
     },
     {
-      question: 'Do you treat sleep apnea and snoring problems?',
-      answer: (
-        <div>
-          <p className="mb-2">
-            <strong>
-              Yes, we specialize in sleep apnea and snoring disorders.
-            </strong>
-          </p>
-          <p className="mb-2">
-            We use advanced <strong>flexible sleep endoscopy</strong> to
-            identify the exact areas where airway collapse occurs during sleep.
-          </p>
-          <p className="mb-2">Our sleep disorder services include:</p>
-          <ul className="list-disc space-y-1 pl-6">
-            <li>Comprehensive sleep breathing assessment</li>
-            <li>Flexible sleep endoscopy diagnosis</li>
-            <li>Targeted treatment based on collapse patterns</li>
-            <li>Follow-up care and treatment monitoring</li>
-          </ul>
-          <p className="mt-2">
-            This precise diagnostic approach helps us provide the most effective
-            treatment for your specific sleep breathing disorder.
-          </p>
-        </div>
-      ),
-      category: 'Services',
-    },
-    {
       question: 'Do you provide asthma and allergy management?',
       answer: (
         <div>
           <p className="mb-2">
             <strong>
-              Yes, Dr. (Major) Amlan Debbarma is specially trained in asthma and
+              Yes, Major Amlan Debbarma is specially trained in asthma and
               allergy management.
             </strong>
           </p>
@@ -262,51 +237,6 @@ export const FAQ = (): React.JSX.Element => {
       ),
       category: 'Services',
     },
-    {
-      question: 'What is flexible sleep endoscopy and how does it help?',
-      answer: (
-        <div>
-          <p className="mb-2">
-            <strong>Flexible sleep endoscopy</strong> is an advanced diagnostic
-            procedure that allows us to visualize your upper airway during
-            sleep-like conditions.
-          </p>
-          <p className="mb-2">How it works:</p>
-          <ul className="list-disc space-y-1 pl-6">
-            <li>A thin, flexible camera is gently inserted through the nose</li>
-            <li>You are given mild sedation to simulate natural sleep</li>
-            <li>We observe exactly where and how your airway collapses</li>
-            <li>
-              This identifies the specific cause of your sleep breathing
-              problems
-            </li>
-          </ul>
-          <p className="mb-2">Benefits:</p>
-          <ul className="list-disc space-y-1 pl-6">
-            <li>
-              <strong>Precise diagnosis</strong> - See exactly what's causing
-              the problem
-            </li>
-            <li>
-              <strong>Targeted treatment</strong> - Address the specific areas
-              of collapse
-            </li>
-            <li>
-              <strong>Better outcomes</strong> - More effective treatment
-              planning
-            </li>
-            <li>
-              <strong>Minimally invasive</strong> - Safe, comfortable procedure
-            </li>
-          </ul>
-          <p className="mt-2">
-            This advanced diagnostic tool helps us provide the most appropriate
-            and effective treatment for your sleep apnea or snoring condition.
-          </p>
-        </div>
-      ),
-      category: 'Procedures',
-    },
   ];
 
   const toggleFAQ = (index: number) => {
@@ -321,11 +251,13 @@ export const FAQ = (): React.JSX.Element => {
         <section className="w-full max-w-5xl">
           <header className="flex flex-col items-center justify-center py-5">
             <div
-              className={`mb-6 flex shrink-0 items-center justify-center rounded-full bg-white p-3 shadow-lg`}>
+              className={`mb-6 flex shrink-0 items-center justify-center rounded-2xl bg-white p-3 shadow-lg`}>
               <img
                 src={logo}
-                alt="Dr (Major) Amlan's ENT & Allergy Clinic Logo"
-                className="h-32 w-32 rounded-full object-cover"
+                alt="Major Amlan's ENT & Allergy Clinic Logo"
+                className="h-40 w-40 object-contain"
+                width="160"
+                height="160"
                 loading="lazy"
               />
             </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import {BookingReceipt} from './BookingReceipt';
 import {generateBookingReceiptPDF} from '@/utils/pdfGenerator';
 import {useTheme} from '@/hooks/useTheme';
-import {appStore} from '@/appStore/appStore';
+import {useAppStore} from '@/appStore/appStore';
 import type {PaymentBookingData} from '../types/types';
 import {logger} from '@/utils/logger';
 
@@ -19,7 +19,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
 }) => {
   const [isDownloading, setIsDownloading] = React.useState(false);
   const {actualTheme} = useTheme();
-  const setMobileNavOpen = appStore(state => state.setMobileNavOpen);
+  const setMobileNavOpen = useAppStore(state => state.setMobileNavOpen);
 
   // Hide floating icons when modal is open
   React.useEffect(() => {

@@ -29,7 +29,7 @@ export const Landing = (): React.JSX.Element => {
   return (
     <section
       className={`flex grow items-center justify-center bg-linear-to-br ${gradient} px-4 py-6 shadow-xl md:py-12 lg:px-8`}
-      aria-label="Dr. (Major) Amlan Debbarma ENT & Allergy Clinic Introduction">
+      aria-label="Major Amlan's ENT & Allergy Clinic Introduction">
       <div className="h-full w-full">
         <article className="overflow-hidden">
           {/* Header Section - Split Design */}
@@ -46,7 +46,7 @@ export const Landing = (): React.JSX.Element => {
                 )}
                 <img
                   src={landingImage}
-                  alt="Dr. (Major) Amlan Debbarma, MS ENT - Leading ENT specialist and surgeon in Agartala, Tripura"
+                  alt="Major Amlan Debbarma, MS ENT - Leading ENT specialist and surgeon in Agartala, Tripura"
                   className={`h-full w-full object-cover transition-opacity duration-300 ${
                     loading ? 'opacity-0' : 'opacity-100'
                   }`}
@@ -63,20 +63,19 @@ export const Landing = (): React.JSX.Element => {
             {/* Right Box - Text Content */}
             <div className="flex flex-col justify-center p-8 md:p-12 lg:p-16">
               <h1 className="mb-3 text-2xl font-bold text-blue-600 md:text-3xl lg:text-4xl">
-                Dr. (Major) Amlan's ENT &amp; Allergy Clinic
+                Major Amlan&apos;s ENT &amp; Allergy Clinic
               </h1>
               <p
                 className={`mb-6 text-base ${textColor} md:text-lg`}
                 itemScope
                 itemType="https://schema.org/Person">
-                <span itemProp="honorificPrefix">Dr. (Major)</span>{' '}
-                <span itemProp="name">Amlan Debbarma</span>
+                <span itemProp="name">Major Amlan Debbarma</span>
+                <br />
+                <span itemProp="alumniOf">Army Medical Corps (Retd.)</span>
                 <br />
                 <span itemProp="hasCredential">
                   MBBS, MS ENT (Gold Medalist)
                 </span>
-                <br />
-                <span itemProp="alumniOf">Ex-Army Medical Corps</span>
                 <br />
                 <span itemProp="jobTitle">
                   Endoscopic and Microscopic ENT Surgeon
@@ -95,7 +94,7 @@ export const Landing = (): React.JSX.Element => {
                 <button
                   className="w-fit cursor-pointer rounded-md bg-blue-600 px-6 py-3 text-white shadow-md transition-transform duration-180 hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none active:scale-95"
                   onClick={handleAppointmentPress}
-                  aria-label="Book an appointment with Dr. (Major) Amlan Debbarma">
+                  aria-label="Book an appointment with Major Amlan Debbarma">
                   <span className="text-base font-medium md:text-lg">
                     <i
                       className="fa-solid fa-calendar-plus mr-2"

@@ -1,0 +1,5 @@
+[install]
+exact = true
+ignoreScripts = true
+# Reject freshly published packages (2 days) to reduce supply-chain risk.
+minimumReleaseAge = 172800

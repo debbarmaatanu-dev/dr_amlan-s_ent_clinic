@@ -1,4 +1,4 @@
-import {appStore} from '@/appStore/appStore';
+import {useAppStore} from '@/appStore/appStore';
 import type {ActualTheme} from '@/appStore/themeSlice';
 
 /**
@@ -16,8 +16,8 @@ import type {ActualTheme} from '@/appStore/themeSlice';
  * </div>
  */
 export const useTheme = () => {
-  const actualTheme: ActualTheme = appStore(state => state.actualTheme);
-  const setThemeMode = appStore(state => state.setThemeMode);
+  const actualTheme: ActualTheme = useAppStore(state => state.actualTheme);
+  const setThemeMode = useAppStore(state => state.setThemeMode);
 
   return {
     actualTheme,

@@ -13,6 +13,7 @@ import {
 import {NavBar} from './appComponents/nav/topNavbar/Navbar';
 import {Footer} from './appComponents/nav/footer/Footer';
 import {ProtectedRoute} from './appComponents/ProtectedRoute';
+import {IdentityAnnouncementNotice} from './appComponents/IdentityAnnouncementNotice';
 
 // Lazy load pages for better code splitting
 const Home = lazy(() =>
@@ -106,11 +107,11 @@ const RoutesWrapper = ({
     } else {
       setFloatingIconVisible(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentDisAllowedIcon]);
+  }, [currentDisAllowedIcon, setFloatingIconVisible]);
 
   return (
     <div className="flex min-h-screen w-full max-w-screen flex-col">
+      <IdentityAnnouncementNotice />
       <NavBar />
 
       <main className="flex-1">

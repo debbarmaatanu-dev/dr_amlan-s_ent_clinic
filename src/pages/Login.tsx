@@ -7,22 +7,34 @@ export const Login = (): React.JSX.Element => {
   const [success, setSuccess] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [errorCycle, setErrorCycle] = useState(0);
+  const [dismissedCycle, setDismissedCycle] = useState<number | null>(null);
+  const [wasLoading, setWasLoading] = useState(false);
 
-  // Auto-dismiss error modal after 2 seconds
+  // Each new login attempt (loading rising edge) starts a fresh modal cycle so
+  // the same error text can show the overlay again after auto-dismiss.
+  if (loading && !wasLoading) {
+    setWasLoading(true);
+    setErrorCycle(cycle => cycle + 1);
+  } else if (!loading && wasLoading) {
+    setWasLoading(false);
+  }
+
+  // Auto-dismiss error modal after 2 seconds (matches origin/main).
   useEffect(() => {
-    if (error && !loading && !success) {
-      setShowModal(true);
-      const timer = setTimeout(() => {
-        setShowModal(false);
-      }, 2000);
-      return () => clearTimeout(timer);
-    } else if (loading || success) {
-      setShowModal(true);
-    } else {
-      setShowModal(false);
+    if (!error || loading || success) {
+      return;
     }
-  }, [error, loading, success]);
+    const cycle = errorCycle;
+    const timer = setTimeout(() => {
+      setDismissedCycle(cycle);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [error, loading, success, errorCycle]);
+
+  const showModal = Boolean(
+    loading || success || (error !== null && dismissedCycle !== errorCycle),
+  );
 
   return (
     <div className="h-full w-full">

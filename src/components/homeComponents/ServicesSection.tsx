@@ -3,7 +3,6 @@ import {IMAGES} from '@/constants/images';
 
 const vertigoImage = IMAGES.VERTIGO_ICON;
 const entImage = IMAGES.ENT_ICON;
-const sleepApneaImage = IMAGES.SLEEP_APNEA_ICON;
 
 export const ServicesSection = (): React.JSX.Element => {
   const {actualTheme} = useTheme();
@@ -53,27 +52,23 @@ export const ServicesSection = (): React.JSX.Element => {
             </p>
           </article>
 
-          {/* Neurotology and Vertigo */}
+          {/* Advanced Coblation surgeries */}
           <article
             className="rounded-xl bg-blue-700 p-8 shadow-lg"
             itemScope
             itemType="https://schema.org/MedicalProcedure">
             <figure className="mb-4">
-              <img
-                src={vertigoImage}
-                alt="Vertigo treatment icon - Balance disorder and dizziness treatment"
-                className="mb-4 h-16 w-16 object-contain brightness-0 invert"
-                width="64"
-                height="64"
-                loading="lazy"
-              />
+              <i
+                className="fa-solid fa-briefcase-medical text-5xl text-white"
+                aria-label="Advanced Coblation surgeries icon"
+                role="img"></i>
             </figure>
             <h3 className="mb-3 text-2xl font-bold text-white" itemProp="name">
-              Vertigo & Balance Disorders
+              Advanced Coblation surgeries
             </h3>
             <p className="text-white" itemProp="description">
-              Comprehensive neurotological examination and treatment for
-              patients suffering from dizziness, balance disorders and vertigo.
+              Bloodless Tonsil removal, Adenoid removal, Turbinate reduction,
+              nasal polyp removal, Sleep apnea surgeries
             </p>
           </article>
 
@@ -100,36 +95,27 @@ export const ServicesSection = (): React.JSX.Element => {
             </p>
           </article>
 
-          {/* Snoring & Sleep Apnea */}
+          {/* Vertigo & Balance Disorders */}
           <article
             className="rounded-xl bg-purple-800 p-8 shadow-lg"
             itemScope
             itemType="https://schema.org/MedicalProcedure">
-            <figure className="mb-0">
+            <figure className="mb-4">
               <img
-                src={sleepApneaImage}
-                alt="Sleep apnea treatment icon - Snoring and sleep disorder diagnosis"
-                className="h-20 w-20 object-cover brightness-0 invert"
+                src={vertigoImage}
+                alt="Vertigo treatment icon - Balance disorder and dizziness treatment"
+                className="mb-4 h-16 w-16 object-contain brightness-0 invert"
                 width="64"
                 height="64"
                 loading="lazy"
               />
-              <figcaption className="sr-only">
-                <a
-                  href="https://www.vecteezy.com/free-vector/apnea"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs text-purple-100">
-                  Apnea Vectors by Vecteezy
-                </a>
-              </figcaption>
             </figure>
             <h3 className="mb-3 text-2xl font-bold text-white" itemProp="name">
-              Snoring / Sleep Apnea
+              Vertigo & Balance Disorders
             </h3>
             <p className="text-white" itemProp="description">
-              Flexible sleep endoscopy to see the area of collapse and necessary
-              treatment accordingly for sleep-related breathing disorders.
+              Comprehensive neurotological examination and treatment for
+              patients suffering from dizziness, balance disorders and vertigo.
             </p>
           </article>
 

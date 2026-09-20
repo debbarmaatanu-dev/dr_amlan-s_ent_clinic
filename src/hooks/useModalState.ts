@@ -1,12 +1,12 @@
 import {useEffect} from 'react';
-import {appStore} from '@/appStore/appStore';
+import {useAppStore} from '@/appStore/appStore';
 
 /**
  * Custom hook for modal state management
  * Handles mobile navigation state when modal is open/closed
  */
 export const useModalState = (isOpen: boolean) => {
-  const setMobileNavOpen = appStore(state => state.setMobileNavOpen);
+  const setMobileNavOpen = useAppStore(state => state.setMobileNavOpen);
 
   // Hide floating icons when modal is open
   useEffect(() => {

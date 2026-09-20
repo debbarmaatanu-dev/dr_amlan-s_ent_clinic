@@ -10,7 +10,7 @@ export type AppState = AdminSliceType &
   ThemeSliceType &
   ClinicSliceType;
 
-export const appStore = create<AppState>()(
+export const useAppStore = create<AppState>()(
   immer((...store) => ({
     ...createAdminSlice(...store),
     ...createButtonSlice(...store),

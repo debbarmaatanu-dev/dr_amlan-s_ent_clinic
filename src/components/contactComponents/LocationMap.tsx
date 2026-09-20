@@ -19,11 +19,10 @@ export const LocationMap: React.FC = () => {
             Find Our Clinic Location
           </h2>
           <address className={`mb-4 text-sm ${textColor} not-italic`}>
-            <strong>Dr. (Major) Amlan's ENT &amp; Allergy Clinic</strong>
+            <strong>Major Amlan&apos;s ENT &amp; Allergy Clinic</strong>
             <br />
-            Capital Pathlab
-            <br />
-            Bijoykumar Chowmuhani
+            Capital pathlab, in between Sankar Chowmuhani and Bijoykumar
+            Chowmuhani, near Lenskart
             <br />
             Agartala, West Tripura - 799001
             <br />
@@ -47,14 +46,15 @@ export const LocationMap: React.FC = () => {
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            title="Interactive map showing Dr. (Major) Amlan's ENT & Allergy Clinic location at Capital Pathlab, Bijoykumar Chowmuhani, Agartala, Tripura"
+            title="Interactive map showing Major Amlan's ENT & Allergy Clinic location at Capital pathlab, in between Sankar Chowmuhani and Bijoykumar Chowmuhani, near Lenskart, Agartala, Tripura"
             aria-describedby="map-description"></iframe>
         </div>
 
         <p id="map-description" className={`mt-4 text-sm ${textColor}`}>
-          Interactive Google Maps showing the exact location of our ENT clinic
-          in Agartala, Tripura. The clinic is located at the Capital Pathlab
-          building at Bijoykumar Chowmuhani.
+          Interactive Google Maps showing the exact location of Major
+          Amlan&apos;s ENT &amp; Allergy Clinic in Agartala, Tripura. The clinic
+          is at Capital pathlab, in between Sankar Chowmuhani and Bijoykumar
+          Chowmuhani, near Lenskart.
         </p>
       </div>
     </section>

@@ -1,11 +1,11 @@
 import React from 'react';
 import {useTheme} from '@/hooks/useTheme';
-import {appStore} from '@/appStore/appStore';
+import {useAppStore} from '@/appStore/appStore';
 import {CLINIC_SCHEDULE_SUMMARY} from '@/constants/clinicSchedule';
 
 export const AppointmentHeader: React.FC = () => {
   const {actualTheme} = useTheme();
-  const clinicStatus = appStore(state => state.clinicStatus);
+  const clinicStatus = useAppStore(state => state.clinicStatus);
   // Clinic status is fetched by Navbar (always mounted)
 
   const textColor = actualTheme === 'light' ? 'text-gray-800' : 'text-white';
@@ -22,7 +22,7 @@ export const AppointmentHeader: React.FC = () => {
         <span className="absolute right-0 -bottom-1 h-1 w-1/2 rounded bg-yellow-400"></span>
       </h1>
       <p className={`mb-4 text-center text-lg ${textSecondary}`}>
-        Schedule your visit with Dr. (Major) Amlan Debbarma
+        Schedule your visit with Major Amlan Debbarma
       </p>
       <p className={`text-center text-sm ${textTertiary}`}>
         {CLINIC_SCHEDULE_SUMMARY}

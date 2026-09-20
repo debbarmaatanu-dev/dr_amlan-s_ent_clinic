@@ -36,12 +36,13 @@ export const BookingReceipt: React.FC<BookingReceiptProps> = ({
       {/* Header */}
       <div className="mb-6 border-b-2 border-blue-600 pb-4 text-center">
         <h1 className="text-2xl font-bold text-blue-600">
-          Dr. (Major) Amlan's ENT &amp; Allergy Clinic
+          Major Amlan&apos;s ENT &amp; Allergy Clinic
         </h1>
         <p className="text-sm text-gray-600">MBBS, MS ENT</p>
-        <p className="text-sm text-gray-600">Ex-Army Medical Corps</p>
+        <p className="text-sm text-gray-600">Army Medical Corps (Retd.)</p>
         <p className="mt-2 text-xs text-gray-500">
-          Capital pathlab, Bijoykumar Chowmuhani
+          Capital pathlab, in between Sankar Chowmuhani and Bijoykumar
+          Chowmuhani, near Lenskart
         </p>
         <p className="text-xs text-gray-500">Agartala, West Tripura - 799001</p>
         <p className="text-xs text-gray-500">Ph: +91 6033521499</p>
@@ -170,7 +171,7 @@ export const BookingReceipt: React.FC<BookingReceiptProps> = ({
           This is a computer-generated receipt and does not require signature
         </p>
         <p className="mt-1">
-          Thank you for choosing Dr. (Major) Amlan's ENT &amp; Allergy Clinic
+          Thank you for choosing Major Amlan&apos;s ENT &amp; Allergy Clinic
         </p>
       </div>
     </div>
