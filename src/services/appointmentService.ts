@@ -6,6 +6,10 @@ import type {
   PaymentBookingData,
 } from '../types/types';
 import {validateBookingDate} from '../constants/clinicSchedule';
+import {
+  PAYMENTS_OUTAGE_USER_MESSAGE,
+  PAYMENTS_TEMPORARILY_DISABLED,
+} from '../constants/paymentGateway';
 import {logger} from '../utils/logger';
 import {redirectTo} from '../utils/redirect';
 
@@ -173,6 +177,14 @@ export const initiatePayment = async (
   age: number,
   phone: string,
 ): Promise<PaymentInitiationResponse> => {
+  if (PAYMENTS_TEMPORARILY_DISABLED) {
+    logger.warn('Payment initiation blocked: gateway temporarily disabled');
+    return {
+      success: false,
+      error: PAYMENTS_OUTAGE_USER_MESSAGE,
+    };
+  }
+
   try {
     // Step 1: Create payment order on backend
     const response = await fetch(
@@ -230,6 +242,15 @@ export type PaymentCallbackResult =
 export const resolvePaymentCallback = async (
   transactionId: string,
 ): Promise<PaymentCallbackResult> => {
+  if (PAYMENTS_TEMPORARILY_DISABLED) {
+    logger.warn('Payment callback blocked: gateway temporarily disabled');
+    return {
+      ok: false,
+      title: 'Payments Temporarily Unavailable',
+      message: PAYMENTS_OUTAGE_USER_MESSAGE,
+    };
+  }
+
   try {
     const webhookResponse = await fetch(
       `${import.meta.env.VITE_API_BACKEND_URL}/api/payment/webhook-status/${transactionId}`,

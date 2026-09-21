@@ -25,6 +25,10 @@ import {
   readPaymentCallbackIdFromUrl,
   resolvePaymentCallbackOnce,
 } from '@/utils/paymentCallbackSession';
+import {
+  PAYMENTS_OUTAGE_USER_MESSAGE,
+  PAYMENTS_TEMPORARILY_DISABLED,
+} from '@/constants/paymentGateway';
 // Lazy load heavy components (only loaded when needed)
 const SearchAppointmentModal = lazy(() =>
   import('@/components/SearchAppointmentModal').then(module => ({
@@ -53,7 +57,7 @@ export const Appointment = (): React.JSX.Element => {
   const [age, setAge] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(
-    () => paymentCallbackId !== null,
+    () => paymentCallbackId !== null && !PAYMENTS_TEMPORARILY_DISABLED,
   );
   const [availableOnlineSlots, setAvailableOnlineSlots] = useState<number>(10);
   const [message, setMessage] = useState<{
@@ -114,6 +118,11 @@ export const Appointment = (): React.JSX.Element => {
     if (!paymentCallbackId) return;
 
     clearPaymentCallbackSearchParams();
+
+    // Gateway outage: drop return-URL params only; banner already explains the outage.
+    if (PAYMENTS_TEMPORARILY_DISABLED) {
+      return;
+    }
 
     let active = true;
     void resolvePaymentCallbackOnce(paymentCallbackId).then(async result => {
@@ -222,6 +231,20 @@ export const Appointment = (): React.JSX.Element => {
 
     if (availableOnlineSlots <= 0) {
       // Form component will show no slots message below button
+      return;
+    }
+
+    if (PAYMENTS_TEMPORARILY_DISABLED) {
+      setModalContent({
+        title: 'Payments Temporarily Unavailable',
+        message: PAYMENTS_OUTAGE_USER_MESSAGE,
+        type: 'warning',
+      });
+      setShowModal(true);
+      setMessage({
+        type: 'error',
+        text: PAYMENTS_OUTAGE_USER_MESSAGE,
+      });
       return;
     }
 

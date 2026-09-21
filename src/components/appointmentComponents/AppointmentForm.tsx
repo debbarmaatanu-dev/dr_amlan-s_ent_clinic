@@ -3,6 +3,7 @@ import {ClipLoader} from 'react-spinners';
 import {useTheme} from '@/hooks/useTheme';
 import {useClinicStatus} from '@/hooks/useClinicStatus';
 import {ClinicScheduleSummaryText} from '@/components/ClinicScheduleSummaryText';
+import {PAYMENTS_TEMPORARILY_DISABLED} from '@/constants/paymentGateway';
 
 interface FieldError {
   field: string;
@@ -431,10 +432,18 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
       {/* Submit Button */}
       <button
         type="submit"
-        disabled={loading || availableSlots <= 0 || isClinicClosed}
+        disabled={
+          loading ||
+          availableSlots <= 0 ||
+          isClinicClosed ||
+          PAYMENTS_TEMPORARILY_DISABLED
+        }
         aria-describedby="submit-help"
         className={`w-full cursor-pointer rounded-lg px-6 py-4 font-semibold text-white transition-all duration-200 focus:ring-4 focus:ring-blue-300 focus:outline-none ${
-          loading || availableSlots <= 0 || isClinicClosed
+          loading ||
+          availableSlots <= 0 ||
+          isClinicClosed ||
+          PAYMENTS_TEMPORARILY_DISABLED
             ? 'cursor-not-allowed bg-gray-400'
             : 'bg-blue-600 hover:bg-blue-700 active:scale-95'
         }`}>
@@ -443,6 +452,11 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
             <ClipLoader size={20} color="#ffffff" loading={loading} />
             <span className="ml-2">Processing appointment...</span>
           </span>
+        ) : PAYMENTS_TEMPORARILY_DISABLED ? (
+          <>
+            <i className="fa-solid fa-ban mr-2" aria-hidden="true"></i>
+            Online Payments Temporarily Unavailable
+          </>
         ) : isClinicClosed ? (
           <>
             <i className="fa-solid fa-ban mr-2" aria-hidden="true"></i>
@@ -492,46 +506,51 @@ export const AppointmentForm: React.FC<AppointmentFormProps> = ({
       )}
 
       {/* No Slots Available Message - Below Button */}
-      {!isClinicClosed && availableSlots <= 0 && selectedDate && (
-        <aside
-          className="mt-3 rounded-lg border border-orange-200 bg-orange-50 p-4"
-          role="alert"
-          aria-live="polite"
-          aria-labelledby="no-slots-heading">
-          <div className="flex items-start">
-            <i
-              className="fa-solid fa-calendar-xmark mt-0.5 mr-3 text-orange-500"
-              aria-hidden="true"></i>
-            <div>
-              <h4
-                id="no-slots-heading"
-                className="mb-1 text-sm font-semibold text-orange-800">
-                No Online Slots Available
-              </h4>
-              <p className="text-sm text-orange-700">
-                All online slots for{' '}
-                {new Date(selectedDate).toLocaleDateString('en-IN', {
-                  day: 'numeric',
-                  month: 'short',
-                  year: 'numeric',
-                })}{' '}
-                are booked.
-              </p>
-              <p className="mt-2 text-xs text-orange-600">
-                Please select another date or visit the clinic directly for
-                walk-in consultation.
-              </p>
+      {!isClinicClosed &&
+        !PAYMENTS_TEMPORARILY_DISABLED &&
+        availableSlots <= 0 &&
+        selectedDate && (
+          <aside
+            className="mt-3 rounded-lg border border-orange-200 bg-orange-50 p-4"
+            role="alert"
+            aria-live="polite"
+            aria-labelledby="no-slots-heading">
+            <div className="flex items-start">
+              <i
+                className="fa-solid fa-calendar-xmark mt-0.5 mr-3 text-orange-500"
+                aria-hidden="true"></i>
+              <div>
+                <h4
+                  id="no-slots-heading"
+                  className="mb-1 text-sm font-semibold text-orange-800">
+                  No Online Slots Available
+                </h4>
+                <p className="text-sm text-orange-700">
+                  All online slots for{' '}
+                  {new Date(selectedDate).toLocaleDateString('en-IN', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric',
+                  })}{' '}
+                  are booked.
+                </p>
+                <p className="mt-2 text-xs text-orange-600">
+                  Please select another date or visit the clinic directly for
+                  walk-in consultation.
+                </p>
+              </div>
             </div>
-          </div>
-        </aside>
-      )}
+          </aside>
+        )}
 
       <p id="submit-help" className="sr-only">
-        {isClinicClosed
-          ? 'Clinic is temporarily closed. Please contact us for urgent consultations.'
-          : availableSlots <= 0
-            ? 'No online slots available. Please select another date or visit clinic directly.'
-            : 'Click to proceed with secure online payment via PhonePe'}
+        {PAYMENTS_TEMPORARILY_DISABLED
+          ? 'Online payments are temporarily unavailable due to a technical issue with the payment gateway.'
+          : isClinicClosed
+            ? 'Clinic is temporarily closed. Please contact us for urgent consultations.'
+            : availableSlots <= 0
+              ? 'No online slots available. Please select another date or visit clinic directly.'
+              : 'Click to proceed with secure online payment via PhonePe'}
       </p>
     </form>
   );

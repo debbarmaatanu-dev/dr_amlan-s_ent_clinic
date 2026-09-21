@@ -2,6 +2,12 @@ import React from 'react';
 import {useTheme} from '@/hooks/useTheme';
 import {useAppStore} from '@/appStore/appStore';
 import {CLINIC_SCHEDULE_SUMMARY} from '@/constants/clinicSchedule';
+import {
+  PAYMENTS_OUTAGE_CONTACT_HINT,
+  PAYMENTS_OUTAGE_TITLE,
+  PAYMENTS_OUTAGE_USER_MESSAGE,
+  PAYMENTS_TEMPORARILY_DISABLED,
+} from '@/constants/paymentGateway';
 
 export const AppointmentHeader: React.FC = () => {
   const {actualTheme} = useTheme();
@@ -13,6 +19,16 @@ export const AppointmentHeader: React.FC = () => {
     actualTheme === 'light' ? 'text-gray-600' : 'text-gray-200';
   const textTertiary =
     actualTheme === 'light' ? 'text-gray-500' : 'text-gray-300';
+
+  const outageBg = actualTheme === 'light' ? 'bg-amber-50' : 'bg-amber-950/50';
+  const outageBorder =
+    actualTheme === 'light' ? 'border-amber-300' : 'border-amber-700';
+  const outageTitle =
+    actualTheme === 'light' ? 'text-amber-950' : 'text-amber-100';
+  const outageText =
+    actualTheme === 'light' ? 'text-amber-900' : 'text-amber-100/90';
+  const outageHint =
+    actualTheme === 'light' ? 'text-amber-800' : 'text-amber-200/80';
 
   return (
     <header className="flex flex-col items-center justify-center py-5">
@@ -27,6 +43,26 @@ export const AppointmentHeader: React.FC = () => {
       <p className={`text-center text-sm ${textTertiary}`}>
         {CLINIC_SCHEDULE_SUMMARY}
       </p>
+
+      {PAYMENTS_TEMPORARILY_DISABLED && (
+        <div
+          className={`mt-4 w-full max-w-2xl rounded-xl border ${outageBorder} ${outageBg} px-4 py-4`}
+          role="alert"
+          aria-live="polite">
+          <p className={`text-center text-base font-semibold ${outageTitle}`}>
+            <i
+              className="fa-solid fa-circle-exclamation mr-2 text-amber-600"
+              aria-hidden="true"></i>
+            {PAYMENTS_OUTAGE_TITLE}
+          </p>
+          <p className={`mt-2 text-center text-sm ${outageText}`}>
+            {PAYMENTS_OUTAGE_USER_MESSAGE}
+          </p>
+          <p className={`mt-2 text-center text-xs ${outageHint}`}>
+            {PAYMENTS_OUTAGE_CONTACT_HINT}
+          </p>
+        </div>
+      )}
 
       {/* Manual Clinic Status Override */}
       {clinicStatus?.isManuallyOverridden && clinicStatus.displayMessage && (

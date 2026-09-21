@@ -14,6 +14,12 @@ jest.mock('../utils/redirect', () => ({
   redirectTo: jest.fn(),
 }));
 
+jest.mock('../constants/paymentGateway', () => ({
+  PAYMENTS_TEMPORARILY_DISABLED: false,
+  PAYMENTS_OUTAGE_USER_MESSAGE:
+    'Online appointment payments are temporarily blocked due to a technical issue with the payment gateway.',
+}));
+
 describe('appointmentService', () => {
   const fetchMock = jest.fn() as jest.MockedFunction<typeof fetch>;
   const redirectMock = jest.mocked(redirectTo);
@@ -239,6 +245,34 @@ describe('appointmentService', () => {
       ).resolves.toEqual({
         success: false,
         error: 'Failed to initiate payment',
+      });
+    });
+
+    it('does not call the backend when payments are temporarily disabled', async () => {
+      jest.resetModules();
+      jest.doMock('../constants/paymentGateway', () => ({
+        PAYMENTS_TEMPORARILY_DISABLED: true,
+        PAYMENTS_OUTAGE_USER_MESSAGE: 'Payments blocked for test',
+      }));
+      jest.doMock('../utils/redirect', () => ({
+        redirectTo: jest.fn(),
+      }));
+
+      const {initiatePayment: blockedInitiatePayment} =
+        await import('./appointmentService');
+
+      const result = await blockedInitiatePayment(
+        '2026-09-03',
+        'A',
+        'Male',
+        40,
+        '9876543210',
+      );
+
+      expect(fetchMock).not.toHaveBeenCalled();
+      expect(result).toEqual({
+        success: false,
+        error: 'Payments blocked for test',
       });
     });
   });
